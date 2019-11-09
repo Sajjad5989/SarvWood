@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="slider_1_title">ثبت سفارش</string>
+    <string name="slider_2_title">برش و آماده سازی</string>
+    <string name="slider_3_title">تحویل سفارش</string>
+
+
+    <string name="slider_1_desc">به راحتی سفارشات خود را ثبت نموده، برای ما ارسال نمایید.</string>
+    <string name="slider_2_desc">سفارشات شما توسط کارشناسان ما بررسی، با کمترین خطا آماده ی برش شده و پس از تایید نهایی شما، در اسرع وقت آماده وارسال خواهد شد.</string>
+    <string name="slider_3_desc">به همین راحتی سفارش شما آماده می باشد.</string>
+
+    <string-array name="slide_titles">
+        <item>@string/slider_1_title</item>
+        <item>@string/slider_2_title</item>
+        <item>@string/slider_3_title</item>
+    </string-array>
+
+    <string-array name="slide_descs">
+        <item>@string/slider_1_desc</item>
+        <item>@string/slider_2_desc</item>
+        <item>@string/slider_3_desc</item>
+    </string-array>
+
+    <string-array name="step_subtitle">
+        <item>نوع چوب</item>
+        <item>رنگ چوب</item>
+        <item>رنگ pvc</item>
+        <item>جهت pvc</item>
+        <item>ضخامت pvc</item>
+        <item>ابعاد ورق</item>
+        <item>تعداد هر ورق</item>
+        <item>فارسی بر</item>
+        <item>شیار</item>
+    </string-array>
+
+
+    <string-array name="wood_type">
+        <item>@string/type_one</item>
+        <item>@string/type_two</item>
+    </string-array>
+
+    <string-array name="direction">
+        <item>@string/oneTtwoW</item>
+        <item>@string/oneToneW</item>
+        <item>@string/twoToneW</item>
+        <item>@string/twoTtwoW</item>
+        <item>---</item>
+    </string-array>
+
+    <string-array name="direction_english">
+        <item>1T2W</item>
+        <item>1T1W</item>
+        <item>2T1W</item>
+        <item>2T2W</item>
+        <item>---</item>
+    </string-array>
+
+    <string-array name="pvc_thickness">
+        <item>1 میلیمتر</item>
+        <item>2 میلیمتر</item>
+        <item>---</item>
+    </string-array>
+
+    <string-array name="pvc_thickness_english">
+        <item>1mm</item>
+        <item>2mm</item>
+        <item>---</item>
+    </string-array>
+
+    <string-array name="sheet_dimensions">
+        <item>183 * 366</item>
+        <item>122 * 280</item>
+        <item>240 * 122</item>
+        <item>210 * 183</item>
+        <item>دستی</item>
+    </string-array>
+
+
+</resources>

@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">کــارگاه سرو</string>
+
+    <string name="start_app_button_text">شروع کنید</string>
+    <string name="all_string_next">بعدی</string>
+    <string name="all_string_previous">قبلی</string>
+    <string name="text_fix_login_pass">ورود به نرم افزار کارگاه سرو</string>
+
+
+
+    <string name="text_preference_slider_is_show">slider_is_show</string>
+    <string name="text_register">ثبت نام</string>
+    <string name="text_enter_user_name">نام کاربری خود را وارد نمایید</string>
+    <string name="text_enter_password">رمز عبورتان را وارد کنید</string>
+    <string name="text_chk_remember_me">مرا به خاطر بسپار</string>
+    <string name="text_fix_register">ثبت نام</string>
+    <string name="text_activation">کد فعال سازی 6 رقمی ارسال شده به شماره شما را وارد کنید</string>
+    <string name="text_activaion_code">کد فعال سازی</string>
+    <string name="text_enter">ورود</string>
+    <string name="text_name_family">نام و نام خانوادگی</string>
+    <string name="text_company_name">عنوان شرکت / مجموعه</string>
+    <string name="text_mobile">تلفن همراه</string>
+    <string name="text_password">کلمه ی عبور</string>
+    <string name="text_confirm_password">تکرار کلمه ی عبور</string>
+
+    <string name = "error_net_title">اینترنت درستگاه شما قطع می باشد</string>
+    <string name = "internet_connection_error">اتصال دستگاه شما به اینترنت برقرار نیست. برای استـفاده از خدمات شیراز سرویس به اینترنت متصل شوید.</string>
+    <string name = "internet_connection_error_title">خطا در اتصال به اینترنت!</string>
+    <string name = "internet">اینترنت</string>
+    <string name = "exit">خروج</string>
+    <string name = "internet_try_again">تلاش مجدد</string>
+    <string name="title_home">خانه</string>
+
+
+    <string name="type_one">MDF</string>
+    <string name="type_two">HighGlass</string>
+
+
+    <string name="oneTtwoW">1طول، 2عرض</string>
+    <string name="oneToneW">1طول، 1عرض</string>
+    <string name="twoToneW">2طول، 1عرض</string>
+    <string name="twoTtwoW">2طول، 2عرض</string>
+    <string name="text_select_one">لطفا یه گزینه را انتخاب نمایید</string>
+    <string name="text_order">ثبت سـفارش</string>
+    <string name="text_activation_code">ورود کد فعال سازی</string>
+    <string name="text_error_select_one">لطفا یک گزینه را انتخاب نمایید</string>
+    <string name="text_paper_count">تعداد هر ورق را وارد نمایید.</string>
+    <string name="text_pvc_color">رنگ pvc مورد نظر خود را وارد نمایید.</string>
+    <string name="text_wood_color">رنگ چوب مورد نظر خود را وارد نمایید.</string>
+    <string name="text_order_detail">جزئیات سفارش</string>
+    <string name="text_order_done">تایید سفارش</string>
+    <string name="text_order_correct">اصـلاح</string>
+
+</resources>
+
+

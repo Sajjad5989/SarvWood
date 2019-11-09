@@ -1,8 +1,8 @@
 package ir.sarvwood.workshop.interfaces;
 
-public interface IResponseListener {
+public interface IResponseListener<T> {
 
-    void onResponse( String response );
+    void onSuccess( T response );
 
     void onFailure( String error );
 }

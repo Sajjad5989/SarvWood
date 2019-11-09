@@ -25,6 +25,7 @@ android {
             it.buildConfigField("long", "readTimeOut", READ_TIMEOUT)
             it.buildConfigField("String", "userId", USER_ID)
             it.buildConfigField("String", "userName", USER_NAME)
+            it.buildConfigField("String", "accessToken", ACCESS_TOKEN)
 
         }
     }

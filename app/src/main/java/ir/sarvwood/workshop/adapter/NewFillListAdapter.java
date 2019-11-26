@@ -8,18 +8,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.interfaces.RecyclerViewClickListener;
+import ir.sarvwood.workshop.model.StringRadio;
 
-public class FillListAdapter extends RecyclerView.Adapter< FillListAdapter.ViewHolder > {
+public class NewFillListAdapter extends RecyclerView.Adapter< NewFillListAdapter.ViewHolder > {
 
 
-    private String[] items;
+    private List< StringRadio > items;
     private int currentValue;
     private RecyclerViewClickListener listener;
     private int lastSelectedPosition = -1;
 
-    public FillListAdapter( String[] items, RecyclerViewClickListener listener, int currentValue ){
+    public NewFillListAdapter( List< StringRadio > items, RecyclerViewClickListener listener, int currentValue ){
         this.items = items;
         this.listener = listener;
         this.currentValue = currentValue;
@@ -28,30 +31,36 @@ public class FillListAdapter extends RecyclerView.Adapter< FillListAdapter.ViewH
 
     @NonNull
     @Override
-    public FillListAdapter.ViewHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ){
+    public NewFillListAdapter.ViewHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ){
         View view = LayoutInflater.from( parent.getContext() ).inflate(
                 R.layout.new_template_input_row, parent, false );
 
-        final FillListAdapter.ViewHolder mViewHolder = new FillListAdapter.ViewHolder( view );
+        final NewFillListAdapter.ViewHolder mViewHolder = new NewFillListAdapter.ViewHolder( view );
         view.setOnClickListener( view1 -> listener.onItemClick( view1, mViewHolder.getAdapterPosition() ) );
 
         return mViewHolder;
     }
 
     @Override
-    public void onBindViewHolder( @NonNull FillListAdapter.ViewHolder holder, int position ){
+    public void onBindViewHolder( @NonNull NewFillListAdapter.ViewHolder holder, int position ){
 
         //    holder.tvName.setText(items[position]);
 
 //        holder.rbValues.setChecked(currentValue.equals(String.valueOf(position)));
-        holder.rbValues.setText( items[ position ] );
+        holder.rbValues.setText( items.get( position ).getTitle() );
         //holder.rbValues.setChecked(currentValue==position);
-        holder.rbValues.setChecked( lastSelectedPosition == position );
+
+        if ( currentValue >= 0 ){
+            holder.rbValues.setChecked(currentValue == position);
+        }
+        else{
+            holder.rbValues.setChecked(lastSelectedPosition == position);
+        }
     }
 
     @Override
     public int getItemCount( ){
-        return items.length;
+        return items.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

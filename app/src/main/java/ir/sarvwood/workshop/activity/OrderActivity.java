@@ -33,7 +33,7 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
     @BindView(R.id.stepperLayout)
     protected StepperLayout mStepperLayout;
 
-    public static WoodOrderModel woodOrderModel = new WoodOrderModel();
+    public static WoodOrderModel woodOrderModel = WoodOrderModel.builder().woodType( -1 ).build();
     public static List<WoodOrderModel> woodOrderModelList = new ArrayList<>();
 
     @Override

@@ -31,4 +31,8 @@ public class WoodOrderModel {
     private int patterned;
     private String desc;
 
+    @Builder
+    public WoodOrderModel( int woodType ){
+        this.woodType = woodType;
+    }
 }

@@ -20,6 +20,8 @@ public class DetailOrderDialog extends Dialog {
     private final DetailOrderListener detailOrderListener;
     @BindView(R.id.tv_wood_type)
     protected AppCompatTextView tvWoodType;
+    @BindView(R.id.tv_patterned)
+    protected AppCompatTextView tvPatterned;
 
     @BindView(R.id.tv_wood_color)
     protected AppCompatTextView tvWoodColor;
@@ -84,15 +86,16 @@ public class DetailOrderDialog extends Dialog {
 
         WoodOrderModelUtils woodOrderModelUtils = new WoodOrderModelUtils();
 
-        tvWoodType.setText(woodOrderModelUtils.getNameByPosition(context, 0, woodOrderModel.getWoodType()));
-        tvWoodColor.setText(woodOrderModel.getWoodColor());
+        tvWoodType.setText(woodOrderModelUtils.getNameByPosition(context, 0, woodOrderModel.getWoodType(),0));
+        tvPatterned.setText(woodOrderModel.getPatterned()==1?"راه دار می باشد":"");
+        tvWoodColor.setText(woodOrderModel.getColor());
         tvPvcColor.setText(woodOrderModel.getPvcColor());
-        tvPvcDirection.setText(woodOrderModelUtils.getNameByPosition(context, 3, woodOrderModel.getDirection()));
-        tvPvcThickness.setText(woodOrderModelUtils.getNameByPosition(context, 4, woodOrderModel.getThickness()));
-        tvPaperSize.setText(woodOrderModel.getSize());
-        tvPaperCount.setText(String.valueOf(woodOrderModel.getPaperCount()));
-        tvPersianSheet.setText(woodOrderModelUtils.getNameByPosition(context, 7, woodOrderModel.getPersianCutter()));
-        tvGroove.setText(woodOrderModelUtils.getNameByPosition(context, 8, woodOrderModel.getGroove()));
+        tvPvcDirection.setText(woodOrderModelUtils.getNameByPosition(context, 3, woodOrderModel.getPvcLenghtNo(),woodOrderModel.getPvcWidthNo()));
+        tvPvcThickness.setText(woodOrderModelUtils.getNameByPosition(context, 4, woodOrderModel.getPvcThickness(),0));
+        tvPaperSize.setText(String.format("%d * %d", woodOrderModel.getWoodSheetLength(), woodOrderModel.getWoodSheetWidth()));
+        tvPaperCount.setText(String.valueOf(woodOrderModel.getSheetCount()));
+        tvPersianSheet.setText(woodOrderModelUtils.getNameByPosition(context, 7, woodOrderModel.getPersianCutLenghtNo(),woodOrderModel.getPersianCutWidthNo()));
+        tvGroove.setText(woodOrderModelUtils.getNameByPosition(context, 8, woodOrderModel.getGrooveLenghtNo(),woodOrderModel.getGrooveWidthNo()));
 
 
     }

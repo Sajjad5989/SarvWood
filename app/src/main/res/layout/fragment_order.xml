@@ -24,11 +24,21 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <com.mlsdev.animatedrv.AnimatedRecyclerView
-        android:id="@+id/recycler_selected_values"
+        android:id="@+id/recycler_length"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_dp_very_large"
-        android:layout_marginBottom="@dimen/dimen_dp_very_large" />
+        android:layout_marginBottom="@dimen/dimen_dp_tiny"
+        android:background="@drawable/const_border_line" />
+
+    <com.mlsdev.animatedrv.AnimatedRecyclerView
+        android:id="@+id/recycler_width"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_dp_medium"
+        android:layout_marginBottom="@dimen/dimen_dp_very_large"
+        android:background="@drawable/const_border_line" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_description"
@@ -36,16 +46,27 @@
         android:layout_height="match_parent"
         android:padding="@dimen/dimen_dp_small">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_description"
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/chk_wood_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/iran_sans_light"
-            android:padding="@dimen/dimen_dp_tiny"
-            android:text="توضیحات"
-            android:textSize="@dimen/dimen_sp_small"
+            android:buttonTint="@color/color_green"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_wood_arrow_caption"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_dp_small"
+            android:fontFamily="@font/iran_sans_medium"
+            android:gravity="center"
+            android:text="چوب راه دار است"
+            android:textColor="@color/colorBlackStep_5"
+            android:textSize="@dimen/dimen_sp_small"
+            app:layout_constraintRight_toLeftOf="@id/chk_wood_arrow"
+            app:layout_constraintTop_toTopOf="@id/chk_wood_arrow" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_description"
@@ -58,18 +79,62 @@
             android:padding="@dimen/dimen_dp_small"
             android:textSize="@dimen/dimen_sp_medium"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_description" />
-
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/image_record"
             style="@style/image_style_for_mic_in_constraint"
             android:contentDescription="@string/app_name"
+            app:layout_constraintBottom_toBottomOf="@+id/et_description"
             app:layout_constraintLeft_toLeftOf="@+id/et_input"
             app:layout_constraintTop_toTopOf="@+id/et_input"
-            app:layout_constraintBottom_toBottomOf="@+id/et_description"
             app:srcCompat="@drawable/ic_mic"
             tools:ignore="VectorDrawableCompat" />
+
+        <LinearLayout
+            android:id="@+id/linear_custom_dimension"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/et_description">
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_width"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_28_dp"
+                android:layout_marginEnd="@dimen/dimen_dp_tiny"
+                android:layout_weight="1"
+                android:background="@drawable/box_for_edits"
+                android:gravity="center"
+                android:hint="عرض"
+                android:inputType="number"
+                android:maxLength="3"
+                android:padding="@dimen/dimen_dp_small"
+                android:textSize="@dimen/dimen_sp_medium" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="@dimen/size_0_dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:text="*" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_height"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/size_28_dp"
+                android:layout_weight="1"
+                android:background="@drawable/box_for_edits"
+                android:gravity="center"
+                android:hint="طول"
+                android:inputType="number"
+                android:maxLength="3"
+                android:padding="@dimen/dimen_dp_small"
+                android:textSize="@dimen/dimen_sp_medium" />
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

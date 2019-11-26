@@ -1,8 +1,11 @@
 package ir.sarvwood.workshop.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Display;
@@ -13,16 +16,25 @@ import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ir.sarvwood.workshop.BuildConfig;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.dialog.internet.ConnectionInternetDialog;
 import ir.sarvwood.workshop.dialog.internet.InternetConnectionListener;
 import ir.sarvwood.workshop.interfaces.IInternetController;
+import ir.sarvwood.workshop.interfaces.IResponseListener;
+import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.OnlineCheck;
+import ir.sarvwood.workshop.utils.PublicFunctions;
+import ir.sarvwood.workshop.webservice.apibodies.GetCustomerInfoBody;
+import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponse;
+import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoController;
+import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoReturnValue;
 
 public class LoginActivity extends AppCompatActivity implements IInternetController {
 
@@ -35,6 +47,10 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
     protected AppCompatEditText etUserName;
     @BindView(R.id.et_password)
     protected AppCompatEditText etPassword;
+    @BindView(R.id.chk_remember)
+    protected AppCompatCheckBox chkRemember;
+
+    private GetCustomerInfoReturnValue getCustomerInfoReturnValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,29 +65,42 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        APP.currentActivity = LoginActivity.this;
+    }
+
+    @Override
     public boolean isOnline() {
         return OnlineCheck.getInstance(this).isOnline();
     }
 
     private void buttonClickConfig() {
         btnLogin.setOnClickListener(view -> logIn());
-        btnRegister.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
+        btnRegister.setOnClickListener(view -> openRegisterFragment());
+
+    }
+
+    private void openRegisterFragment() {
+        Intent intent = new Intent(LoginActivity.this, ContainerActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("fragmentFlag", 1);
+        intent.putExtras(bundle);
+        startActivity(intent);
 
     }
 
     private void logIn() {
-        if ("".equals(etUserName.getText().toString())) {
+        if ("".equals(Objects.requireNonNull(etUserName.getText()).toString())) {
             APP.customToast(getString(R.string.text_enter_user_name));
             return;
         }
-
-        if ("".equals(etPassword.getText().toString())) {
+        if ("".equals(Objects.requireNonNull(etPassword.getText()).toString())) {
             APP.customToast(getString(R.string.text_enter_password));
             return;
         }
 
-
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        getCustomerInfo();
     }
 
     private void openInternetCheckingDialog() {
@@ -88,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
 
             @Override
             public void OnRetry() {
-                //تابع مربوطه ر صدا بزنم
+                getCustomerInfo();
             }
         });
 
@@ -103,4 +132,57 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
         dialog.getWindow().setLayout(width, ConstraintLayout.LayoutParams.WRAP_CONTENT);
     }
 
+
+    private GetCustomerInfoBody getCustomerInfoBody() {
+
+        GetCustomerInfoBody getCustomerInfoBody = GetCustomerInfoBody.builder()
+                .username(Objects.requireNonNull(etUserName.getText()).toString())
+                .pass(Objects.requireNonNull(etPassword.getText()).toString())
+                .applicationVersion(String.valueOf(new PublicFunctions().getAppVersionCode(LoginActivity.this)))
+                .deviceModel(Build.MODEL)
+                .deviceName(Build.MANUFACTURER)
+                .sdkVersion(String.valueOf(Build.VERSION.SDK_INT))
+                .build();
+        return getCustomerInfoBody;
+    }
+
+    private void getCustomerInfo() {
+        if (!isOnline()) {
+            openInternetCheckingDialog();
+        }
+
+        GetCustomerInfoController getCustomerInfoController = new GetCustomerInfoController();
+        getCustomerInfoController.start(getCustomerInfoBody(), new IResponseListener<SarvApiResponse<GetCustomerInfoReturnValue>>() {
+
+            @Override
+            public void onSuccess(SarvApiResponse response) {
+                if (response.getCode() == 0 && "success".equals(response.getStatus())) {
+                    getCustomerInfoReturnValue =(GetCustomerInfoReturnValue) response.getData().get(0);
+
+                    saveInSharePreference();
+                    if (chkRemember.isChecked()) {
+                        GeneralPreferences.getInstance(LoginActivity.this).putString(BuildConfig.userName, Objects.requireNonNull(etUserName.getText()).toString());
+                        GeneralPreferences.getInstance(LoginActivity.this).putString(BuildConfig.userPass, Objects.requireNonNull(etPassword.getText()).toString());
+                    }
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                } else {
+                    APP.customToast(response.getMessage());
+                }
+                LoginActivity.this.finish();
+            }
+
+            @Override
+            public void onFailure(String error) {
+                APP.customToast(error);
+                LoginActivity.this.finish();
+            }
+        });
+    }
+
+
+    public void saveInSharePreference()
+    {
+        GeneralPreferences.getInstance(LoginActivity.this).putCustomerId(getCustomerInfoReturnValue.getCustomerId());
+        GeneralPreferences.getInstance(LoginActivity.this).putToken(getCustomerInfoReturnValue.getAccessToken());
+    }
 }

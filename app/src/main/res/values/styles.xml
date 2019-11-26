@@ -54,4 +54,12 @@
     <style name="MaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
+
+    <style name = "DarkFlatButton" parent = "Theme.AppCompat.Light">
+        <item name = "android:buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item >
+        <item name = "colorControlHighlight">@color/colorDarkGrey</item >
+        <item name = "colorAccent">@color/colorLightGrey</item >
+        <item name = "android:padding">@dimen/dimen_dp_very_tiny</item >
+    </style >
+
 </resources>

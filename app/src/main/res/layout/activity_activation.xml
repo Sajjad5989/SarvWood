@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    android:layoutDirection="rtl"
-    >
+    android:layoutDirection="rtl">
 
     <include
         android:id="@+id/toolbar"
@@ -41,8 +40,6 @@
         app:layout_constraintTop_toBottomOf="@id/image_activation" />
 
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_activation"
         android:layout_width="match_parent"
@@ -65,22 +62,26 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_activation_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/box_for_edits"
+            android:gravity="center"
+            android:maxLength="6"
             android:padding="@dimen/dimen_dp_small"
             android:textSize="@dimen/dimen_sp_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_company_caption" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_seconds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:padding="@dimen/dimen_dp_very_large"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/const_activation">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -88,11 +89,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="59"
+            android:textColor="@color/color_red"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/color_red"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -106,20 +107,19 @@
         app:layout_constraintTop_toBottomOf="@+id/const_seconds">
 
         <androidx.appcompat.widget.AppCompatTextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/iran_sans_light"
             android:padding="@dimen/dimen_dp_tiny"
             android:text="دریافت مجدد کد فعال سازی"
             android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintRight_toRightOf="parent"
+
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -135,8 +135,7 @@
         android:textSize="@dimen/dimen_sp_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

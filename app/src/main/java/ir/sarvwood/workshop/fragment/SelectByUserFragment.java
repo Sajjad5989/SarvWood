@@ -8,16 +8,11 @@ import android.view.ViewGroup;
 
 import com.mlsdev.animatedrv.AnimatedRecyclerView;
 
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sarvwood.workshop.R;
-import ir.sarvwood.workshop.adapter.FillListAdapter;
-import ir.sarvwood.workshop.interfaces.RecyclerViewClickListener;
 
 public class SelectByUserFragment extends Fragment {
 

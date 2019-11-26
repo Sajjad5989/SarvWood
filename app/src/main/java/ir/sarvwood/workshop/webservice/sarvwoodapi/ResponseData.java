@@ -1,4 +1,4 @@
-package ir.sarvwood.workshop.model;
+package ir.sarvwood.workshop.webservice.sarvwoodapi;
 
 import java.io.Serializable;
 
@@ -13,10 +13,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class ResponseData< T > implements Serializable {
-    private int code;
+public class ResponseData<T> implements Serializable {
+
+    private Integer code;
     private String message;
     private String status;
     private T data;
-
 }

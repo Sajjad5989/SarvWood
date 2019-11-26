@@ -12,19 +12,25 @@ import android.view.View;
 import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.dialog.internet.ConnectionInternetDialog;
 import ir.sarvwood.workshop.dialog.internet.InternetConnectionListener;
 import ir.sarvwood.workshop.interfaces.IDefault;
 import ir.sarvwood.workshop.interfaces.IInternetController;
+import ir.sarvwood.workshop.interfaces.IResponseListener;
 import ir.sarvwood.workshop.interfaces.IRtl;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.OnlineCheck;
+import ir.sarvwood.workshop.webservice.authenticationofcnfrmcode.AuthenticationOfCnfrmCodeBody;
+import ir.sarvwood.workshop.webservice.authenticationofcnfrmcode.AuthenticationOfCnfrmCodeController;
+import ir.sarvwood.workshop.webservice.sendsmsofcnfrmcode.SendSmsOfCnfrmCodeController;
 
 public class ActivationActivity extends AppCompatActivity implements IRtl, IDefault, IInternetController {
 
@@ -33,6 +39,16 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
 
     @BindView(R.id.tv_seconds)
     protected AppCompatTextView tvSecond;
+    @BindView(R.id.et_activation_code)
+    protected AppCompatEditText etActivationCode;
+
+    @OnClick(R.id.btn_enter)
+    void checkActivationCode()
+    {
+
+
+    }
+
 
     private int seconds = 59;
     private boolean startRun = true;
@@ -48,6 +64,7 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
         OnActivityDefaultSetting();
         prepareToolbar();
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        CountDownTimer();
     }
 
     private void prepareToolbar() {
@@ -84,6 +101,7 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
     public boolean isOnline() {
         return OnlineCheck.getInstance(this).isOnline();
     }
+
     private void openInternetCheckingDialog() {
         ConnectionInternetDialog dialog = new ConnectionInternetDialog(this, new InternetConnectionListener() {
             @Override
@@ -121,20 +139,42 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
             public void run() {
 
                 String time = String.format("%02d", seconds);
-                tvSecond.setText(String.valueOf(time));
+                tvSecond.setText(time);
 
                 if (startRun) {
                     seconds--;
                     if (seconds <= 0) {
-//اگر زمان تمام شد و فعال سازی را وارد نکرده بود.بایستی دوباره دریافت فعال سازی را بزند
-                        // finish();
+                          finish();
                     }
                 }
                 handler.postDelayed(this, 1000);
             }
         });
+    }
 
+    private void authenticateConfirmSms()
+    {
+        AuthenticationOfCnfrmCodeBody authenticationOfCnfrmCodeBody = AuthenticationOfCnfrmCodeBody.builder()
+                .cofirmationCode("")
+                .applicationVersion("")
+                .deviceModel("")
+                .deviceName("")
+                .mobileNo("")
+                .sdkVersion("")
+                .build();
 
+        AuthenticationOfCnfrmCodeController authenticationOfCnfrmCodeController = new AuthenticationOfCnfrmCodeController();
+        authenticationOfCnfrmCodeController.start(authenticationOfCnfrmCodeBody, new IResponseListener() {
+            @Override
+            public void onSuccess(Object response) {
+
+            }
+
+            @Override
+            public void onFailure(String error) {
+
+            }
+        });
     }
 
 }

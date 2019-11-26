@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name = "background_slider_sepration_line">#818181</color>
+    <color name = "colorDarkGrey">#373737</color>
+    <color name = "colorLightGrey">#444444</color>
 </resources>

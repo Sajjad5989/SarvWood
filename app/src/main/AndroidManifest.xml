@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ir.sarvwood.workshop">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name="ir.sarvwood.workshop.utils.APP"
         android:allowBackup="true"
@@ -23,8 +26,9 @@
         <activity android:name="ir.sarvwood.workshop.activity.IntroSliderActivity"  android:screenOrientation = "portrait"/>
         <activity android:name="ir.sarvwood.workshop.activity.LoginActivity"  android:screenOrientation = "portrait"/>
         <activity android:name="ir.sarvwood.workshop.activity.MainActivity"  android:screenOrientation = "portrait"/>
-        <activity android:name="ir.sarvwood.workshop.activity.RegisterActivity"  android:screenOrientation = "portrait"/>
         <activity android:name="ir.sarvwood.workshop.activity.OrderActivity"  android:screenOrientation = "portrait"/>
+        <activity android:name="ir.sarvwood.workshop.activity.MoreActivity"  android:screenOrientation = "portrait"/>
+        <activity android:name="ir.sarvwood.workshop.activity.ContainerActivity"  android:screenOrientation = "portrait"/>
 
     </application>
 

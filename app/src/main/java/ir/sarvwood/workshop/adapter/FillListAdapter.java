@@ -15,11 +15,11 @@ public class FillListAdapter extends RecyclerView.Adapter<FillListAdapter.ViewHo
 
 
     private String[] items;
-    private Object currentValue;
+    private int currentValue;
     private RecyclerViewClickListener listener;
     private int lastSelectedPosition = -1;
 
-    public FillListAdapter(String[] items, RecyclerViewClickListener listener, Object currentValue) {
+    public FillListAdapter(String[] items,RecyclerViewClickListener listener, int currentValue) {
         this.items = items;
         this.listener = listener;
         this.currentValue = currentValue;
@@ -30,20 +30,22 @@ public class FillListAdapter extends RecyclerView.Adapter<FillListAdapter.ViewHo
     @Override
     public FillListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.template_input_row, parent, false);
+                R.layout.new_template_input_row, parent, false);
 
         final FillListAdapter.ViewHolder mViewHolder = new FillListAdapter.ViewHolder(view);
-        //view.setOnClickListener(view1 -> listener.onItemClick(view1, mViewHolder.getAdapterPosition()));
+        view.setOnClickListener(view1 -> listener.onItemClick(view1, mViewHolder.getAdapterPosition()));
+
         return mViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull FillListAdapter.ViewHolder holder, int position) {
 
-        holder.tvName.setText(items[position]);
+    //    holder.tvName.setText(items[position]);
 
 //        holder.rbValues.setChecked(currentValue.equals(String.valueOf(position)));
-
+        holder.rbValues.setText(items[position]);
+        //holder.rbValues.setChecked(currentValue==position);
         holder.rbValues.setChecked(lastSelectedPosition == position);
     }
 
@@ -53,19 +55,18 @@ public class FillListAdapter extends RecyclerView.Adapter<FillListAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private AppCompatTextView tvName;
+//        private AppCompatTextView tvName;
         private AppCompatRadioButton rbValues;
 
 
         private ViewHolder(final View itemView) {
             super(itemView);
-            tvName = itemView.findViewById(R.id.tv_name);
+          //  tvName = itemView.findViewById(R.id.tv_name);
             rbValues = itemView.findViewById(R.id.rb_vales);
-
             rbValues.setOnClickListener(v -> {
 
                 lastSelectedPosition = getAdapterPosition();
-                listener.onItemClick(itemView, getAdapterPosition());
+               listener.onItemClick(itemView, getAdapterPosition());
                 notifyDataSetChanged();
             });
         }

@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+
 public class GetCustomerInfoBody {
 
     private String username;

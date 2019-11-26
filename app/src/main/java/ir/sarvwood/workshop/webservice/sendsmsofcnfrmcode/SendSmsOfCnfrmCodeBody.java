@@ -1,4 +1,4 @@
-package ir.sarvwood.workshop.webservice.apibodies;
+package ir.sarvwood.workshop.webservice.sendsmsofcnfrmcode;
 
 
 import lombok.AllArgsConstructor;

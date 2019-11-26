@@ -10,6 +10,8 @@ import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +34,7 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
     protected StepperLayout mStepperLayout;
 
     public static WoodOrderModel woodOrderModel = new WoodOrderModel();
+    public static List<WoodOrderModel> woodOrderModelList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

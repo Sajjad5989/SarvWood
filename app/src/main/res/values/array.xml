@@ -48,33 +48,31 @@
         <item>---</item>
     </string-array>
 
-    <string-array name="direction_english">
-        <item>1T2W</item>
-        <item>1T1W</item>
-        <item>2T1W</item>
-        <item>2T2W</item>
-        <item>---</item>
-    </string-array>
 
     <string-array name="pvc_thickness">
+        <item>هیچکدام</item>
         <item>1 میلیمتر</item>
         <item>2 میلیمتر</item>
-        <item>---</item>
-    </string-array>
-
-    <string-array name="pvc_thickness_english">
-        <item>1mm</item>
-        <item>2mm</item>
-        <item>---</item>
     </string-array>
 
     <string-array name="sheet_dimensions">
-        <item>183 * 366</item>
-        <item>122 * 280</item>
+        <item>366 * 183 </item>
+        <item>280 * 122</item>
         <item>240 * 122</item>
         <item>210 * 183</item>
-        <item>دستی</item>
+        <item>سایر</item>
     </string-array>
 
+    <string-array name="width_length">
+        <item>هیچکدام</item>
+        <item>1 طول</item>
+        <item>2 طول</item>
+    </string-array>
+
+    <string-array name="width_width">
+        <item>هیچکدام</item>
+        <item>1 عرض</item>
+        <item>2 عرض</item>
+    </string-array>
 
 </resources>

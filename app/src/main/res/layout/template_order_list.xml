@@ -5,15 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/dimen_dp_tiny"
-    android:layout_marginEnd="@dimen/dimen_dp_tiny"
+    android:layout_margin="@dimen/size_4_dp"
     android:background="@drawable/const_border_light"
     android:layoutDirection="rtl"
     android:padding="@dimen/dimen_dp_small">
 
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/image_my_service"
+        android:id="@+id/image_order_status"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:src="@drawable/ic_arrow_right"
@@ -21,47 +20,57 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_my_service_title"
+        android:id="@+id/tv_tracking_code_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_dp_tiny"
         android:layout_marginEnd="@dimen/dimen_dp_tiny"
         android:fontFamily="@font/iran_sans"
-        android:text="سفارش شماره 1"
+        android:text="کد پیگیری"
         android:textColor="@color/colorBlackStep_4"
         android:textSize="@dimen/dimen_sp_tiny"
-
-        app:layout_constraintRight_toLeftOf="@+id/image_my_service"
+        app:layout_constraintRight_toLeftOf="@+id/image_order_status"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_my_service_time"
+        android:id="@+id/tv_tracking_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_dp_tiny"
+        android:layout_marginEnd="@dimen/dimen_dp_tiny"
+        android:fontFamily="@font/iran_sans_medium"
+        android:text="12546588"
+        android:textColor="@color/colorBlackStep_4"
+        android:textSize="@dimen/dimen_sp_tiny"
+        app:layout_constraintRight_toLeftOf="@+id/tv_tracking_code_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_my_order_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dimen_dp_tiny"
-
         android:fontFamily="@font/iran_sans"
         android:text="18 ساعت پیش"
         android:textColor="@color/colorBlackStep_1"
         android:textSize="@dimen/dimen_sp_very_tiny"
-        app:layout_constraintRight_toLeftOf="@+id/image_my_service"
-        app:layout_constraintTop_toBottomOf="@+id/tv_my_service_title" />
+        app:layout_constraintRight_toLeftOf="@+id/image_order_status"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tracking_code_title" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_service_status"
+        android:id="@+id/tv_order_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dimen_dp_medium"
         android:fontFamily="@font/iran_sans"
-        android:paddingLeft="@dimen/dimen_dp_medium"
+        android:paddingLeft="@dimen/size_10_dp"
         android:paddingTop="@dimen/dimen_dp_tiny"
         android:paddingRight="@dimen/dimen_dp_medium"
         android:paddingBottom="@dimen/dimen_dp_tiny"
         android:text="تحویل شد"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/dimen_sp_tiny"
-         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

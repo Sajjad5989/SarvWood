@@ -1,4 +1,4 @@
-package ir.sarvwood.workshop.webservice.apibodies;
+package ir.sarvwood.workshop.webservice.authenticationofcnfrmcode;
 
 
 import lombok.AllArgsConstructor;
@@ -12,6 +12,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+
+
 public class AuthenticationOfCnfrmCodeBody {
 
     private String mobileNo;

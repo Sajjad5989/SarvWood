@@ -49,7 +49,55 @@
     <string name="text_wood_color">رنگ چوب مورد نظر خود را وارد نمایید.</string>
     <string name="text_order_detail">جزئیات سفارش</string>
     <string name="text_order_done">تایید سفارش</string>
+    <string name="text_order_save">ثبت سفارش</string>
     <string name="text_order_correct">اصـلاح</string>
+    <string name="text_password_lenght">حداقل طول رمز عبور 6 کاراکتر می باشد</string>
+    <string name="text_repeat_password">کلمه عبور با تکرار آن همخوانی ندارد</string>
+
+    <string name = "text_exit_app">پس از خروج از حساب کاربری، بایستی مجددا وارد نرم افزار شوید،</string>
+    <string name = "text_exit_app_confirmation">آیا از انجام این عملیات اطمینان دارید؟</string>
+
+    <string name="speech_intent_extra_fa">fa</string>
+    <string name="speech_intent_action">android.speech.action.RECOGNIZE_SPEECH</string>
+    <string name="speech_intent_extra_lang">android.speech.extra.LANGUAGE</string>
+    <string name="speech_intent_extra_prompt">android.speech.extra.PROMPT</string>
+    <string name="ap_service_group">ir.Sarv-Wood.general.service_group</string>
+    <string name="app_request_preferences">sarv_wood_request_pref_file</string>
+    <string name="app_general_preferences">sarv_wood_general_pref_file</string>
+    <string name="sub_category_post_items_count">sub_category_post_items_count</string>
+    <string name="speech_intent_extra_lang_ref">android.speech.extra.LANGUAGE_PREFERENCE</string>
+    <string name="speech_intent_extra_lang_ref_only">android.speech.extra.ONLY_RETURN_LANGUAGE_PREFERENCE</string>
+
+    <string name="speech_prompt">لطفاً صحبت کنید</string>
+    <string name="speech_not_supported">متاسفانه دستگاه شما ورودی صدا را پشتیبانی نمی کند</string>
+    <string name="text_select_width_length">طول و عرض مورد نظر را انتخاب نمایید.</string>
+    <string name="text_need_value">مقادیر لازم را وارد نمایید</string>
+    <string name="text_pvc_thickness">ضخامت pvc را انتخاب نمایید.</string>
+    <string name="text_select_wood_type">نوع چوب را انتخاب نمایید.</string>
+    <string name="text_call_us">تماس با ما</string>
+    <string name="text_more_info">اطلاعات بیشتر</string>
+    <string name="text_yes">بله</string>
+    <string name="text_no">خیر</string>
+    <string name="text_exit_title">خروج از حساب کاربری</string>
+    <string name="text_exit_account">خروج از حساب کاربری</string>
+    <string name="text_register_suggest">ثبت</string>
+    <string name="text_repeat_activation_code">با تغییر شماره موبایل، بایستی مجددا به برنامه وارد شوید.</string>
+
+
+    <string name = "text_name_social_apparat">آپارات</string>
+    <string name = "text_name_social_telegram">تلگرام</string>
+    <string name = "text_name_social_insta">اینستاگرام</string>
+    <string name = "nav_social">ما را در شبکه های اجتماعی دنبال کنید</string>
+    <string name = "dlg_title_close_dialog">بستن</string>
+    <string name="text_send_order">ارسال سفارش</string>
+    <string name="text_new_order">سفارش جدید</string>
+    <string name="text_edit_profile">ویرایش اطلاعات کاربری</string>
+    <string name="text_about_us">درباره ما</string>
+    <string name="text_suggest">پیشنهاد، نظر ،انتقاد</string>
+    <string name="text_pre_order">لیست پیش سفارش</string>
+    <string name="text_successful">عملیات ذخیره با موفقیت انجام شد.</string>
+    <string name="text_order_item_detail">جزییات سفارش</string>
+
 
 </resources>
 

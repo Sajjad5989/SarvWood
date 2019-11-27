@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import ir.sarvwood.workshop.BuildConfig;
+import ir.sarvwood.workshop.webservice.baseinfo.BaseInfoReturnValue;
 import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoReturnValue;
 import ir.sarvwood.workshop.webservice.insrtcustomer.InsrtCustomerSimpleRerunValue;
 import ir.sarvwood.workshop.webservice.orderdetail.GetOrderDetailsItemReturnValue;
@@ -95,12 +96,23 @@ public class GeneralPreferences {
         return sharedPreferences.getString(BuildConfig.accessToken,"");
     }
 
-    public void putListCustomerInfoResponse(GetCustomerInfoReturnValue response) {
+    public void putBaseInfo(BaseInfoReturnValue response) {
 
-        String tag = "CustomerInfo";
+        String tag = "BaseInfo";
         remove(tag);
-        editor.putString(tag, new Gson().toJson(response, GetCustomerInfoReturnValue.class));
+        editor.putString(tag, new Gson().toJson(response, BaseInfoReturnValue.class));
         editor.apply();
+
+    }
+
+    public BaseInfoReturnValue getBaseInfo() {
+        String responseString = sharedPreferences.getString("BaseInfo", null);
+        if (responseString == null)
+            return new BaseInfoReturnValue();
+
+
+        Gson gson = new Gson();
+        return gson.fromJson(responseString, (Type) BaseInfoReturnValue.class);
 
     }
 
@@ -115,6 +127,14 @@ public class GeneralPreferences {
 
     }
 
+    public void putListCustomerInfoResponse(GetCustomerInfoReturnValue response) {
+
+        String tag = "CustomerInfo";
+        remove(tag);
+        editor.putString(tag, new Gson().toJson(response, GetCustomerInfoReturnValue.class));
+        editor.apply();
+
+    }
     public void putInsrtCustomerSimpleRerunValueResponse(InsrtCustomerSimpleRerunValue response) {
 
         String tag = "InsertCustomer";
@@ -122,6 +142,15 @@ public class GeneralPreferences {
         editor.putString(tag, new Gson().toJson(response, InsrtCustomerSimpleRerunValue.class));
         editor.apply();
 
+    }
+
+    public void deleteAllInfo()
+    {
+        editor.remove("CustomerInfo").commit();
+        editor.remove(BuildConfig.userId).commit();
+        editor.remove(BuildConfig.accessToken).commit();
+        editor.remove(BuildConfig.userPass).commit();
+        editor.remove(BuildConfig.userName).commit();
     }
 
     public  void putOrderList(GetOrderDetailsReturnValue<GetOrderDetailsItemReturnValue> value)

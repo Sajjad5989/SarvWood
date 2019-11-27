@@ -1,8 +1,6 @@
 package ir.sarvwood.workshop.webservice.getcustomerinfo;
 
 import ir.sarvwood.workshop.BuildConfig;
-import ir.sarvwood.workshop.webservice.apibodies.GetCustomerInfoBody;
-import ir.sarvwood.workshop.webservice.myorders.GetMyOrderBody;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;

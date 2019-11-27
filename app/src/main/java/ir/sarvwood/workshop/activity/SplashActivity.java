@@ -28,7 +28,9 @@ import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.OnlineCheck;
 import ir.sarvwood.workshop.utils.PublicFunctions;
-import ir.sarvwood.workshop.webservice.apibodies.GetCustomerInfoBody;
+import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoBody;
+import ir.sarvwood.workshop.webservice.baseinfo.BaseInfoController;
+import ir.sarvwood.workshop.webservice.baseinfo.BaseInfoReturnValue;
 import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoController;
 import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoReturnValue;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponse;
@@ -149,7 +151,7 @@ public class SplashActivity extends AppCompatActivity implements IInternetContro
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                     getCustomerInfoReturnValue = (GetCustomerInfoReturnValue) response.getData().get(0);
                     saveInSharePreference();
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    getBaseInfo();
                 } else {
                     APP.customToast(response.getMessage());
                 }
@@ -164,9 +166,28 @@ public class SplashActivity extends AppCompatActivity implements IInternetContro
         });
     }
 
+    private void getBaseInfo() {
+        BaseInfoController baseInfoController = new BaseInfoController();
+        baseInfoController.start(getCustomerInfoReturnValue.getCustomerId(), getCustomerInfoReturnValue.getAccessToken(),
+                new IResponseListener<SarvApiResponse<BaseInfoReturnValue>>() {
+                    @Override
+                    public void onSuccess(SarvApiResponse<BaseInfoReturnValue> response) {
+                        if (response.getCode() == 0 && "success".equals(response.getStatus())) {
+                            GeneralPreferences.getInstance(SplashActivity.this).putBaseInfo(response.getData().get(0));
+                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        }
+                    }
 
-    public void saveInSharePreference()
-    {
+                    @Override
+                    public void onFailure(String error) {
+                        APP.customToast(error);
+                        APP.killApp();
+                    }
+                });
+    }
+
+    public void saveInSharePreference() {
+        GeneralPreferences.getInstance(SplashActivity.this).putListCustomerInfoResponse(getCustomerInfoReturnValue);
         GeneralPreferences.getInstance(SplashActivity.this).putCustomerId(getCustomerInfoReturnValue.getCustomerId());
         GeneralPreferences.getInstance(SplashActivity.this).putToken(getCustomerInfoReturnValue.getAccessToken());
     }

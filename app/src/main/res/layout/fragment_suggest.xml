@@ -3,122 +3,168 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/size_22_dp"
-    android:background="@color/colorWhite"
+    android:layout_margin="@dimen/size_10_dp"
+    android:background="@drawable/const_border_line"
     android:clickable="true">
 
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/dimen_dp_small"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <!--    <androidx.core.widget.NestedScrollView-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_margin="@dimen/dimen_dp_small"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:orientation="vertical">-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_2_dp"
+        android:background="@drawable/const_border_line"
+        app:layout_constraintBottom_toTopOf="@+id/const_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/linear_top"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_suggest_caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/size_8_dp"
-                    android:fontFamily="@font/iran_sans_medium"
-                    android:text="نظرات"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_size_10_sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/size_4_dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/tv_suggest_caption"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_1"
+                android:layout_width="@dimen/size_0_dp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/size_8_dp">
+                android:layout_margin="@dimen/size_4_dp"
+                android:layout_weight="1"
+                android:background="@drawable/text_green_border_style"
+                android:fontFamily="@font/iran_sans_medium"
+                android:text="نـظر"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_10_sp" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_suggest_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/iran_sans_medium"
-                    android:text="عنوان"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_size_10_sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_suggest_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/size_4_dp"
-                    android:background="@drawable/const_border_light"
-                    android:fontFamily="@font/iran_sans_medium"
-                    android:padding="@dimen/size_4_dp"
-                    android:textSize="@dimen/text_size_14_sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/tv_suggest_title"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_2"
+                android:layout_width="@dimen/size_0_dp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/size_8_dp">
+                android:layout_margin="@dimen/size_4_dp"
+                android:layout_weight="1"
+                android:background="@drawable/text_green_border_style"
+                android:fontFamily="@font/iran_sans_medium"
+                android:text="انتقاد"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_10_sp" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_suggest_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/iran_sans_medium"
-                    android:text="متـن"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_size_10_sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_suggest_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/size_4_dp"
-                    android:background="@drawable/const_border_light"
-                    android:fontFamily="@font/iran_sans_medium"
-                    android:maxLines="20"
-                    android:padding="@dimen/size_4_dp"
-                    android:textSize="@dimen/text_size_14_sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/tv_suggest_text"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_3"
+                android:layout_width="@dimen/size_0_dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size_4_dp"
+                android:layout_weight="1"
+                android:background="@drawable/text_green_border_style"
+                android:fontFamily="@font/iran_sans_medium"
+                android:text="پیشنهاد"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_10_sp" />
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_top"
+
+            >
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_4"
+                android:layout_width="@dimen/size_0_dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size_4_dp"
+                android:layout_weight="1"
+                android:background="@drawable/text_green_border_style"
+                android:fontFamily="@font/iran_sans_medium"
+                android:text="نیاز جدید"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_10_sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_5"
+                android:layout_width="@dimen/size_0_dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size_4_dp"
+                android:layout_weight="1"
+                android:background="@drawable/text_green_border_style"
+                android:fontFamily="@font/iran_sans_medium"
+                android:text="گزارش خطا"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_10_sp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/size_10_dp"
+
+        android:padding="@dimen/size_8_dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_register"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/const_type">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_suggest_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/iran_sans_medium"
+            android:text="متـن"
+            android:textColor="@color/colorBlackStep_1"
+            android:textSize="@dimen/text_size_12_sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_suggest_text"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/size_4_dp"
+            android:layout_marginTop="@dimen/size_20_dp"
+            android:background="@drawable/const_border_light"
+            android:fontFamily="@font/iran_sans_medium"
+            android:gravity="top"
+            android:maxLines="20"
+            android:padding="@dimen/size_4_dp"
+            android:textSize="@dimen/text_size_14_sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_suggest_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--        </LinearLayout>-->
+
+    <!--    </androidx.core.widget.NestedScrollView>-->
 
 
     <androidx.appcompat.widget.AppCompatButton

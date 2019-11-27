@@ -1,29 +1,5 @@
 package ir.sarvwood.workshop.webservice.sarvwoodapi;
 
-import com.google.gson.Gson;
-
-import java.io.IOException;
-
-import ir.sarvwood.workshop.interfaces.IResponseListener;
-import ir.sarvwood.workshop.webservice.authenticationofcnfrmcode.AuthenticationOfCnfrmCodeBody;
-import ir.sarvwood.workshop.webservice.apibodies.ChangeCustomerPasswordBody;
-import ir.sarvwood.workshop.webservice.apibodies.DeleteTokenKeyBody;
-import ir.sarvwood.workshop.webservice.apibodies.DiscardOrderBody;
-import ir.sarvwood.workshop.webservice.apibodies.GetCustomerInfoBody;
-import ir.sarvwood.workshop.webservice.apibodies.GetCustomerInfoByIdBody;
-import ir.sarvwood.workshop.webservice.apibodies.GetOrderDetailsBody;
-import ir.sarvwood.workshop.webservice.apibodies.GetStaticPagesTextBody;
-import ir.sarvwood.workshop.webservice.apibodies.InsrtOrderBody;
-import ir.sarvwood.workshop.webservice.apibodies.InsrtSuggestionBody;
-import ir.sarvwood.workshop.webservice.apibodies.SaveDeviceInfoBody;
-import ir.sarvwood.workshop.webservice.apibodies.SaveTokenKeyBody;
-import ir.sarvwood.workshop.webservice.apibodies.SheetSupplierBody;
-import ir.sarvwood.workshop.webservice.apibodies.UpdateCustomerInfoBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class WebserviceCaller {
 
     private ApiInterface apiInterface;

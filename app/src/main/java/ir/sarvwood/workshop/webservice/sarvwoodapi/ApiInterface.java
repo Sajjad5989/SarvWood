@@ -1,27 +1,5 @@
 package ir.sarvwood.workshop.webservice.sarvwoodapi;
 
-import ir.sarvwood.workshop.BuildConfig;
-import ir.sarvwood.workshop.webservice.authenticationofcnfrmcode.AuthenticationOfCnfrmCodeBody;
-import ir.sarvwood.workshop.webservice.apibodies.ChangeCustomerPasswordBody;
-import ir.sarvwood.workshop.webservice.apibodies.DeleteTokenKeyBody;
-import ir.sarvwood.workshop.webservice.apibodies.DiscardOrderBody;
-import ir.sarvwood.workshop.webservice.apibodies.GetCustomerInfoBody;
-import ir.sarvwood.workshop.webservice.apibodies.GetCustomerInfoByIdBody;
-import ir.sarvwood.workshop.webservice.apibodies.GetOrderDetailsBody;
-import ir.sarvwood.workshop.webservice.apibodies.GetStaticPagesTextBody;
-import ir.sarvwood.workshop.webservice.apibodies.InsrtOrderBody;
-import ir.sarvwood.workshop.webservice.apibodies.InsrtSuggestionBody;
-import ir.sarvwood.workshop.webservice.apibodies.SaveDeviceInfoBody;
-import ir.sarvwood.workshop.webservice.apibodies.SaveTokenKeyBody;
-import ir.sarvwood.workshop.webservice.apibodies.SheetSupplierBody;
-import ir.sarvwood.workshop.webservice.apibodies.UpdateCustomerInfoBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-
 public interface ApiInterface {
 
 

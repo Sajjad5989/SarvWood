@@ -97,6 +97,12 @@
     <string name="text_pre_order">لیست پیش سفارش</string>
     <string name="text_successful">عملیات ذخیره با موفقیت انجام شد.</string>
     <string name="text_order_item_detail">جزییات سفارش</string>
+    <string name="text_contact_us">تماس با ما</string>
+    <string name="text_suggest_kind">لطفا نوع متن ارسالی خود را مشخص نمایید</string>
+    <string name="text_suggest_input">لطفا متن  خود را وارد نمایید</string>
+    <string name="text_save_edit_profile">ذخیره تغییرات</string>
+    <string name="text_address">آدرس</string>
+    <string name="text_need_all_parameter">پرکردن تمامی مقادیر الزامی می باشد</string>
 
 
 </resources>

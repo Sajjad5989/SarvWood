@@ -30,25 +30,29 @@ public class MoreActivity extends AppCompatActivity implements IRtl, IDefault {
     void exitApp() {
         exit();
     }
+
     @OnClick(R.id.tv_edit_profile)
-    void openEditProfileFragment()
-    {
+    void openEditProfileFragment() {
         openFragment(2);
     }
+
     @OnClick(R.id.tv_about_us)
-    void openAboutUs()
-    {
+    void openAboutUs() {
         openFragment(3);
     }
-@OnClick(R.id.tv_suggest)
-void openSuggest()
-{
-    openFragment(4);
-}
+
+    @OnClick(R.id.tv_contact_us)
+    void openAContactUs() {
+        openFragment(7);
+    }
+
+    @OnClick(R.id.tv_suggest)
+    void openSuggest() {
+        openFragment(4);
+    }
 
     @OnClick(R.id.tv_follow_us)
-    void openDialog()
-    {
+    void openDialog() {
         SocialNetworkDialog socialNetworkDialog = new SocialNetworkDialog(this, new SocialNetworkOnClickListener() {
             @Override
             public void onInstagram() {
@@ -133,8 +137,7 @@ void openSuggest()
 
     }
 
-    private void openFragment(int type)
-    {
+    private void openFragment(int type) {
         Intent intent = new Intent(MoreActivity.this, ContainerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("fragmentFlag", type);

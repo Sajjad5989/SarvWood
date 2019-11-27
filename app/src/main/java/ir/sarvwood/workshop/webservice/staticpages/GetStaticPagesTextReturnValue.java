@@ -1,5 +1,4 @@
-package ir.sarvwood.workshop.webservice.apibodies;
-
+package ir.sarvwood.workshop.webservice.staticpages;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,9 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class InsrtSuggestionBody {
+public class GetStaticPagesTextReturnValue {
 
-    private Integer type;
-    private Integer reporterId;
-    private String comments;
+    private String title;
+    private String body;
 }

@@ -10,6 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.fragment.AboutUsFragment;
+import ir.sarvwood.workshop.fragment.EditProfileFragment;
 import ir.sarvwood.workshop.fragment.PreOrderFragment;
 import ir.sarvwood.workshop.fragment.RegisterFragment;
 import ir.sarvwood.workshop.fragment.SuggestFragment;
@@ -77,15 +78,15 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
         switch (type) {
             case 1:
                 toolbar.setTitle(R.string.text_register);
-                openEditProfile(0);
+                openRegister();
                 break;
             case 2:
                 toolbar.setTitle(R.string.text_edit_profile);
-                openEditProfile(1);
+                openEditProfile();
                 break;
             case 3:
                 toolbar.setTitle(R.string.text_about_us);
-                openAboutUs();
+                openAboutContactUs(1);
                 break;
             case 4:
                 toolbar.setTitle(R.string.text_suggest);
@@ -99,19 +100,30 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
                 toolbar.setTitle(R.string.text_order_item_detail);
                 openOrderItems();
                 break;
+            case 7:
+                toolbar.setTitle(R.string.text_contact_us);
+                openAboutContactUs(2);
+                break;
         }
     }
 
-    private void openAboutUs() {
-        AboutUsFragment aboutUsFragment = AboutUsFragment.newInstance();
+    private void openAboutContactUs(int type) {
+        AboutUsFragment aboutUsFragment = AboutUsFragment.newInstance(type);
         getFragmentManager().beginTransaction()
                 .add(R.id.frag_container, aboutUsFragment)
                 .addToBackStack(null)
                 .commit();
     }
 
-    private void openEditProfile(int isEdit) {
-        RegisterFragment registerFragment = RegisterFragment.newInstance(isEdit);
+    private void openEditProfile() {
+        EditProfileFragment editProfileFragment = EditProfileFragment.newInstance();
+        getFragmentManager().beginTransaction()
+                .add(R.id.frag_container, editProfileFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+    private void openRegister() {
+        RegisterFragment registerFragment = RegisterFragment.newInstance();
         getFragmentManager().beginTransaction()
                 .add(R.id.frag_container, registerFragment)
                 .addToBackStack(null)

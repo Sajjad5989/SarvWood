@@ -1,8 +1,6 @@
 package ir.sarvwood.workshop.activity;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -31,7 +29,9 @@ import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.OnlineCheck;
 import ir.sarvwood.workshop.utils.PublicFunctions;
-import ir.sarvwood.workshop.webservice.apibodies.GetCustomerInfoBody;
+import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoBody;
+import ir.sarvwood.workshop.webservice.baseinfo.BaseInfoController;
+import ir.sarvwood.workshop.webservice.baseinfo.BaseInfoReturnValue;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponse;
 import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoController;
 import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoReturnValue;
@@ -164,7 +164,8 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
                         GeneralPreferences.getInstance(LoginActivity.this).putString(BuildConfig.userName, Objects.requireNonNull(etUserName.getText()).toString());
                         GeneralPreferences.getInstance(LoginActivity.this).putString(BuildConfig.userPass, Objects.requireNonNull(etPassword.getText()).toString());
                     }
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    getBaseInfo();
+
                 } else {
                     APP.customToast(response.getMessage());
                 }
@@ -180,8 +181,31 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
     }
 
 
+    private void getBaseInfo() {
+        BaseInfoController baseInfoController = new BaseInfoController();
+        baseInfoController.start(getCustomerInfoReturnValue.getCustomerId(), getCustomerInfoReturnValue.getAccessToken(),
+                new IResponseListener<SarvApiResponse<BaseInfoReturnValue>>() {
+                    @Override
+                    public void onSuccess(SarvApiResponse<BaseInfoReturnValue> response) {
+                        if (response.getCode() == 0 && "success".equals(response.getStatus())) {
+                            GeneralPreferences.getInstance(LoginActivity.this).putBaseInfo(response.getData().get(0));
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        APP.customToast(error);
+                        APP.killApp();
+                    }
+                });
+    }
+
+
     public void saveInSharePreference()
     {
+
+        GeneralPreferences.getInstance(LoginActivity.this).putListCustomerInfoResponse(getCustomerInfoReturnValue);
         GeneralPreferences.getInstance(LoginActivity.this).putCustomerId(getCustomerInfoReturnValue.getCustomerId());
         GeneralPreferences.getInstance(LoginActivity.this).putToken(getCustomerInfoReturnValue.getAccessToken());
     }

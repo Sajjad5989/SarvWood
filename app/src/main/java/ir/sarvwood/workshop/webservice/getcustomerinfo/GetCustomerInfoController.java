@@ -2,7 +2,6 @@ package ir.sarvwood.workshop.webservice.getcustomerinfo;
 
 import androidx.annotation.NonNull;
 import ir.sarvwood.workshop.interfaces.IResponseListener;
-import ir.sarvwood.workshop.webservice.apibodies.GetCustomerInfoBody;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.AppController;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponse;
 import retrofit2.Call;

@@ -41,9 +41,6 @@ public class RegisterFragment extends Fragment implements IInternetController {
 
     private static final int INSERT_CUSTOMER = 1;
     private static final int SEND_CONFIRM_SMS = 2;
-    private static int isEdit;
-    @BindView(R.id.tv_warning)
-    protected AppCompatTextView tvWarning;
     @BindView(R.id.et_pass)
     AppCompatEditText etPass;
     @BindView(R.id.et_confirm_pass)
@@ -56,16 +53,15 @@ public class RegisterFragment extends Fragment implements IInternetController {
     AppCompatEditText etMobile;
     private InsrtCustomerSimpleRerunValue insrtCustomerSimpleRerunValue;
 
-    public static RegisterFragment newInstance(int isEdit) {
+    public static RegisterFragment newInstance() {
 
-        isEdit = isEdit;
         return new RegisterFragment();
     }
 
     @OnClick(R.id.btn_register)
     void register() {
         if (!checkValidity()) {
-            APP.customToast("پرکردن تمامی مقادیر الزامی می باشد");
+            APP.customToast(getString(R.string.text_need_all_parameter));
             return;
         }
 
@@ -77,11 +73,7 @@ public class RegisterFragment extends Fragment implements IInternetController {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_register, container, false);
-
-        ButterKnife.bind(this, v);
-        APP.currentActivity = getActivity();
-        return v;
+        return  inflater.inflate(R.layout.fragment_register, container, false);
     }
 
 
@@ -96,8 +88,9 @@ public class RegisterFragment extends Fragment implements IInternetController {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ButterKnife.bind(this, view);
+
         insrtCustomerSimpleRerunValue = InsrtCustomerSimpleRerunValue.builder().build();
-        tvWarning.setVisibility(isEdit == 1 ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -139,6 +132,7 @@ public class RegisterFragment extends Fragment implements IInternetController {
             APP.customToast(getString(R.string.text_password_lenght));
             return false;
         }
+
         if (Objects.requireNonNull(etPass.getText()).toString().equals(Objects.requireNonNull(etConfirmPass.getText()).toString())) {
             APP.customToast(getString(R.string.text_repeat_password));
             return false;

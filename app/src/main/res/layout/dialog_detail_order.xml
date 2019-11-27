@@ -459,7 +459,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen_dp_small"
-            android:background="@drawable/text_red_border_style"
+            android:background="@drawable/text_green_border_style"
             android:fontFamily="@font/iran_sans_medium"
             android:paddingLeft="@dimen/dimen_dp_large"
             android:paddingTop="@dimen/dimen_dp_tiny"

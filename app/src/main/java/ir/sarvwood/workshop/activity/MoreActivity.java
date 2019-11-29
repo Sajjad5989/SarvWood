@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ir.sarvwood.workshop.BuildConfig;
 import ir.sarvwood.workshop.R;
+import ir.sarvwood.workshop.dialog.productteam.ProductTeamDialog;
 import ir.sarvwood.workshop.dialog.socaildialog.SocialNetworkDialog;
 import ir.sarvwood.workshop.dialog.socaildialog.SocialNetworkOnClickListener;
 import ir.sarvwood.workshop.dialog.yesno.YesNoDialog;
@@ -19,12 +20,14 @@ import ir.sarvwood.workshop.interfaces.IDefault;
 import ir.sarvwood.workshop.interfaces.IRtl;
 import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
+import ir.sarvwood.workshop.webservice.baseinfo.BaseInfoReturnValue;
 import ir.solmazzm.lib.engine.util.DialogUtil;
 
 public class MoreActivity extends AppCompatActivity implements IRtl, IDefault {
 
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
+    private BaseInfoReturnValue baseInfoReturnValue;
 
     @OnClick({R.id.tv_view_exit})
     void exitApp() {
@@ -56,23 +59,27 @@ public class MoreActivity extends AppCompatActivity implements IRtl, IDefault {
         SocialNetworkDialog socialNetworkDialog = new SocialNetworkDialog(this, new SocialNetworkOnClickListener() {
             @Override
             public void onInstagram() {
-
-                //ToDo
-                goToWebUrl("لینک بزارم");
-
+                goToWebUrl(baseInfoReturnValue.getInstagramLink());
             }
 
             @Override
             public void onApparat() {
-                goToWebUrl("اینک بزارم");
+                goToWebUrl(baseInfoReturnValue.getAndroidAppDlLink());
             }
 
             @Override
             public void onTelegram() {
-                goToWebUrl("لینک بزارم");
+                goToWebUrl(baseInfoReturnValue.getTelegramLink());
             }
         });
         DialogUtil.showDialog(this, socialNetworkDialog, false, true);
+
+    }
+
+    @OnClick(R.id.tv_about_team)
+    void openTeamProduction() {
+        ProductTeamDialog productTeamDialog = new ProductTeamDialog(this);
+        DialogUtil.showDialog(this, productTeamDialog, false, true);
 
     }
 
@@ -87,6 +94,7 @@ public class MoreActivity extends AppCompatActivity implements IRtl, IDefault {
         OnActivityDefaultSetting();
         prepareToolbar();
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        loadInfo();
     }
 
     private void prepareToolbar() {
@@ -119,7 +127,6 @@ public class MoreActivity extends AppCompatActivity implements IRtl, IDefault {
         }
     }
 
-
     private void exit() {
 
         String msgExit = getResources().getString(R.string.text_exit_app) +
@@ -145,6 +152,9 @@ public class MoreActivity extends AppCompatActivity implements IRtl, IDefault {
         startActivity(intent);
     }
 
+    private void loadInfo() {
+        baseInfoReturnValue = GeneralPreferences.getInstance(MoreActivity.this).getBaseInfo();
+    }
 
     private void goToWebUrl(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

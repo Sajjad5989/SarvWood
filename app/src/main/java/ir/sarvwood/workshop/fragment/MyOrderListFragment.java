@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.mlsdev.animatedrv.AnimatedRecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.activity.ContainerActivity;
-import ir.sarvwood.workshop.activity.MoreActivity;
 import ir.sarvwood.workshop.adapter.MyOrderListAdapter;
 import ir.sarvwood.workshop.dialog.internet.ConnectionInternetDialog;
 import ir.sarvwood.workshop.dialog.internet.InternetConnectionListener;
@@ -64,9 +62,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fargment_myorder_list, container, false);
-
-        return view;
+        return inflater.inflate(R.layout.fargment_myorder_list, container, false);
     }
 
     @Override
@@ -74,7 +70,6 @@ public class MyOrderListFragment extends Fragment implements IInternetController
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
-
     }
 
     @Override
@@ -140,13 +135,18 @@ public class MyOrderListFragment extends Fragment implements IInternetController
         getMyOrdersController.start(userId, token, getMyOrderBody, new IResponseListener<SarvApiResponse<MyOrderReturnValue>>() {
             @Override
             public void onSuccess(SarvApiResponse response) {
-                if (response != null && response.getCode() == 0 && "success".equals(response.getStatus())) {
-                    myOrderReturnValueList = response.getData();
+                if (response != null) {
+                    if (response.getCode() == 0 && "success".equals(response.getStatus())) {
+                        myOrderReturnValueList = response.getData();
+                    } else {
+                        APP.customToast(response.getMessage());
+                        myOrderReturnValueList = null;
+                    }
+                    showMyOrders();
                 } else {
-                    APP.customToast(response.getMessage());
                     myOrderReturnValueList = null;
+                    showMyOrders();
                 }
-                showMyOrders();
             }
 
             @Override
@@ -226,8 +226,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
         */
     }
 
-    private void openOrderItems()
-    {
+    private void openOrderItems() {
         Intent intent = new Intent(APP.currentActivity, ContainerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("fragmentFlag", 6);

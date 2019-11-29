@@ -1,4 +1,4 @@
-package ir.sarvwood.workshop.webservice.apibodies;
+package ir.sarvwood.workshop.webservice.savedeviceinfo;
 
 
 import lombok.AllArgsConstructor;

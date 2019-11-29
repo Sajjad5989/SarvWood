@@ -9,11 +9,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.app.NotificationCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.fragment.MyOrderListFragment;
+import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
+import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoReturnValue;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     protected FloatingActionButton floatingActionButton;
     @BindView(R.id.image_more_info)
     protected AppCompatImageView imageMoreInfo;
+
+    @BindView(R.id.text_user)
+    protected AppCompatTextView textUser;
 
 
     @Override
@@ -33,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        getUserName();
         getMyOwnOrder();
         setButtonClickConfig();
     }
@@ -71,6 +79,14 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.fragment_container, mainFragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private void getUserName()
+    {
+        GetCustomerInfoReturnValue
+        getCustomerInfoReturnValue =
+                GeneralPreferences.getInstance(APP.currentActivity).getListCustomerInfoResponse();
+        textUser.setText(getCustomerInfoReturnValue.getFullName());
     }
 
 }

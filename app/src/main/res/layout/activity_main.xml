@@ -16,17 +16,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dimen_dp_small"
-        android:fontFamily="@font/iran_sans_medium"
-        android:text="@string/app_name"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/dimen_sp_huge"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/toolbar" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_more_info"
@@ -36,8 +25,36 @@
         android:layout_marginTop="@dimen/dimen_dp_large"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_settings"
+        app:srcCompat="@drawable/ic_more"
         tools:ignore="VectorDrawableCompat" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_dp_small"
+        android:fontFamily="@font/iran_sans_medium"
+        android:gravity="center"
+        android:paddingTop="@dimen/size_8_dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_22_sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_dp_small"
+        android:layout_marginBottom="@dimen/size_4_dp"
+        android:fontFamily="@font/iran_sans_medium"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/dimen_sp_small"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
     <FrameLayout
@@ -48,7 +65,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

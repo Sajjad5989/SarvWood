@@ -97,24 +97,29 @@ public class SuggestFragment extends Fragment {
             case R.id.btn_1:
                 type = 1;
                 tvSuggestText.setText("لطفا نظر خود را وارد نمایید");
+                setPressedButtonColor(btn1);
                 break;
 
             case R.id.btn_2:
                 type = 2;
                 tvSuggestText.setText("لطفا انتقاد خود را وارد نمایید");
+                setPressedButtonColor(btn2);
                 break;
 
             case R.id.btn_3:
                 type = 3;
                 tvSuggestText.setText("لطفا پیشنهاد خود را وارد نمایید");
+                setPressedButtonColor(btn3);
                 break;
             case R.id.btn_4:
                 type = 4;
                 tvSuggestText.setText("لطفا نیازمندی های خود را وارد نمایید");
+                setPressedButtonColor(btn4);
                 break;
             case R.id.btn_5:
                 type = 5;
-                tvSuggestText.setText("لطفا  خطای مشاهده شده را وارد نمایید");
+                tvSuggestText.setText("لطفا خطای مشاهده شده را وارد نمایید");
+                setPressedButtonColor(btn5);
                 break;
 
             default:
@@ -152,6 +157,18 @@ public class SuggestFragment extends Fragment {
                     }
                 });
 
+    }
+
+    private void setPressedButtonColor(AppCompatButton myBtn)
+    {
+        btn1.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+        btn2.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+        btn3.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+        btn4.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+        btn5.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+
+
+        myBtn.setBackgroundColor(getResources().getColor(R.color.color_green));
     }
 
 }

@@ -30,8 +30,7 @@ public class AboutUsFragment extends Fragment {
     private static int currentType;
     @BindView(R.id.tv_about_us)
     protected AppCompatTextView tvAboutUs;
-    @BindView(R.id.tv_title)
-    protected AppCompatTextView tvTitle;
+
 
     public static AboutUsFragment newInstance(int type) {
 
@@ -87,7 +86,6 @@ public class AboutUsFragment extends Fragment {
                     @Override
                     public void onSuccess(SarvApiResponse<GetStaticPagesTextReturnValue> response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-//                            tvTitle.setText(Html.fromHtml(response.getData().get(0).getTitle()));
                             tvAboutUs.setText(Html.fromHtml(response.getData().get(0).getBody()));
                         }
                     }

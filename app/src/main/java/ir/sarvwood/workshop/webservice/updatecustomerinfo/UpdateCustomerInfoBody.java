@@ -17,6 +17,7 @@ public class UpdateCustomerInfoBody {
     private String fullName;
     private String companyName;
     private String phone;
+    private String mobileNo;
     private String address;
     private String longtiude;
     private String latitiude;

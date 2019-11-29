@@ -110,7 +110,6 @@ public class GeneralPreferences {
         if (responseString == null)
             return new BaseInfoReturnValue();
 
-
         Gson gson = new Gson();
         return gson.fromJson(responseString, (Type) BaseInfoReturnValue.class);
 

@@ -7,7 +7,6 @@
     <string name="text_fix_login_pass">ورود به نرم افزار کارگاه سرو</string>
 
 
-
     <string name="text_preference_slider_is_show">slider_is_show</string>
     <string name="text_register">ثبت نام</string>
     <string name="text_enter_user_name">نام کاربری خود را وارد نمایید</string>
@@ -23,12 +22,12 @@
     <string name="text_password">کلمه ی عبور</string>
     <string name="text_confirm_password">تکرار کلمه ی عبور</string>
 
-    <string name = "error_net_title">اینترنت درستگاه شما قطع می باشد</string>
-    <string name = "internet_connection_error">اتصال دستگاه شما به اینترنت برقرار نیست. برای استـفاده از خدمات شیراز سرویس به اینترنت متصل شوید.</string>
-    <string name = "internet_connection_error_title">خطا در اتصال به اینترنت!</string>
-    <string name = "internet">اینترنت</string>
-    <string name = "exit">خروج</string>
-    <string name = "internet_try_again">تلاش مجدد</string>
+    <string name="error_net_title">اینترنت درستگاه شما قطع می باشد</string>
+    <string name="internet_connection_error">اتصال دستگاه شما به اینترنت برقرار نیست. برای استـفاده از خدمات شیراز سرویس به اینترنت متصل شوید.</string>
+    <string name="internet_connection_error_title">خطا در اتصال به اینترنت!</string>
+    <string name="internet">اینترنت</string>
+    <string name="exit">خروج</string>
+    <string name="internet_try_again">تلاش مجدد</string>
     <string name="title_home">خانه</string>
 
 
@@ -54,8 +53,8 @@
     <string name="text_password_lenght">حداقل طول رمز عبور 6 کاراکتر می باشد</string>
     <string name="text_repeat_password">کلمه عبور با تکرار آن همخوانی ندارد</string>
 
-    <string name = "text_exit_app">پس از خروج از حساب کاربری، بایستی مجددا وارد نرم افزار شوید،</string>
-    <string name = "text_exit_app_confirmation">آیا از انجام این عملیات اطمینان دارید؟</string>
+    <string name="text_exit_app">پس از خروج از حساب کاربری، بایستی مجددا وارد نرم افزار شوید،</string>
+    <string name="text_exit_app_confirmation">آیا از انجام این عملیات اطمینان دارید؟</string>
 
     <string name="speech_intent_extra_fa">fa</string>
     <string name="speech_intent_action">android.speech.action.RECOGNIZE_SPEECH</string>
@@ -84,11 +83,11 @@
     <string name="text_repeat_activation_code">با تغییر شماره موبایل، بایستی مجددا به برنامه وارد شوید.</string>
 
 
-    <string name = "text_name_social_apparat">آپارات</string>
-    <string name = "text_name_social_telegram">تلگرام</string>
-    <string name = "text_name_social_insta">اینستاگرام</string>
-    <string name = "nav_social">ما را در شبکه های اجتماعی دنبال کنید</string>
-    <string name = "dlg_title_close_dialog">بستن</string>
+    <string name="text_name_social_apparat">آپارات</string>
+    <string name="text_name_social_telegram">تلگرام</string>
+    <string name="text_name_social_insta">اینستاگرام</string>
+    <string name="nav_social">ما را در شبکه های اجتماعی دنبال کنید</string>
+    <string name="dlg_title_close_dialog">بستن</string>
     <string name="text_send_order">ارسال سفارش</string>
     <string name="text_new_order">سفارش جدید</string>
     <string name="text_edit_profile">ویرایش اطلاعات کاربری</string>
@@ -103,8 +102,18 @@
     <string name="text_save_edit_profile">ذخیره تغییرات</string>
     <string name="text_address">آدرس</string>
     <string name="text_need_all_parameter">پرکردن تمامی مقادیر الزامی می باشد</string>
+    <string name="text_phone">تلفن</string>
+    <string name="text_log_in_again">لطفا مجددا وارد برنامه شوید</string>
 
+    <string name="text_new_version_title">ورژن جدید</string>
+    <string name="text_download_new_version">دریافت نسخه ی جدید</string>
+    <string name="text_obligation_update">لطفا، نسخه ی برنامه ی خود را ارتقا دهید.</string>
+    <string name="text_optional_update">نسخه ی جدیدی وجود دارد، آیا مایل به بروزرسانی هستید؟</string>
+
+    <string name="text_cancel">انصراف</string>
+
+
+    <string name="text_product_member_one">سولماز زارع مهذبیه [09303339116]</string>
+    <string name="text_product_member_two">قاسم آقابابائی [09177189730]</string>
 
 </resources>
-
-

@@ -1,5 +1,4 @@
-package ir.sarvwood.workshop.webservice.apibodies;
-
+package ir.sarvwood.workshop.webservice.updatecustomerinfo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-
-public class ChangeCustomerPasswordBody {
-
-    private Integer customerId;
-    private String oldPass;
-    private String newPass;
+public class UpdateCustomerInfoReturnValue {
+   private int   id;
+    private int  signout;
 }

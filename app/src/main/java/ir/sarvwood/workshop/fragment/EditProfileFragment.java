@@ -2,6 +2,7 @@ package ir.sarvwood.workshop.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ir.sarvwood.workshop.BuildConfig;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.dialog.internet.ConnectionInternetDialog;
 import ir.sarvwood.workshop.dialog.internet.InternetConnectionListener;
@@ -24,10 +26,14 @@ import ir.sarvwood.workshop.interfaces.IResponseListener;
 import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.OnlineCheck;
+import ir.sarvwood.workshop.utils.PublicFunctions;
+import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoBody;
+import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoController;
 import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoReturnValue;
-import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
+import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponse;
 import ir.sarvwood.workshop.webservice.updatecustomerinfo.UpdateCustomerInfoBody;
 import ir.sarvwood.workshop.webservice.updatecustomerinfo.UpdateCustomerInfoController;
+import ir.sarvwood.workshop.webservice.updatecustomerinfo.UpdateCustomerInfoReturnValue;
 import ir.solmazzm.lib.engine.util.DialogUtil;
 
 public class EditProfileFragment extends Fragment implements IInternetController {
@@ -36,11 +42,15 @@ public class EditProfileFragment extends Fragment implements IInternetController
     AppCompatEditText etFullName;
     @BindView(R.id.et_company)
     AppCompatEditText etCompany;
+    @BindView(R.id.et_phone)
+    AppCompatEditText etPhone;
     @BindView(R.id.et_mobile)
     AppCompatEditText etMobile;
     @BindView(R.id.et_address)
     AppCompatEditText etAddress;
     private GetCustomerInfoReturnValue getCustomerInfoReturnValue;
+    private String userName;
+    private String userPass;
 
     public static EditProfileFragment newInstance() {
         return new EditProfileFragment();
@@ -74,7 +84,6 @@ public class EditProfileFragment extends Fragment implements IInternetController
         return inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
     }
-
 
     @Override
     public void onResume() {
@@ -118,38 +127,48 @@ public class EditProfileFragment extends Fragment implements IInternetController
 
     }
 
-
     private void loadInfo() {
         getCustomerInfoReturnValue =
                 GeneralPreferences.getInstance(APP.currentActivity).getListCustomerInfoResponse();
 
         etFullName.setText(getCustomerInfoReturnValue.getFullName());
         etCompany.setText(getCustomerInfoReturnValue.getCompanyName());
-        etMobile.setText(getCustomerInfoReturnValue.getPhone());
+        etPhone.setText(getCustomerInfoReturnValue.getPhone());
         etAddress.setText(getCustomerInfoReturnValue.getAddress());
+
+        userName = GeneralPreferences.getInstance(APP.currentActivity).getString(BuildConfig.userName);
+        userPass = GeneralPreferences.getInstance(APP.currentActivity).getString(BuildConfig.userPass);
+
+        etMobile.setText(userName);
+
 
     }
 
     private void update() {
         UpdateCustomerInfoBody updateCustomerInfoBody = UpdateCustomerInfoBody.builder()
                 .customerId(getCustomerInfoReturnValue.getCustomerId())
-                .fullName(etFullName.getText().toString())
-                .companyName(etCompany.getText().toString())
-                .address(etAddress.getText().toString())
+                .fullName(Objects.requireNonNull(etFullName.getText()).toString())
+                .companyName(Objects.requireNonNull(etCompany.getText()).toString())
+                .address(Objects.requireNonNull(etAddress.getText()).toString())
                 .latitiude(getCustomerInfoReturnValue.getLatitiude())
                 .longtiude(getCustomerInfoReturnValue.getLongtiude())
-                .phone(etMobile.getText().toString())
+                .phone(Objects.requireNonNull(etPhone.getText()).toString())
+                .mobileNo(Objects.requireNonNull(etMobile.getText()).toString())
                 .build();
 
         UpdateCustomerInfoController updateCustomerInfoController = new UpdateCustomerInfoController();
         updateCustomerInfoController.start(getCustomerInfoReturnValue.getCustomerId(), getCustomerInfoReturnValue.getAccessToken(),
-                updateCustomerInfoBody, new IResponseListener<SarvApiResponseNoList>() {
+                updateCustomerInfoBody, new IResponseListener<SarvApiResponse<UpdateCustomerInfoReturnValue>>() {
                     @Override
-                    public void onSuccess(SarvApiResponseNoList response) {
+                    public void onSuccess(SarvApiResponse<UpdateCustomerInfoReturnValue> response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                            APP.customToast("لطفا مجددا وارد برنامه شوید");
-                            GeneralPreferences.getInstance(APP.currentActivity).deleteAllInfo();
-                            APP.killApp();
+                            if (response.getData().get(0).getSignout() == 1) {
+                                APP.customToast(getString(R.string.text_log_in_again));
+                                GeneralPreferences.getInstance(APP.currentActivity).deleteAllInfo();
+                                APP.killApp();
+                            } else {
+                                getCustomerInfo();
+                            }
                         } else
                             APP.customToast(response.getMessage());
                     }
@@ -160,6 +179,57 @@ public class EditProfileFragment extends Fragment implements IInternetController
                     }
                 }
         );
+    }
+
+
+    private void getCustomerInfo() {
+        if (!isOnline()) {
+            openInternetCheckingDialog();
+        }
+
+        GetCustomerInfoController getCustomerInfoController = new GetCustomerInfoController();
+        getCustomerInfoController.start(getCustomerInfoBody(),
+                new IResponseListener<SarvApiResponse<GetCustomerInfoReturnValue>>() {
+
+                    @Override
+                    public void onSuccess(SarvApiResponse response) {
+                        if (response.getCode() == 0 && "success".equals(response.getStatus()))
+                        {
+                            getCustomerInfoReturnValue = (GetCustomerInfoReturnValue) response.getData().get(0);
+
+                            saveInSharePreference();
+                            GeneralPreferences.getInstance(APP.currentActivity).putString(BuildConfig.userName, userName);
+                            GeneralPreferences.getInstance(APP.currentActivity).putString(BuildConfig.userPass, userPass);
+                            APP.customToast(getString(R.string.text_successful));
+                            APP.currentActivity.finish();
+                        } else {
+                            APP.customToast(response.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        APP.customToast(error);
+                    }
+                });
+    }
+
+    private GetCustomerInfoBody getCustomerInfoBody() {
+
+        return GetCustomerInfoBody.builder()
+                .username(userName)
+                .pass(userPass)
+                .applicationVersion(String.valueOf(new PublicFunctions().getAppVersionCode(APP.currentActivity)))
+                .deviceModel(Build.MODEL)
+                .deviceName(Build.MANUFACTURER)
+                .sdkVersion(String.valueOf(Build.VERSION.SDK_INT))
+                .build();
+    }
+
+    public void saveInSharePreference() {
+        GeneralPreferences.getInstance(APP.currentActivity).putListCustomerInfoResponse(getCustomerInfoReturnValue);
+        GeneralPreferences.getInstance(APP.currentActivity).putCustomerId(getCustomerInfoReturnValue.getCustomerId());
+        GeneralPreferences.getInstance(APP.currentActivity).putToken(getCustomerInfoReturnValue.getAccessToken());
     }
 
 }

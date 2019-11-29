@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/size_4_dp"
     android:background="@color/colorWhite"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:padding="@dimen/size_4_dp">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -30,96 +29,31 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_name_caption"
+                    android:id="@+id/tv_old_pass_caption"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/iran_sans_light"
                     android:padding="@dimen/dimen_dp_tiny"
-                    android:text="@string/text_name_family"
+                    android:text="کلمه عبور قدیمی"
                     android:textSize="@dimen/dimen_sp_small"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_full_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/box_for_edits"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:padding="@dimen/dimen_dp_small"
-                    android:textSize="@dimen/dimen_sp_medium"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_name_caption" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dimen_dp_small"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_company_caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/iran_sans_light"
-                    android:padding="@dimen/dimen_dp_tiny"
-                    android:text="@string/text_company_name"
-                    android:textSize="@dimen/dimen_sp_small"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_company"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/box_for_edits"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:padding="@dimen/dimen_dp_small"
-                    android:textSize="@dimen/dimen_sp_medium"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_company_caption" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dimen_dp_small"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_phone_caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/iran_sans_light"
-                    android:padding="@dimen/dimen_dp_tiny"
-                    android:text="@string/text_phone"
-                    android:textSize="@dimen/dimen_sp_small"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_phone"
+                    android:id="@+id/et_old_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/box_for_edits"
                     android:gravity="center"
                     android:inputType="number"
-                    android:maxLength="11"
+                    android:maxLines="1"
                     android:padding="@dimen/dimen_dp_small"
+                    android:singleLine="true"
                     android:textSize="@dimen/dimen_sp_medium"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_phone_caption" />
-
+                    app:layout_constraintTop_toBottomOf="@+id/tv_old_pass_caption" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -129,44 +63,31 @@
                 app:layout_constraintRight_toRightOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_mobile_caption"
+                    android:id="@+id/tv_new_caption"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/iran_sans_light"
                     android:padding="@dimen/dimen_dp_tiny"
-                    android:text="@string/text_mobile"
+                    android:text="کلمه عبور جدید"
                     android:textSize="@dimen/dimen_sp_small"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_mobile"
+                    android:id="@+id/et_new_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/box_for_edits"
                     android:gravity="center"
                     android:inputType="number"
-                    android:maxLength="11"
+                    android:maxLines="1"
                     android:padding="@dimen/dimen_dp_small"
+                    android:singleLine="true"
                     android:textSize="@dimen/dimen_sp_medium"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_mobile_caption" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_warning"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlackStep_2"
-                    android:fontFamily="@font/iran_sans_medium"
-                    android:textSize="@dimen/text_size_10_sp"
-                    android:text="@string/text_repeat_activation_code"
-                    app:layout_constraintRight_toRightOf="@+id/et_mobile"
-                    app:layout_constraintTop_toBottomOf="@+id/et_mobile"/>
-
+                    app:layout_constraintTop_toBottomOf="@+id/tv_new_caption" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -176,26 +97,29 @@
                 app:layout_constraintRight_toRightOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_address_caption"
+                    android:id="@+id/tv_repeat_caption"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/iran_sans_light"
+                    android:gravity="center"
                     android:padding="@dimen/dimen_dp_tiny"
-                    android:text="@string/text_address"
+                    android:text="تکرار کلمه عبور جدید"
                     android:textSize="@dimen/dimen_sp_small"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_address"
+                    android:id="@+id/et_new_pass_repeat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/box_for_edits"
-                    android:gravity="start"
+                    android:gravity="center"
+                    android:inputType="number"
                     android:padding="@dimen/dimen_dp_small"
                     android:textSize="@dimen/dimen_sp_medium"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_address_caption" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_repeat_caption" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -206,7 +130,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_change"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="@dimen/dimen_dp_zero"
         android:layout_height="wrap_content"
@@ -218,6 +142,6 @@
         android:textSize="@dimen/dimen_sp_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

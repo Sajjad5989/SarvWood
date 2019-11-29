@@ -1,8 +1,11 @@
 package ir.sarvwood.workshop.activity;
 
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -23,6 +26,7 @@ import ir.sarvwood.workshop.BuildConfig;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.dialog.internet.ConnectionInternetDialog;
 import ir.sarvwood.workshop.dialog.internet.InternetConnectionListener;
+import ir.sarvwood.workshop.dialog.update.UpdateDialog;
 import ir.sarvwood.workshop.interfaces.IInternetController;
 import ir.sarvwood.workshop.interfaces.IResponseListener;
 import ir.sarvwood.workshop.preferences.GeneralPreferences;
@@ -35,6 +39,10 @@ import ir.sarvwood.workshop.webservice.baseinfo.BaseInfoReturnValue;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponse;
 import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoController;
 import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoReturnValue;
+import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
+import ir.sarvwood.workshop.webservice.savedeviceinfo.SaveDeviceInfoBody;
+import ir.sarvwood.workshop.webservice.savedeviceinfo.SaveDeviceInfoController;
+import ir.solmazzm.lib.engine.util.DialogUtil;
 
 public class LoginActivity extends AppCompatActivity implements IInternetController {
 
@@ -51,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
     protected AppCompatCheckBox chkRemember;
 
     private GetCustomerInfoReturnValue getCustomerInfoReturnValue;
-
+private PublicFunctions  publicFunctions=new PublicFunctions();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,7 +146,7 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
         GetCustomerInfoBody getCustomerInfoBody = GetCustomerInfoBody.builder()
                 .username(Objects.requireNonNull(etUserName.getText()).toString())
                 .pass(Objects.requireNonNull(etPassword.getText()).toString())
-                .applicationVersion(String.valueOf(new PublicFunctions().getAppVersionCode(LoginActivity.this)))
+                .applicationVersion(String.valueOf(publicFunctions.getAppVersionCode(LoginActivity.this)))
                 .deviceModel(Build.MODEL)
                 .deviceName(Build.MANUFACTURER)
                 .sdkVersion(String.valueOf(Build.VERSION.SDK_INT))
@@ -168,8 +176,9 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
 
                 } else {
                     APP.customToast(response.getMessage());
+                    return;
                 }
-                LoginActivity.this.finish();
+
             }
 
             @Override
@@ -180,7 +189,7 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
         });
     }
 
-
+    private BaseInfoReturnValue baseInfoReturnValue;
     private void getBaseInfo() {
         BaseInfoController baseInfoController = new BaseInfoController();
         baseInfoController.start(getCustomerInfoReturnValue.getCustomerId(), getCustomerInfoReturnValue.getAccessToken(),
@@ -188,8 +197,16 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
                     @Override
                     public void onSuccess(SarvApiResponse<BaseInfoReturnValue> response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                            GeneralPreferences.getInstance(LoginActivity.this).putBaseInfo(response.getData().get(0));
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                            baseInfoReturnValue = response.getData().get(0);
+                            String appVersion = String.valueOf(publicFunctions.getAppVersionCode(LoginActivity.this));
+                            if (!appVersion.equals(baseInfoReturnValue.getAndroidGlobalAppVer())) {
+                                if (baseInfoReturnValue.getAndroidGlobalAppForceUpdate() == 1) {
+                                    updateWarning(baseInfoReturnValue.getAndroidAppDlLink(), baseInfoReturnValue.getAndroidGlobalAppForceUpdate());
+                                }
+                            }
+                            GeneralPreferences.getInstance(LoginActivity.this).putBaseInfo(baseInfoReturnValue);
+                            saveDeviceInfo();
                         }
                     }
 
@@ -209,4 +226,72 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
         GeneralPreferences.getInstance(LoginActivity.this).putCustomerId(getCustomerInfoReturnValue.getCustomerId());
         GeneralPreferences.getInstance(LoginActivity.this).putToken(getCustomerInfoReturnValue.getAccessToken());
     }
+
+
+    private void startDownload(String downloadLink) {
+        DownloadManager mManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request mRqRequest = new DownloadManager.Request(
+                Uri.parse(downloadLink));
+        Objects.requireNonNull(mManager).enqueue(mRqRequest);
+    }
+
+    private void updateWarning(String updateLink, int updateIsForce) {
+        UpdateDialog updateDialog = new UpdateDialog(this, done -> {
+            if (done)
+                startDownload(updateLink);
+            else {
+                if (updateIsForce == 1)
+                    APP.killApp();
+                else {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    LoginActivity.this.finish();
+                }
+            }
+        }, getUpdateMessage(updateIsForce));
+
+        DialogUtil.showDialog(LoginActivity.this, updateDialog, false, true);
+
+    }
+
+    private String getUpdateMessage(int updateIsForce) {
+        return updateIsForce == 1 ?
+                getString(R.string.text_obligation_update) :
+                getString(R.string.text_optional_update);
+    }
+
+    private void saveDeviceInfo()
+    {
+        SaveDeviceInfoBody saveDeviceInfoBody = SaveDeviceInfoBody.builder().
+        customerId(getCustomerInfoReturnValue.getCustomerId()).
+        applicationVersion(String.valueOf(publicFunctions.getAppVersionCode(LoginActivity.this))).
+        sdkVersion(String.valueOf(Build.VERSION.SDK_INT)).
+        deviceName(Build.MANUFACTURER).
+        deviceModel(Build.MODEL).
+        updteAppTime("0").
+        updteAppYear("0").
+        updteAppMonth("0").
+        updteAppDay("0").
+                build();
+
+        SaveDeviceInfoController saveDeviceInfoController = new SaveDeviceInfoController();
+        saveDeviceInfoController.start(getCustomerInfoReturnValue.getCustomerId(), getCustomerInfoReturnValue.getAccessToken()
+                , saveDeviceInfoBody, new IResponseListener<SarvApiResponseNoList>() {
+                    @Override
+                    public void onSuccess(SarvApiResponseNoList response) {
+                        if (response.getCode() == 0 && "success".equals(response.getStatus()))
+                        {
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            LoginActivity.this.finish();
+                        }
+                        else
+                        {APP.customToast(response.getMessage());}
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        APP.customToast(error);
+                    }
+                });
+    }
+
 }

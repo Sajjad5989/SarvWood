@@ -182,7 +182,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
                 new IResponseListener<SarvApiResponse<GetOrderDetailsReturnValue<GetOrderDetailsItemReturnValue>>>() {
                     @Override
                     public void onSuccess(SarvApiResponse<GetOrderDetailsReturnValue<GetOrderDetailsItemReturnValue>> response) {
-                        if (response != null && response.getCode() == 0 && "success".equals(response.getStatus())) {
+                        if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                             returnValueList.setGetOrderDetailsItemReturnValues(response.getData().get(0).getItems());
                             openOrderItems();
                         } else {

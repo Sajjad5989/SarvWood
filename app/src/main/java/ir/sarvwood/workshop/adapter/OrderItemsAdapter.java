@@ -56,11 +56,12 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
     private String getDesc(int currentPosition) {
 
-//        String res = "نوع چوب:«"+woodOrderModelUtils.getNameByPosition(context, 0, items.get(currentPosition).getWoodType(),
-//                0)+" « -";
-//
-//        res = res + (items.get(currentPosition).getPatterned() == 1 ? " [راه دار می باشد] - " : "");
-//        res = res + " رنگ چوب:«"+items.get(currentPosition).getColor()+" » -";
+        String res = //"نوع چوب:«"+
+                woodOrderModelUtils.getNameByPosition(context, 0, items.get(currentPosition).getWoodType(),
+                0)+"..::..";
+
+        res = res + (items.get(currentPosition).getPatterned() == 1 ? " [راه دار می باشد] " : "");
+        res = res + "..::.."+items.get(currentPosition).getColor()+" » -";
 //
 //        String pvcColor = items.get(currentPosition).getPvcColor();
 //        res = res + ("".equals(pvcColor) ? "" : " رنگ پی وی سی:« " + pvcColor+" » -");
@@ -97,7 +98,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 //        if (grooveLen > 0 || grooveWid > 0)
 //            res = res + "شیار:« " + woodOrderModelUtils.getNameByPosition(context, 8, grooveLen, grooveWid)+" » -";
 
-        return "test";
+        return res;
     }
 
     @Override

@@ -32,9 +32,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dimen_dp_tiny"
         android:fontFamily="@font/iran_sans"
-        android:text=" آبی HighGlass"
+        android:text="HighGlass آبی"
         android:textColor="@color/colorBlackStep_3"
         android:textSize="@dimen/dimen_sp_tiny"
+        android:gravity="end"
+        android:textAlignment="textEnd"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_pre_order_title" />

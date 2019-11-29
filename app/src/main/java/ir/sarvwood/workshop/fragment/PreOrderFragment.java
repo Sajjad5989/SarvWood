@@ -121,7 +121,8 @@ public class PreOrderFragment extends Fragment {
     }
 
     private void fillOrderList() {
-        OrderItemsAdapter orderItemsAdapter = new OrderItemsAdapter(currentOrderDetailItems, (v, position) -> itemClick(position));
+        OrderItemsAdapter orderItemsAdapter = new OrderItemsAdapter(currentOrderDetailItems, (v, position) ->
+                itemClick(position));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);

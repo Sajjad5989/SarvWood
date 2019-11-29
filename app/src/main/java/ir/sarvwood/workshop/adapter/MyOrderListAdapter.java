@@ -4,19 +4,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.interfaces.RecyclerViewClickListener;
 import ir.sarvwood.workshop.webservice.myorders.MyOrderReturnValue;
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.ViewHolder> {
 
@@ -46,7 +42,39 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
         holder.tvTrackingCode.setText(items.get(position).getTrackingCode());
         holder.tvMyOrderTime.setText(items.get(position).getInsrtTimeSimple());
         holder.tvOrderStatus.setText(items.get(position).getStateTitle());
-        holder.imageOrderStatus.setImageResource(R.drawable.ic_smile);
+
+
+        int state = items.get(position).getState();
+        switch (state) {
+            case 1:
+                holder.imageOrderStatus.setImageResource(R.drawable.ic_sabtshode);
+                break;
+            case 2:
+                holder.imageOrderStatus.setImageResource(R.drawable.ic_baresi);
+                break;
+            case 3:
+                holder.imageOrderStatus.setImageResource(R.drawable.ic_taeedsefaresh);
+                break;
+            case 4:
+                holder.imageOrderStatus.setImageResource(R.drawable.ic_darhaleanjam);
+                break;
+            case 5:
+                holder.imageOrderStatus.setImageResource(R.drawable.ic_amade);
+                break;
+            case 6:
+                holder.imageOrderStatus.setImageResource(R.drawable.ic_ersalshode);
+                break;
+            case 7:
+                holder.imageOrderStatus.setImageResource(R.drawable.ic_tahvildad);
+                break;
+            case 8:
+                holder.imageOrderStatus.setImageResource(R.drawable.ic_cancel);
+                break;
+            default:
+                holder.imageOrderStatus.setImageResource(R.drawable.ic_default);
+                break;
+        }
+
 
     }
 
@@ -68,7 +96,7 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
             tvTrackingCode = itemView.findViewById(R.id.tv_tracking_code);
             tvOrderStatus = itemView.findViewById(R.id.tv_order_status);
             imageOrderStatus = itemView.findViewById(R.id.image_order_status);
-           // listener.onItemClick(itemView, getAdapterPosition());
+            // listener.onItemClick(itemView, getAdapterPosition());
         }
     }
 }

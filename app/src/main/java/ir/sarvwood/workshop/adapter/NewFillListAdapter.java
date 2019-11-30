@@ -28,33 +28,21 @@ public class NewFillListAdapter extends RecyclerView.Adapter< NewFillListAdapter
         this.currentValue = currentValue;
     }
 
-
     @NonNull
     @Override
     public NewFillListAdapter.ViewHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType ){
-        View view = LayoutInflater.from( parent.getContext() ).inflate(
-                R.layout.new_template_input_row, parent, false );
-
+        View view = LayoutInflater.from( parent.getContext() ).inflate(R.layout.new_template_input_row, parent, false );
         final NewFillListAdapter.ViewHolder mViewHolder = new NewFillListAdapter.ViewHolder( view );
         view.setOnClickListener( view1 -> listener.onItemClick( view1, mViewHolder.getAdapterPosition() ) );
-
         return mViewHolder;
     }
 
     @Override
     public void onBindViewHolder( @NonNull NewFillListAdapter.ViewHolder holder, int position ){
-
-        //    holder.tvName.setText(items[position]);
-
-//        holder.rbValues.setChecked(currentValue.equals(String.valueOf(position)));
         holder.rbValues.setText( items.get( position ).getTitle() );
-        //holder.rbValues.setChecked(currentValue==position);
-
+        holder.rbValues.setChecked(items.get( position ).isChecked());
         if ( currentValue >= 0 ){
             holder.rbValues.setChecked(currentValue == position);
-        }
-        else{
-            holder.rbValues.setChecked(lastSelectedPosition == position);
         }
     }
 
@@ -64,16 +52,13 @@ public class NewFillListAdapter extends RecyclerView.Adapter< NewFillListAdapter
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        //        private AppCompatTextView tvName;
         private AppCompatRadioButton rbValues;
 
 
         private ViewHolder( final View itemView ){
             super( itemView );
-            //  tvName = itemView.findViewById(R.id.tv_name);
             rbValues = itemView.findViewById( R.id.rb_vales );
             rbValues.setOnClickListener( v -> {
-
                 lastSelectedPosition = getAdapterPosition();
                 listener.onItemClick( itemView, getAdapterPosition() );
                 notifyDataSetChanged();

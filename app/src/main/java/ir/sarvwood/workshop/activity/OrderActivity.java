@@ -22,6 +22,9 @@ import ir.sarvwood.workshop.adapter.StepperAdapter;
 import ir.sarvwood.workshop.interfaces.IDefault;
 import ir.sarvwood.workshop.interfaces.IRtl;
 import ir.sarvwood.workshop.model.WoodOrderModel;
+import ir.sarvwood.workshop.model.order.CheckableObject;
+import ir.sarvwood.workshop.model.order.OrderListCreation;
+import ir.sarvwood.workshop.model.order.WoodModel;
 import ir.sarvwood.workshop.utils.APP;
 
 public class OrderActivity extends AppCompatActivity implements StepperLayout.StepperListener, Serializable, IRtl, IDefault {
@@ -32,6 +35,10 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
 
     @BindView(R.id.stepperLayout)
     protected StepperLayout mStepperLayout;
+
+    public static WoodModel woodModel = WoodModel.builder().build();
+    public static OrderListCreation orderListCreation ;
+    public static List< CheckableObject > woodTypeList ;
 
     public static WoodOrderModel woodOrderModel = WoodOrderModel.builder().woodType( -1 ).build();
     public static List<WoodOrderModel> woodOrderModelList = new ArrayList<WoodOrderModel>();
@@ -48,6 +55,10 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
         prepareToolbar();
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         openOrderSteps();
+
+        orderListCreation = new OrderListCreation(this);
+        woodTypeList = orderListCreation.getWoodTypeList();
+
     }
     @Override
     protected void onResume() {

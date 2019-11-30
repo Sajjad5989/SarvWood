@@ -35,11 +35,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.activity.OrderActivity;
-import ir.sarvwood.workshop.adapter.FillListAdapter;
 import ir.sarvwood.workshop.adapter.NewFillListAdapter;
+import ir.sarvwood.workshop.adapter.RadioAdapter;
 import ir.sarvwood.workshop.dialog.order.DetailOrderDialog;
 import ir.sarvwood.workshop.model.StringRadio;
 import ir.sarvwood.workshop.model.WoodOrderModel;
+import ir.sarvwood.workshop.model.order.CheckableObject;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.SpeechIntentBuilder;
 import ir.solmazzm.lib.engine.util.DialogUtil;
@@ -78,6 +79,12 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
     private int sheetLen = 0;
     private int sheetWid = 0;
 
+    private List< StringRadio > lengthStringRadioList;
+    private List< StringRadio > widthStringRadioList;
+
+    private RadioAdapter lengthAdapter;
+
+
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ){
         View v = inflater.inflate( R.layout.fragment_order, container, false );
@@ -86,6 +93,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
         ButterKnife.bind( this, v );
         APP.currentActivity = getActivity();
         imageRecord.setOnClickListener( view -> setDescriptionByMic() );
+
         return v;
     }
 
@@ -167,7 +175,8 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
 
         if ( valueLength != null ) {
             recyclerLength.setVisibility( View.VISIBLE );
-            callAdapterLength( valueLength );
+            lengthStringRadioList = StringArrayToObject(valueLength);
+            callAdapterLength(  );
         }
         if ( valueWidth != null ) {
             recyclerWidth.setVisibility( View.VISIBLE );
@@ -263,29 +272,34 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
         OrderActivity.woodOrderModelList.add( woodOrderModel );
     }
 
-    private void callAdapterLength( String[] inputValue ){
-        selectLength = -1;
+    private void callAdapterLength(  ){
 
-        NewFillListAdapter fillListAdapter = new NewFillListAdapter( StringArrayToObject(inputValue), ( v, position ) -> {
-            selectLength = position;
-
-            setVisibilityCustomDimension(
-                    customLengthWidth == 1 && position == 4 ?
-                            View.VISIBLE : View.GONE );
-
-
-        }, getCurrentValue() );
+        lengthAdapter = new RadioAdapter( OrderActivity.woodTypeList, ( v, position ) -> {
+            changeWoodTypeListValue(position);
+        } );
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager( getActivity(), 3 );
         recyclerLength.setLayoutManager( gridLayoutManager );
-        recyclerLength.setAdapter( fillListAdapter );
+        recyclerLength.setAdapter( lengthAdapter );
         recyclerLength.scheduleLayoutAnimation();
+    }
+
+    private void changeWoodTypeListValue( int position ){
+        for ( CheckableObject co : OrderActivity.woodTypeList ) {
+            co.setChecked( false );
+        }
+        OrderActivity.woodTypeList.get( position ).setChecked( true );
+        OrderActivity.woodModel.setWoodType( OrderActivity.woodTypeList.get( position ) );
+
+        lengthAdapter.notifyDataSetChanged();
     }
 
     private void callAdapterWidth( String[] inputValue ){
         selectWidth = -1;
 
-        NewFillListAdapter fillListAdapter = new NewFillListAdapter( StringArrayToObject(inputValue), ( v, position ) -> {
+        widthStringRadioList = StringArrayToObject(inputValue);
+
+        NewFillListAdapter fillListAdapter = new NewFillListAdapter( widthStringRadioList, ( v, position ) -> {
             selectWidth = position;
 
         }, getCurrentValue() );
@@ -347,7 +361,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
 
         switch ( stepPosition ) {
             case 0:
-                // woodType = selectLength;
+                // checkableObject = selectLength;
                 OrderActivity.woodOrderModel.setWoodType( selectLength );
                 OrderActivity.woodOrderModel.setPatterned( chkWoodArrow.isChecked() ? 1 : 0 );
                 //
@@ -417,7 +431,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
         }
 
 //         woodOrderModel = WoodOrderModel.builder().
-//                woodType(woodType)
+//                checkableObject(checkableObject)
 //                .color(woodColor)
 //                .pvcColor(pvcColor)
 //                .pvcThickness(pvcThickness)
@@ -447,15 +461,12 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
         }
     }
 
-
 //    private String[] getDimensionSeparate(String value)
 //    {
 //       //String[] myValue = value.split("*");
 //       return  myValue;
 //
 //    }
-
-
     private List< StringRadio > StringArrayToObject( String[] obj ){
         List< StringRadio > stringRadios = new ArrayList<>();
         for ( String s : obj ) {
@@ -464,4 +475,15 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
 
         return stringRadios;
     }
+
+
+    private void setLengthValue(StringRadio lengthValue){
+        for ( StringRadio sr : lengthStringRadioList) {
+            sr.setChecked( sr.equals( lengthValue ) );
+        }
+
+        lengthAdapter.notifyDataSetChanged();
+    }
+
+
 }

@@ -34,7 +34,7 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
     protected StepperLayout mStepperLayout;
 
     public static WoodOrderModel woodOrderModel = WoodOrderModel.builder().woodType( -1 ).build();
-    public static List<WoodOrderModel> woodOrderModelList = new ArrayList<>();
+    public static List<WoodOrderModel> woodOrderModelList = new ArrayList<WoodOrderModel>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

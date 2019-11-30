@@ -166,7 +166,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
             imageNotFound.setVisibility(View.GONE);
             MyOrderListAdapter myOrderListAdapter = new
                     MyOrderListAdapter(myOrderReturnValueList, (v, position) ->
-                    getOrderDetail(myOrderReturnValueList.get(0).getOrderId()));
+                    getOrderDetail(myOrderReturnValueList.get(position).getOrderId()));
 
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
             animatedRecyclerView.setLayoutManager(gridLayoutManager);
@@ -198,32 +198,6 @@ public class MyOrderListFragment extends Fragment implements IInternetController
                         returnValueList = null;
                     }
                 });
-    }
-
-    private void clickOnRowItem(int orderId) {
-//        SendOrderDialog sendOrderDialog = new SendOrderDialog(APP.currentActivity, new DetailOrderListener() {
-//            @Override
-//            public void onResponse(boolean res) {
-//
-//            }
-//        },)
-        /*
-            private void showOrderDetail() {
-
-        DetailOrderDialog detailOrderDialog = new DetailOrderDialog(
-                getContext(), res -> {
-            if (res) {
-                addToOrderList(OrderActivity.woodOrderModel);
-                getActivity().finish();
-            }
-            // sendOrderToApi();
-        }
-                , OrderActivity.woodOrderModel);
-
-        DialogUtil.showDialog(getActivity(), detailOrderDialog, false, true);
-
-    }
-        */
     }
 
     private void openOrderItems() {

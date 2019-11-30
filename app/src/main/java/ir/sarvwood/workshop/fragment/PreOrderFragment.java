@@ -21,8 +21,10 @@ import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.activity.OrderActivity;
 import ir.sarvwood.workshop.adapter.OrderItemsAdapter;
 import ir.sarvwood.workshop.adapter.PreOrderAdapter;
-import ir.sarvwood.workshop.dialog.savedorder.SendOrderDialog;
+import ir.sarvwood.workshop.dialog.savedorder.SendEditOrderDialog;
+import ir.sarvwood.workshop.dialog.savedorder.SendPreOrderDialog;
 import ir.sarvwood.workshop.interfaces.IResponseListener;
+import ir.sarvwood.workshop.model.WoodOrderModel;
 import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.webservice.insertorder.InsertOrderBody;
@@ -67,7 +69,7 @@ public class PreOrderFragment extends Fragment {
                     InsertOrderBodyReturnValue data = (InsertOrderBodyReturnValue) response.getData().get(0);
                     GeneralPreferences.getInstance(APP.currentActivity).putToken(data.getAccessToken());
                     APP.customToast(getString(R.string.text_successful));
-                    OrderActivity.woodOrderModelList = new ArrayList<>();
+                    OrderActivity.woodOrderModelList = new ArrayList<WoodOrderModel>();
                     APP.currentActivity.finish();
                 } else {
                     APP.customToast(response.getMessage());
@@ -103,8 +105,7 @@ public class PreOrderFragment extends Fragment {
 
     private void callOrderOrPreOrder() {
         if (currentType == ORDER_ITEMS)//لیست اقلام دریافتی سفارش از سایت که قبلا ذخیره شده است --
-        {
-            fillOrderList();
+        { fillOrderList();
         } else if (currentType == PRE_ORDER_ITEMS) {
             fillPreOrderList();
         }
@@ -112,7 +113,8 @@ public class PreOrderFragment extends Fragment {
     }
 
     private void fillPreOrderList() {
-        PreOrderAdapter preOrderAdapter = new PreOrderAdapter(OrderActivity.woodOrderModelList, (v, position) -> itemClick(position));
+        PreOrderAdapter preOrderAdapter = new PreOrderAdapter(OrderActivity.woodOrderModelList, (v, position) ->
+                itemClick(position));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -122,7 +124,7 @@ public class PreOrderFragment extends Fragment {
 
     private void fillOrderList() {
         OrderItemsAdapter orderItemsAdapter = new OrderItemsAdapter(currentOrderDetailItems, (v, position) ->
-                itemClick(position));
+                itemClickOrderDetail(position));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -130,14 +132,23 @@ public class PreOrderFragment extends Fragment {
         recyclerView.scheduleLayoutAnimation();
     }
 
+private void itemClickOrderDetail(int position)
+{
+    SendEditOrderDialog sendEditOrderDialog = new SendEditOrderDialog(APP.currentActivity, res -> {
+        if (res)
+            editOrder();
+    }, currentOrderDetailItems.getGetOrderDetailsItemReturnValues().get(position));
+    DialogUtil.showDialog(getActivity(), sendEditOrderDialog, false, true);
+
+}
 
     private void itemClick(int position) {
 
-        SendOrderDialog sendOrderDialog = new SendOrderDialog(APP.currentActivity, res -> {
+        SendPreOrderDialog sendPreOrderDialog = new SendPreOrderDialog(APP.currentActivity, res -> {
             if (res)
                 editOrder();
         }, OrderActivity.woodOrderModelList.get(position));
-        DialogUtil.showDialog(getActivity(), sendOrderDialog, false, true);
+        DialogUtil.showDialog(getActivity(), sendPreOrderDialog, false, true);
     }
 
     @Override

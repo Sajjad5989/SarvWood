@@ -2,6 +2,7 @@ package ir.sarvwood.workshop.webservice.orderdetail;
 
 import java.io.Serializable;
 
+import ir.sarvwood.workshop.model.order.WoodModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import lombok.Setter;
 @Setter
 @Builder
 
-public class GetOrderDetailsItemReturnValue implements Serializable {
+public class GetOrderDetailsItemReturnValue  implements Serializable  {
 
     private int id;
     private int orderId;
@@ -35,4 +36,5 @@ public class GetOrderDetailsItemReturnValue implements Serializable {
     private int grooveWidthNo;
     private int patterned;
     private String desc;
+
 }

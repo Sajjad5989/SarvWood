@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
@@ -30,18 +29,24 @@ import ir.sarvwood.workshop.utils.APP;
 public class OrderActivity extends AppCompatActivity implements StepperLayout.StepperListener, Serializable, IRtl, IDefault {
 
 
+    public static WoodModel woodModel = new WoodModel();// WoodModel.builder().build();
+    public static List<WoodModel> woodOrderModelList = new ArrayList<>();
+    public static OrderListCreation orderListCreation;
+    public static List<CheckableObject> woodTypeList;
+    public static List<CheckableObject> pvcThicknessList;
+    public static List<CheckableObject> pvcLengthNoList;
+    public static List<CheckableObject> pvcWidthNoList;
+    public static List<CheckableObject> woodSheetList;
+    public static List<CheckableObject> persianCutLengthNo;
+    public static List<CheckableObject> persianCutWidthNo;
+    public static List<CheckableObject> grooveLengthNo;
+    public static List<CheckableObject> grooveWidthNo;
+
+
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
-
     @BindView(R.id.stepperLayout)
     protected StepperLayout mStepperLayout;
-
-    public static WoodModel woodModel = WoodModel.builder().build();
-    public static OrderListCreation orderListCreation ;
-    public static List< CheckableObject > woodTypeList ;
-
-    public static WoodOrderModel woodOrderModel = WoodOrderModel.builder().woodType( -1 ).build();
-    public static List<WoodOrderModel> woodOrderModelList = new ArrayList<WoodOrderModel>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +63,18 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
 
         orderListCreation = new OrderListCreation(this);
         woodTypeList = orderListCreation.getWoodTypeList();
+        pvcThicknessList = orderListCreation.getPvcThickness();
+        pvcLengthNoList = orderListCreation.getPvcLengthNo();
+        pvcWidthNoList = orderListCreation.getPvcWidthNo();
+        persianCutLengthNo = orderListCreation.getPersianCutLenghtNo();
+        persianCutWidthNo = orderListCreation.getPersianCutWidthNo();
+        grooveLengthNo = orderListCreation.getGrooveLengthNo();
+        grooveWidthNo = orderListCreation.getGrooveWidthNo();
+        woodSheetList = orderListCreation.getWoodSheetList();
+
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -89,20 +104,19 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
         toolbar.setNavigationIcon(R.drawable.ic_arrow_right);
     }
 
-    private void openOrderSteps()
-    {
+    private void openOrderSteps() {
         mStepperLayout.setAdapter(new StepperAdapter(getSupportFragmentManager(), this));
         mStepperLayout.setListener(this);
     }
 
     @Override
     public void onCompleted(View completeButton) {
-       // Toast.makeText(this, "onCompleted!", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "onCompleted!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onError(VerificationError verificationError) {
-       // Toast.makeText(this, "onError! -> " + verificationError.getErrorMessage(), Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "onError! -> " + verificationError.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

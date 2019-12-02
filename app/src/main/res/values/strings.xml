@@ -40,7 +40,7 @@
     <string name="twoToneW">2طول، 1عرض</string>
     <string name="twoTtwoW">2طول، 2عرض</string>
     <string name="text_select_one">لطفا یه گزینه را انتخاب نمایید</string>
-    <string name="text_order">ثبت سـفارش</string>
+    <string name="text_order">ثبت برش</string>
     <string name="text_activation_code">ورود کد فعال سازی</string>
     <string name="text_error_select_one">لطفا یک گزینه را انتخاب نمایید</string>
     <string name="text_paper_count">تعداد هر ورق را وارد نمایید.</string>
@@ -48,7 +48,7 @@
     <string name="text_wood_color">رنگ چوب مورد نظر خود را وارد نمایید.</string>
     <string name="text_order_detail">جزئیات سفارش</string>
     <string name="text_order_done">تایید سفارش</string>
-    <string name="text_order_save">ثبت سفارش</string>
+    <string name="text_order_save">ثبت برش</string>
     <string name="text_order_correct">اصـلاح</string>
     <string name="text_password_lenght">حداقل طول رمز عبور 6 کاراکتر می باشد</string>
     <string name="text_repeat_password">کلمه عبور با تکرار آن همخوانی ندارد</string>
@@ -89,7 +89,7 @@
     <string name="nav_social">ما را در شبکه های اجتماعی دنبال کنید</string>
     <string name="dlg_title_close_dialog">بستن</string>
     <string name="text_send_order">ارسال سفارش</string>
-    <string name="text_new_order">سفارش جدید</string>
+    <string name="text_new_order">برش جدید</string>
     <string name="text_edit_profile">ویرایش اطلاعات کاربری</string>
     <string name="text_about_us">درباره ما</string>
     <string name="text_suggest">پیشنهاد، نظر ،انتقاد</string>
@@ -113,7 +113,8 @@
     <string name="text_cancel">انصراف</string>
 
 
-    <string name="text_product_member_one">سولماز زارع مهذبیه [09303339116]</string>
-    <string name="text_product_member_two">قاسم آقابابائی [09177189730]</string>
+    <string name="text_product_member_one">سولماز زارع مهذبیه [ 09303339116 ]</string>
+    <string name="text_product_member_two">قاسم آقابابائی [ 09177189730 ]</string>
+    <string name="text_change_pass">تغییر کلمه عبور</string>
 
 </resources>

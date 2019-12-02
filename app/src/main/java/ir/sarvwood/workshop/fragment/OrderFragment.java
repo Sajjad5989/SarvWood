@@ -11,16 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.UiThread;
-import androidx.appcompat.widget.AppCompatCheckBox;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import com.mlsdev.animatedrv.AnimatedRecyclerView;
 import com.stepstone.stepper.BlockingStep;
 import com.stepstone.stepper.Step;
@@ -31,16 +21,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.activity.OrderActivity;
-import ir.sarvwood.workshop.adapter.NewFillListAdapter;
 import ir.sarvwood.workshop.adapter.RadioAdapter;
 import ir.sarvwood.workshop.dialog.order.DetailOrderDialog;
 import ir.sarvwood.workshop.model.StringRadio;
 import ir.sarvwood.workshop.model.WoodOrderModel;
 import ir.sarvwood.workshop.model.order.CheckableObject;
+import ir.sarvwood.workshop.model.order.WoodModel;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.SpeechIntentBuilder;
 import ir.solmazzm.lib.engine.util.DialogUtil;
@@ -48,29 +47,28 @@ import ir.solmazzm.lib.engine.util.DialogUtil;
 
 public class OrderFragment extends Fragment implements Step, BlockingStep {
 
-    //  private  WoodOrderModel woodOrderModel = new WoodOrderModel();
     private final int REQ_CODE_SPEECH_INPUT = 1234;
-    @BindView( R.id.recycler_length )
+    @BindView(R.id.recycler_length)
     protected AnimatedRecyclerView recyclerLength;
-    @BindView( R.id.recycler_width )
+    @BindView(R.id.recycler_width)
     protected AnimatedRecyclerView recyclerWidth;
-    @BindView( R.id.const_description )
+    @BindView(R.id.const_description)
     protected ConstraintLayout constDescription;
-    @BindView( R.id.chk_wood_arrow )
+    @BindView(R.id.chk_wood_arrow)
     protected AppCompatCheckBox chkWoodArrow;
-    @BindView( R.id.tv_wood_arrow_caption )
+    @BindView(R.id.tv_wood_arrow_caption)
     protected AppCompatTextView tvWoodArrowCaption;
-    @BindView( R.id.tv_sub_title )
+    @BindView(R.id.tv_sub_title)
     protected AppCompatTextView tvSubTitle;
-    @BindView( R.id.et_description )
+    @BindView(R.id.et_description)
     protected AppCompatEditText etDescription;
-    @BindView( R.id.et_height )
+    @BindView(R.id.et_height)
     protected AppCompatEditText etHeight;
-    @BindView( R.id.et_width )
+    @BindView(R.id.et_width)
     protected AppCompatEditText etWidth;
-    @BindView( R.id.linear_custom_dimension )
+    @BindView(R.id.linear_custom_dimension)
     protected LinearLayout linearCustomDimension;
-    @BindView( R.id.image_record )
+    @BindView(R.id.image_record)
     protected AppCompatImageView imageRecord;
     private int customLengthWidth = 0;
     private int stepPosition;
@@ -79,318 +77,351 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
     private int sheetLen = 0;
     private int sheetWid = 0;
 
-    private List< StringRadio > lengthStringRadioList;
-    private List< StringRadio > widthStringRadioList;
+    private List<StringRadio> lengthStringRadioList;
+    private List<StringRadio> widthStringRadioList;
 
     private RadioAdapter lengthAdapter;
+    private RadioAdapter widthAdapter;
 
 
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ){
-        View v = inflater.inflate( R.layout.fragment_order, container, false );
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_order, container, false);
 
         //initialize your UI
-        ButterKnife.bind( this, v );
+        ButterKnife.bind(this, v);
         APP.currentActivity = getActivity();
-        imageRecord.setOnClickListener( view -> setDescriptionByMic() );
-
+        imageRecord.setOnClickListener(view -> setDescriptionByMic());
         return v;
     }
 
-    private void setDescriptionByMic( ){
+    private void setDescriptionByMic() {
         try {
-            startActivityForResult( SpeechIntentBuilder.getInstance( getContext() ).getSpeechIntent(), REQ_CODE_SPEECH_INPUT );
-        } catch ( ActivityNotFoundException a ) {
-            APP.customToast( getResources().getString( R.string.speech_not_supported ) );
+            startActivityForResult(SpeechIntentBuilder.getInstance(getContext()).getSpeechIntent(), REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            APP.customToast(getResources().getString(R.string.speech_not_supported));
         }
     }
 
     @Override
-    public VerificationError verifyStep( ){
+    public VerificationError verifyStep() {
         //return null if the user can go to the next step, create a new VerificationError instance otherwise
         return null;
     }
 
     @Override
-    public void onSelected( ){
+    public void onSelected() {
 
         Bundle b1 = getArguments();
-        if ( b1 != null )
-            stepPosition = b1.getInt( "positionNumber" );
-        else Objects.requireNonNull( getActivity() ).finish();
+        if (b1 != null)
+            stepPosition = b1.getInt("positionNumber");
+        else Objects.requireNonNull(getActivity()).finish();
 
         customLengthWidth = 0;
 
-        setVisibility( View.GONE );
-        setVisibilityCheckBox( View.GONE );
-        setVisibilityCustomDimension( View.GONE );
+        setVisibility(View.GONE);
+        setVisibilityCheckBox(View.GONE);
+        setVisibilityCustomDimension(View.GONE);
 
-        etDescription.setInputType( InputType.TYPE_CLASS_TEXT );
-        etDescription.setGravity( View.TEXT_ALIGNMENT_TEXT_START );
-        etDescription.setMaxLines( 300 );
-        etDescription.setHint( "رنگ" );
-        String[] valueLength = null;
-        String[] valueWidth = null;
-        switch ( stepPosition ) {
+        etDescription.setInputType(InputType.TYPE_CLASS_TEXT);
+        etDescription.setGravity(View.TEXT_ALIGNMENT_CENTER);
+        etDescription.setMaxLines(300);
+        etDescription.setHint("رنگ");
+
+        switch (stepPosition) {
             case 0:
-                tvSubTitle.setText( getString( R.string.text_select_wood_type ) );
-                valueLength = getResources().getStringArray( R.array.wood_type );
-                setVisibilityCheckBox( View.VISIBLE );
+                tvSubTitle.setText(getString(R.string.text_select_wood_type));
+                setVisibilityCheckBox(View.VISIBLE);
                 break;
             case 3:
             case 7:
             case 8:
-                tvSubTitle.setText( R.string.text_select_width_length );
-                valueLength = getResources().getStringArray( R.array.width_length );
-                valueWidth = getResources().getStringArray( R.array.width_width );
+                tvSubTitle.setText(R.string.text_select_width_length);
                 break;
             case 1:
-                tvSubTitle.setText( getString( R.string.text_wood_color ) );
-                setVisibility( View.VISIBLE );
+                tvSubTitle.setText(getString(R.string.text_wood_color));
+                setVisibility(View.VISIBLE);
                 break;
             case 2:
-                tvSubTitle.setText( getString( R.string.text_pvc_color ) );
-                setVisibility( View.VISIBLE );
+                tvSubTitle.setText(getString(R.string.text_pvc_color));
+                setVisibility(View.VISIBLE);
                 break;
             case 4:
-                tvSubTitle.setText( getString( R.string.text_pvc_thickness ) );
-                valueLength = getResources().getStringArray( R.array.pvc_thickness );
+                tvSubTitle.setText(getString(R.string.text_pvc_thickness));
                 break;
             case 5:
                 customLengthWidth = 1;
-                tvSubTitle.setText( R.string.text_select_width_length );
-                valueLength = getResources().getStringArray( R.array.sheet_dimensions );
+                tvSubTitle.setText(R.string.text_select_width_length);
+//                   valueLength = getResources().getStringArray( R.array.sheet_dimensions );
                 break;
             case 6:
-                tvSubTitle.setText( R.string.text_paper_count );
+                tvSubTitle.setText(R.string.text_paper_count);
                 setVisibility();
-                etDescription.setHint( "تعداد" );
-                etDescription.setInputType( InputType.TYPE_CLASS_NUMBER );
-                etDescription.setGravity( View.TEXT_ALIGNMENT_CENTER );
+                etDescription.setHint("تعداد");
+                etDescription.setInputType(InputType.TYPE_CLASS_NUMBER);
+                etDescription.setGravity(View.TEXT_ALIGNMENT_CENTER);
                 break;
         }
 
-        recyclerLength.setVisibility( View.GONE );
-        recyclerWidth.setVisibility( View.GONE );
+        recyclerLength.setVisibility(View.GONE);
+        recyclerWidth.setVisibility(View.GONE);
 
-        if ( valueLength != null ) {
-            recyclerLength.setVisibility( View.VISIBLE );
-            lengthStringRadioList = StringArrayToObject(valueLength);
-            callAdapterLength(  );
-        }
-        if ( valueWidth != null ) {
-            recyclerWidth.setVisibility( View.VISIBLE );
-            callAdapterWidth( valueWidth );
-        }
+        callAdapterLength();
+        callAdapterWidth();
 
 
     }
 
     //
-    private void setVisibility( int vs ){
-        etDescription.setVisibility( vs );
-        imageRecord.setVisibility( vs );
+    private void setVisibility(int vs) {
+        etDescription.setVisibility(vs);
+        imageRecord.setVisibility(vs);
     }
 
-    private void setVisibilityCheckBox( int vs ){
-        chkWoodArrow.setVisibility( vs );
-        tvWoodArrowCaption.setVisibility( vs );
+    private void setVisibilityCheckBox(int vs) {
+        chkWoodArrow.setVisibility(vs);
+        tvWoodArrowCaption.setVisibility(vs);
     }
 
-    private void setVisibilityCustomDimension( int vs ){
-        linearCustomDimension.setVisibility( vs );
+    private void setVisibilityCustomDimension(int vs) {
+        linearCustomDimension.setVisibility(vs);
     }
 
-    private void setVisibility( ){
+    private void setVisibility() {
 
-        etDescription.setVisibility( View.VISIBLE );
+        etDescription.setVisibility(View.VISIBLE);
         // tvDescription.setVisibility(View.VISIBLE);
-        imageRecord.setVisibility( View.GONE );
+        imageRecord.setVisibility(View.GONE);
     }
 
     @Override
-    public void onError( @NonNull VerificationError error ){
+    public void onError(@NonNull VerificationError error) {
         //handle error inside of the fragment, e.g. show error on EditText
     }
 
     @Override
     @UiThread
-    public void onNextClicked( final StepperLayout.OnNextClickedCallback callback ){
-        if ( selectLength == -1 || selectWidth == -1 ) {
-            APP.customToast( getString( R.string.text_error_select_one ) );
-            return;
-        }
+    public void onNextClicked(final StepperLayout.OnNextClickedCallback callback) {
+//        if (selectLength == -1 || selectWidth == -1) {
+//            APP.customToast(getString(R.string.text_error_select_one));
+//            return;
+//        }
+//
+//        if (stepPosition == 1 || stepPosition == 6) {
+//            if ("".equals(Objects.requireNonNull(etDescription.getText()).toString())) {
+//                APP.customToast(getString(R.string.text_need_value));
+//                return;
+//            }
+//        }
 
-        if ( stepPosition == 1 || stepPosition == 6 ) {
-            if ( "".equals( Objects.requireNonNull( etDescription.getText() ).toString() ) ) {
-                APP.customToast( getString( R.string.text_need_value ) );
-                return;
-            }
-        }
 
-
-        setOrder( selectLength, selectWidth );
+        setOrder();
         callback.goToNextStep();
     }
 
     @Override
-    public void onCompleteClicked( StepperLayout.OnCompleteClickedCallback callback ){
-        if ( selectLength == -1 || selectWidth == -1 ) {
-            APP.customToast( getString( R.string.text_error_select_one ) );
-            return;
-        }
+    public void onCompleteClicked(StepperLayout.OnCompleteClickedCallback callback) {
+//        if (selectLength == -1 || selectWidth == -1) {
+//            APP.customToast(getString(R.string.text_error_select_one));
+//            return;
+//        }
 
-        setOrder( selectLength, selectWidth );
+        setOrder();
         showOrderDetail();
         callback.complete();
     }
 
     @Override
-    public void onBackClicked( StepperLayout.OnBackClickedCallback callback ){
-
-        getCurrentValue();
+    public void onBackClicked(StepperLayout.OnBackClickedCallback callback) {
         callback.goToPrevStep();
     }
 
-    private void showOrderDetail( ){
+    private void showOrderDetail() {
 
         DetailOrderDialog detailOrderDialog = new DetailOrderDialog(
-                getContext(), res -> {
-            if ( res ) {
-                addToOrderList( OrderActivity.woodOrderModel );
+                APP.currentActivity, res -> {
+            if (res) {
+                addToOrderList();
                 getActivity().finish();
             }
-            // sendOrderToApi();
         }
-                , OrderActivity.woodOrderModel );
+        , OrderActivity.woodModel);
 
-        DialogUtil.showDialog( getActivity(), detailOrderDialog, false, true );
+        DialogUtil.showDialog(APP.currentActivity, detailOrderDialog, false, true);
 
     }
 
-    private void addToOrderList( WoodOrderModel woodOrderModel ){
-        OrderActivity.woodOrderModelList.add( woodOrderModel );
+    private void addToOrderList() {
+        OrderActivity.woodOrderModelList.add(OrderActivity.woodModel);
+        OrderActivity.woodModel = new WoodModel();
     }
 
-    private void callAdapterLength(  ){
+    private void callAdapterLength() {
+        List<CheckableObject> list = getListByPosition();
 
-        lengthAdapter = new RadioAdapter( OrderActivity.woodTypeList, ( v, position ) -> {
-            changeWoodTypeListValue(position);
-        } );
+        if (list != null)
+            recyclerLength.setVisibility(View.VISIBLE);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager( getActivity(), 3 );
-        recyclerLength.setLayoutManager( gridLayoutManager );
-        recyclerLength.setAdapter( lengthAdapter );
+        lengthAdapter = new RadioAdapter(list, (v, position) -> {
+            onItemClick(position);
+        });
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        recyclerLength.setLayoutManager(gridLayoutManager);
+        recyclerLength.setAdapter(lengthAdapter);
         recyclerLength.scheduleLayoutAnimation();
     }
 
-    private void changeWoodTypeListValue( int position ){
-        for ( CheckableObject co : OrderActivity.woodTypeList ) {
-            co.setChecked( false );
+    private void callAdapterWidth() {
+        selectWidth = -1;
+
+        List<CheckableObject> list = getSecondListByPosition();
+
+        if (list != null)
+            recyclerWidth.setVisibility(View.VISIBLE);
+
+        widthAdapter = new RadioAdapter(list, (v, position) -> {
+            onItemWidthClick(position);
+        });
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        recyclerWidth.setLayoutManager(gridLayoutManager);
+        recyclerWidth.setAdapter(widthAdapter);
+        recyclerWidth.scheduleLayoutAnimation();
+    }
+
+    private List<CheckableObject> getListByPosition() {
+        if (stepPosition == 0) {
+            return OrderActivity.woodTypeList;
+        } else if (stepPosition == 3)
+            return OrderActivity.pvcLengthNoList;
+        else if (stepPosition == 4)
+            return OrderActivity.pvcThicknessList;
+        else if (stepPosition == 5)
+            return OrderActivity.woodSheetList;
+        else if (stepPosition == 7)
+            return OrderActivity.persianCutLengthNo;
+        else if (stepPosition == 8)
+            return OrderActivity.grooveLengthNo;
+        else return new ArrayList<>();
+    }
+
+    private List<CheckableObject> getSecondListByPosition() {
+        if (stepPosition == 3)
+            return OrderActivity.pvcWidthNoList;
+        else if (stepPosition == 7)
+            return OrderActivity.persianCutWidthNo;
+        else if (stepPosition == 8)
+            return OrderActivity.grooveWidthNo;
+        else return new ArrayList<>();
+    }
+
+    private void onItemClick(int position) {
+        if (stepPosition == 0)
+            changeWoodTypeListValue(position);
+        else if (stepPosition == 3)
+            changePvcLengthListValue(position);
+        else if (stepPosition == 4)
+            changePvcThicknessListValue(position);
+        else if (stepPosition == 5)
+            changeWoodSheetListValue(position);
+        else if (stepPosition == 7)
+            changePersianCutterLengthListValue(position);
+        else if (stepPosition == 8)
+            changeGrooveLengthListValue(position);
+    }
+
+    private void onItemWidthClick(int position) {
+        if (stepPosition == 3)
+            changePvcWidthListValue(position);
+        else if (stepPosition == 7)
+            changePersianCutterWidthListValue(position);
+        else if (stepPosition == 8)
+            changeGrooveWidthListValue(position);
+    }
+
+    private void changeWoodTypeListValue(int position) {
+        for (CheckableObject co : OrderActivity.woodTypeList) {
+            co.setChecked(false);
         }
-        OrderActivity.woodTypeList.get( position ).setChecked( true );
-        OrderActivity.woodModel.setWoodType( OrderActivity.woodTypeList.get( position ) );
+        OrderActivity.woodTypeList.get(position).setChecked(true);
+        OrderActivity.woodModel.setWoodType(OrderActivity.woodTypeList.get(position));
 
         lengthAdapter.notifyDataSetChanged();
     }
 
-    private void callAdapterWidth( String[] inputValue ){
-        selectWidth = -1;
-
-        widthStringRadioList = StringArrayToObject(inputValue);
-
-        NewFillListAdapter fillListAdapter = new NewFillListAdapter( widthStringRadioList, ( v, position ) -> {
-            selectWidth = position;
-
-        }, getCurrentValue() );
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager( getActivity(), 3 );
-        recyclerWidth.setLayoutManager( gridLayoutManager );
-        recyclerWidth.setAdapter( fillListAdapter );
-        recyclerWidth.scheduleLayoutAnimation();
-    }
-
-    private int getCurrentValue( ){
-
-
-        switch ( stepPosition ) {
-
-            case 7:
-            case 8:
-                // etDescription.setText(OrderActivity.woodOrderModel.getWoodDescription());
-            return 0;
-
-            case 0:
-            case 1:
-            return OrderActivity.woodOrderModel.getWoodType();
-//                OrderActivity.woodOrderModel.setWoodDescription(etDescription.getText().toString());
-//                break;
-//            case 1:
-//                etDescription.setText(OrderActivity.woodOrderModel.getWoodColor());
-//                break;
-//            case 2:
-//                etDescription.setText(OrderActivity.woodOrderModel.getPvcColor());
-//                break;
-//            case 3:
-//                return OrderActivity.woodOrderModel.getDirection();
-////                break;
-//            case 4:
-//                return OrderActivity.woodOrderModel.getThickness();
-////                break;
-////            case 5:
-////                String[] value = getActivity().getResources().getStringArray(R.array.sheet_dimensions);
-////                OrderActivity.woodOrderModel.setSize(value[itemSelectId]);
-////                break;
-//            case 6:
-//                etDescription.setText(OrderActivity.woodOrderModel.getPaperCount());
-//                break;
-//            case 7:
-//                return OrderActivity.woodOrderModel.getPersianCutter();
-////                break;
-//
-//                return OrderActivity.woodOrderModel.getGroove();
-//                break;
-            default:
-                return -1;
+    private void changePvcThicknessListValue(int position) {
+        for (CheckableObject co : OrderActivity.pvcThicknessList) {
+            co.setChecked(false);
         }
+        OrderActivity.pvcThicknessList.get(position).setChecked(true);
+        OrderActivity.woodModel.setPvcThickness(OrderActivity.pvcThicknessList.get(position));
 
+        lengthAdapter.notifyDataSetChanged();
     }
 
-    private void setOrder( int selectLength, int selectWidth ){
+    private void changePvcLengthListValue(int position) {
+        for (CheckableObject co : OrderActivity.pvcLengthNoList) {
+            co.setChecked(false);
+        }
+        OrderActivity.pvcLengthNoList.get(position).setChecked(true);
+        OrderActivity.woodModel.setPvcLengthNo(OrderActivity.pvcLengthNoList.get(position));
+        lengthAdapter.notifyDataSetChanged();
+    }
 
+    private void changePvcWidthListValue(int position) {
+        for (CheckableObject co : OrderActivity.pvcWidthNoList) {
+            co.setChecked(false);
+        }
+        OrderActivity.pvcWidthNoList.get(position).setChecked(true);
+        OrderActivity.woodModel.setPvcWidthNo(OrderActivity.pvcWidthNoList.get(position));
+        widthAdapter.notifyDataSetChanged();
+    }
 
-        switch ( stepPosition ) {
-            case 0:
-                // checkableObject = selectLength;
-                OrderActivity.woodOrderModel.setWoodType( selectLength );
-                OrderActivity.woodOrderModel.setPatterned( chkWoodArrow.isChecked() ? 1 : 0 );
-                //
-                //woodOrderModel.setWoodDescription(Objects.requireNonNull(etDescription.getText()).toString());
-                break;
-            case 1:
-//                woodColor = Objects.requireNonNull(etDescription.getText()).toString();
-                OrderActivity.woodOrderModel.setColor( Objects.requireNonNull( etDescription.getText() ).toString() );
-                break;
-            case 2:
-//                pvcColor = Objects.requireNonNull(etDescription.getText()).toString();
-                OrderActivity.woodOrderModel.setPvcColor( Objects.requireNonNull( etDescription.getText() ).toString() );
-                break;
-            case 3://جهت پی وی سی
-//                String[] inputValue = getResources().getStringArray(R.array.sheet_dimensions);
-//                getDimensionSeparate(inputValue[itemSelectId]);
-//                OrderActivity.woodOrderModel.setDirection(itemSelectId);
-                OrderActivity.woodOrderModel.setPvcLenghtNo( selectLength );
-                OrderActivity.woodOrderModel.setPvcWidthNo( selectWidth );
-//                pvcLen = selectLength;
-//                pvcWid = selectWidth;
-                break;
-            case 4:
-//                pvcThickness = selectLength;
-                OrderActivity.woodOrderModel.setPvcThickness( selectLength );
-                break;
-            case 5:
-                // String[] value = APP.currentActivity.getResources().getStringArray(R.array.sheet_dimensions);
-                switch ( selectLength ) {
+    private void changePersianCutterLengthListValue(int position) {
+        for (CheckableObject co : OrderActivity.persianCutLengthNo) {
+            co.setChecked(false);
+        }
+        OrderActivity.persianCutLengthNo.get(position).setChecked(true);
+        OrderActivity.woodModel.setPersianCutLenghtNo(OrderActivity.persianCutLengthNo.get(position));
+        lengthAdapter.notifyDataSetChanged();
+    }
+
+    private void changePersianCutterWidthListValue(int position) {
+        for (CheckableObject co : OrderActivity.persianCutWidthNo) {
+            co.setChecked(false);
+        }
+        OrderActivity.persianCutWidthNo.get(position).setChecked(true);
+        OrderActivity.woodModel.setPersianCutWidthNo(OrderActivity.persianCutWidthNo.get(position));
+        widthAdapter.notifyDataSetChanged();
+    }
+
+    private void changeGrooveLengthListValue(int position) {
+        for (CheckableObject co : OrderActivity.grooveLengthNo) {
+            co.setChecked(false);
+        }
+        OrderActivity.grooveLengthNo.get(position).setChecked(true);
+        OrderActivity.woodModel.setGrooveLenghtNo(OrderActivity.grooveLengthNo.get(position));
+        lengthAdapter.notifyDataSetChanged();
+    }
+
+    private void changeGrooveWidthListValue(int position) {
+        for (CheckableObject co : OrderActivity.grooveWidthNo) {
+            co.setChecked(false);
+        }
+        OrderActivity.grooveWidthNo.get(position).setChecked(true);
+        OrderActivity.woodModel.setGrooveWidthNo(OrderActivity.grooveWidthNo.get(position));
+        widthAdapter.notifyDataSetChanged();
+    }
+
+    private void changeWoodSheetListValue(int position) {
+        for (CheckableObject co : OrderActivity.woodSheetList) {
+            co.setChecked(false);
+        }
+        OrderActivity.woodSheetList.get(position).setChecked(true);
+
+        OrderActivity.woodModel.setWoodSheetList(OrderActivity.woodSheetList.get(position));
+
+                switch (position) {
                     case 0:
                         sheetLen = 366;
                         sheetWid = 183;
@@ -408,78 +439,59 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
                         sheetWid = 183;
                         break;
                     default:
-                        sheetLen = Integer.valueOf( Objects.requireNonNull( etHeight.getText() ).toString() );
-                        sheetWid = Integer.valueOf( Objects.requireNonNull( etWidth.getText() ).toString() );
+                        sheetLen = Integer.valueOf(Objects.requireNonNull(etHeight.getText()).toString());
+                        sheetWid = Integer.valueOf(Objects.requireNonNull(etWidth.getText()).toString());
                         break;
                 }
 
-                OrderActivity.woodOrderModel.setWoodSheetLength( sheetLen );
-                OrderActivity.woodOrderModel.setWoodSheetWidth( sheetWid );
+                OrderActivity.woodModel.setWoodSheetLength(sheetLen);
+                OrderActivity.woodModel.setWoodSheetWidth(sheetWid);
+
+        lengthAdapter.notifyDataSetChanged();
+    }
+
+
+    private void setOrder() {
+
+
+        switch (stepPosition) {
+            case 0:
+                OrderActivity.woodModel.setPatterned(chkWoodArrow.isChecked() ? 1 : 0);
+                break;
+            case 1:
+                OrderActivity.woodModel.setColor(Objects.requireNonNull(etDescription.getText()).toString());
+                break;
+            case 2:
+                OrderActivity.woodModel.setPvcColor(Objects.requireNonNull(etDescription.getText()).toString());
                 break;
             case 6:
-//                sheetCount = Integer.valueOf(Objects.requireNonNull(etDescription.getText()).toString());
-                OrderActivity.woodOrderModel.setSheetCount( Integer.valueOf( Objects.requireNonNull( etDescription.getText() ).toString() ) );
-                break;
-            case 7:
-                OrderActivity.woodOrderModel.setPersianCutLenghtNo( selectLength );
-                OrderActivity.woodOrderModel.setPersianCutWidthNo( selectWidth );
-                break;
-            case 8:
-                OrderActivity.woodOrderModel.setGrooveLenghtNo( selectLength );
-                OrderActivity.woodOrderModel.setGrooveWidthNo( selectWidth );
+                OrderActivity.woodModel.setSheetCount(Integer.valueOf(Objects.requireNonNull(etDescription.getText()).toString()));
                 break;
         }
-
-//         woodOrderModel = WoodOrderModel.builder().
-//                checkableObject(checkableObject)
-//                .color(woodColor)
-//                .pvcColor(pvcColor)
-//                .pvcThickness(pvcThickness)
-//                .pvcLenghtNo(pvcLen)
-//                .pvcWidthNo(pvcWid)
-//                .woodSheetLength(sheetLen)
-//                .woodSheetWidth(sheetWid)
-//                .sheetCount(sheetCount)
-//                .persianCutLenghtNo(cutPersianLen)
-//                .persianCutWidthNo(cutPersianWid)
-//                .grooveLenghtNo(grooveLen)
-//                .grooveWidthNo(grooveWid)
-//                .patterned(1)
-//                .desc("")
-//                .build();
-
-
     }
 
     @Override
-    public void onActivityResult( int requestCode, int resultCode, Intent data ){
-        if ( resultCode == Activity.RESULT_OK && null != data ) {
-            if ( requestCode == REQ_CODE_SPEECH_INPUT ) {
-                ArrayList< String > result = data.getStringArrayListExtra( RecognizerIntent.EXTRA_RESULTS );
-                etDescription.setText( result.get( 0 ).trim() );
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && null != data) {
+            if (requestCode == REQ_CODE_SPEECH_INPUT) {
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                etDescription.setText(result.get(0).trim());
             }
         }
     }
 
-//    private String[] getDimensionSeparate(String value)
-//    {
-//       //String[] myValue = value.split("*");
-//       return  myValue;
-//
-//    }
-    private List< StringRadio > StringArrayToObject( String[] obj ){
-        List< StringRadio > stringRadios = new ArrayList<>();
-        for ( String s : obj ) {
-            stringRadios.add( StringRadio.builder().title( s ).checked( false ).build() );
+    private List<StringRadio> StringArrayToObject(String[] obj) {
+        List<StringRadio> stringRadios = new ArrayList<>();
+        for (String s : obj) {
+            stringRadios.add(StringRadio.builder().title(s).checked(false).build());
         }
 
         return stringRadios;
     }
 
-
-    private void setLengthValue(StringRadio lengthValue){
-        for ( StringRadio sr : lengthStringRadioList) {
-            sr.setChecked( sr.equals( lengthValue ) );
+    private void setLengthValue(StringRadio lengthValue) {
+        for (StringRadio sr : lengthStringRadioList) {
+            sr.setChecked(sr.equals(lengthValue));
         }
 
         lengthAdapter.notifyDataSetChanged();

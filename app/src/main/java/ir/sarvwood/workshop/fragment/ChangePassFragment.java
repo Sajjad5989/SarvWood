@@ -27,6 +27,7 @@ import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.OnlineCheck;
 import ir.sarvwood.workshop.webservice.changepassword.ChangeCustomerPasswordBody;
 import ir.sarvwood.workshop.webservice.changepassword.ChangeCustomerPasswordController;
+import ir.sarvwood.workshop.webservice.myorders.GetOrderDetailsItemReturnValueList;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
 import ir.solmazzm.lib.engine.util.DialogUtil;
 
@@ -53,6 +54,12 @@ public class ChangePassFragment extends Fragment implements IInternetController 
 
         changePass();
 
+    }
+
+
+    public static ChangePassFragment newInstance() {
+
+        return new ChangePassFragment();
     }
 
     @Override

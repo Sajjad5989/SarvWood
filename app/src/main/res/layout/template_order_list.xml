@@ -46,6 +46,7 @@
         app:layout_constraintRight_toLeftOf="@+id/tv_tracking_code_title"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_my_order_time"
         android:layout_width="wrap_content"

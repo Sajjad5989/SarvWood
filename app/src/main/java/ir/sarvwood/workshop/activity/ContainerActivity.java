@@ -10,6 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.fragment.AboutUsFragment;
+import ir.sarvwood.workshop.fragment.ChangePassFragment;
 import ir.sarvwood.workshop.fragment.EditProfileFragment;
 import ir.sarvwood.workshop.fragment.PreOrderFragment;
 import ir.sarvwood.workshop.fragment.RegisterFragment;
@@ -104,6 +105,10 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
                 toolbar.setTitle(R.string.text_contact_us);
                 openAboutContactUs(2);
                 break;
+                case 8:
+                toolbar.setTitle(getString(R.string.text_change_pass));
+                    openChangePassword();
+                break;
         }
     }
 
@@ -147,10 +152,16 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
                 .commit();
     }
 
+    private void openChangePassword()
+    {
+        ChangePassFragment changePassFragment = ChangePassFragment.newInstance();
+        getFragmentManager().beginTransaction()
+                .add(R.id.frag_container, changePassFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
     private void  openOrderItems() {
-
-
-
         GetOrderDetailsItemReturnValueList returnValueList;
         returnValueList = (GetOrderDetailsItemReturnValueList) bundle.getSerializable("GetOrderDetailsItemList");
 

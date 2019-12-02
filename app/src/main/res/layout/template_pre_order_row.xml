@@ -10,36 +10,36 @@
     android:layout_marginEnd="@dimen/dimen_dp_tiny"
     android:background="@drawable/const_border_light"
     android:layoutDirection="rtl"
-    android:padding="@dimen/dimen_dp_small">
+    >
 
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_pre_order_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_dp_tiny"
-        android:layout_marginEnd="@dimen/dimen_dp_tiny"
+        android:layout_marginEnd="@dimen/size_16_dp"
         android:fontFamily="@font/iran_sans_medium"
-        android:text="پیش سفارش شماره 1"
+        android:text="1"
         android:textColor="@color/colorBlack"
-        android:textSize="@dimen/dimen_sp_medium"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="@dimen/size_24_dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_pre_order_desc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dimen_dp_tiny"
+        android:layout_marginStart="@dimen/dimen_dp_tiny"
         android:fontFamily="@font/iran_sans"
         android:text="HighGlass آبی"
         android:textColor="@color/colorBlackStep_3"
-        android:textSize="@dimen/dimen_sp_tiny"
-        android:gravity="end"
-        android:textAlignment="textEnd"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:textSize="@dimen/text_size_12_sp"
+        android:gravity="start"
+        app:layout_constraintLeft_toRightOf="@id/tv_pre_order_title"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_pre_order_title" />
+         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

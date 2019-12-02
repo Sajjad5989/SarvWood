@@ -30,7 +30,6 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
 
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_new_order"
             style="?android:attr/borderlessButtonStyle"

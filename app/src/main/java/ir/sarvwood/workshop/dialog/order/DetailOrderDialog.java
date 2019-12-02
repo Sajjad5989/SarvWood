@@ -11,9 +11,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ir.sarvwood.workshop.R;
-import ir.sarvwood.workshop.model.WoodOrderModel;
+import ir.sarvwood.workshop.model.order.WoodModel;
 import ir.sarvwood.workshop.utils.APP;
-import ir.sarvwood.workshop.utils.WoodOrderModelUtils;
 
 public class DetailOrderDialog extends Dialog {
 
@@ -46,13 +45,11 @@ public class DetailOrderDialog extends Dialog {
 
     @BindView(R.id.tv_groove)
     protected AppCompatTextView tvGroove;
-    private Context context;
-    private WoodOrderModel woodOrderModel;
+    private WoodModel woodOrderModel;
 
-    public DetailOrderDialog(@NonNull Context context, DetailOrderListener detailOrderListener, WoodOrderModel woodOrderModel) {
+    public DetailOrderDialog(@NonNull Context context, DetailOrderListener detailOrderListener, WoodModel woodOrderModel) {
 
         super(context);
-        this.context = context;
         this.detailOrderListener = detailOrderListener;
         this.woodOrderModel = woodOrderModel;
     }
@@ -81,23 +78,19 @@ public class DetailOrderDialog extends Dialog {
 
     private void loadDetail() {
 
-        if (woodOrderModel == null)
-            return;
+        if (woodOrderModel != null) {
+            tvWoodType.setText(woodOrderModel.getWoodType().getName());
+            tvPatterned.setText(woodOrderModel.getPatterned() == 1 ? "راه دار می باشد" : "");
+            tvWoodColor.setText(woodOrderModel.getColor());
+            tvPvcColor.setText(woodOrderModel.getPvcColor());
 
-        WoodOrderModelUtils woodOrderModelUtils = new WoodOrderModelUtils();
-
-        tvWoodType.setText(woodOrderModelUtils.getNameByPosition(context, 0, woodOrderModel.getWoodType(),0));
-        tvPatterned.setText(woodOrderModel.getPatterned()==1?"راه دار می باشد":"");
-        tvWoodColor.setText(woodOrderModel.getColor());
-        tvPvcColor.setText(woodOrderModel.getPvcColor());
-        tvPvcDirection.setText(woodOrderModelUtils.getNameByPosition(context, 3, woodOrderModel.getPvcLenghtNo(),woodOrderModel.getPvcWidthNo()));
-        tvPvcThickness.setText(woodOrderModelUtils.getNameByPosition(context, 4, woodOrderModel.getPvcThickness(),0));
-        tvPaperSize.setText(String.format("%d * %d", woodOrderModel.getWoodSheetLength(), woodOrderModel.getWoodSheetWidth()));
-        tvPaperCount.setText(String.valueOf(woodOrderModel.getSheetCount()));
-        tvPersianSheet.setText(woodOrderModelUtils.getNameByPosition(context, 7, woodOrderModel.getPersianCutLenghtNo(),woodOrderModel.getPersianCutWidthNo()));
-        tvGroove.setText(woodOrderModelUtils.getNameByPosition(context, 8, woodOrderModel.getGrooveLenghtNo(),woodOrderModel.getGrooveWidthNo()));
-
-
+            tvPvcDirection.setText(String.format("%s,%s", woodOrderModel.getPvcLengthNo().getName(), woodOrderModel.getPvcWidthNo().getName()));
+            tvPvcThickness.setText(woodOrderModel.getPvcThickness().getName());
+            tvPaperSize.setText(String.format("%s * %s", String.valueOf(woodOrderModel.getWoodSheetLength()), String.valueOf(woodOrderModel.getWoodSheetWidth())));
+            tvPaperCount.setText(String.valueOf(woodOrderModel.getSheetCount()));
+            tvPersianSheet.setText(String.format("%s,%s", woodOrderModel.getPersianCutLenghtNo().getName(), woodOrderModel.getPersianCutWidthNo().getName()));
+            tvGroove.setText(String.format("%s,%s", woodOrderModel.getGrooveLenghtNo().getName(), woodOrderModel.getGrooveWidthNo().getName()));
+        }
     }
 
 }

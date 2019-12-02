@@ -3,6 +3,7 @@ package ir.sarvwood.workshop.webservice.insertorder;
 import java.util.List;
 
 import ir.sarvwood.workshop.model.WoodOrderModel;
+import ir.sarvwood.workshop.model.order.WoodModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,6 @@ public class InsertOrderBody {
 
     private int customerId;
     private String desc;
-    private List<WoodOrderModel> items;
+    private List<WoodModel> items;
 
 }

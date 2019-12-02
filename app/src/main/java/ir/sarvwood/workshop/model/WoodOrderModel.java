@@ -15,12 +15,11 @@ import lombok.Setter;
 
 public class WoodOrderModel {
 
-
-
     private int woodType;
     private String color;
     private String pvcColor;
     private int pvcThickness;
+
     private int pvcLenghtNo;
     private int pvcWidthNo;
     private int woodSheetLength;
@@ -33,8 +32,4 @@ public class WoodOrderModel {
     private int patterned;
     private String desc;
 
-    @Builder
-    public WoodOrderModel( int woodType ){
-        this.woodType = woodType;
-    }
 }

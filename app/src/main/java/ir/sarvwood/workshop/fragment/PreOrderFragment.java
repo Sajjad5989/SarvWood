@@ -69,7 +69,7 @@ public class PreOrderFragment extends Fragment {
                     InsertOrderBodyReturnValue data = (InsertOrderBodyReturnValue) response.getData().get(0);
                     GeneralPreferences.getInstance(APP.currentActivity).putToken(data.getAccessToken());
                     APP.customToast(getString(R.string.text_successful));
-                    OrderActivity.woodOrderModelList = new ArrayList<WoodOrderModel>();
+                    OrderActivity.woodOrderModelList = new ArrayList<>();
                     APP.currentActivity.finish();
                 } else {
                     APP.customToast(response.getMessage());
@@ -159,6 +159,8 @@ private void itemClickOrderDetail(int position)
     }
 
     private void editOrder() {
+        startActivity(new Intent(getActivity()
+                , OrderActivity.class));
     }
 
     private InsertOrderBody getBodyValue() {
@@ -166,7 +168,8 @@ private void itemClickOrderDetail(int position)
         userId = GeneralPreferences.getInstance(APP.currentActivity).getCustomerId();
         token = GeneralPreferences.getInstance(APP.currentActivity).getToken();
 
-        InsertOrderBody insertOrderBody = InsertOrderBody.builder()
+        InsertOrderBody insertOrderBody = InsertOrderBody
+                .builder()
                 .customerId(userId)
                 .desc("")
                 .items(OrderActivity.woodOrderModelList)

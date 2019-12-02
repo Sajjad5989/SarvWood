@@ -1,6 +1,7 @@
 package ir.sarvwood.workshop.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +13,18 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.interfaces.RecyclerViewClickListener;
-import ir.sarvwood.workshop.model.WoodOrderModel;
+import ir.sarvwood.workshop.model.order.CheckableObject;
+import ir.sarvwood.workshop.model.order.WoodModel;
 import ir.sarvwood.workshop.utils.WoodOrderModelUtils;
 
 public class PreOrderAdapter extends RecyclerView.Adapter<PreOrderAdapter.ViewHolder> {
 
 
-    private WoodOrderModelUtils woodOrderModelUtils = new WoodOrderModelUtils();
-    private List<WoodOrderModel> items;
+    private List<WoodModel> items;
     private RecyclerViewClickListener listener;
     private Context context;
 
-    public PreOrderAdapter(List<WoodOrderModel> items, RecyclerViewClickListener listener) {
+    public PreOrderAdapter(List<WoodModel> items, RecyclerViewClickListener listener) {
         this.items = items;
         this.listener = listener;
     }
@@ -43,58 +44,40 @@ public class PreOrderAdapter extends RecyclerView.Adapter<PreOrderAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull PreOrderAdapter.ViewHolder holder, int position) {
-        holder.tvPreOrderTitle.setText("پیش سفارش شماره " + (position + 1));
+        holder.tvPreOrderTitle.setText(String.valueOf(position + 1));
 
         String desc = getDesc(position);
-
-
-        holder.tvPreOrderDesc.setText(desc);
+        holder.tvPreOrderDesc.setText(Html.fromHtml(desc));
     }
 
     private String getDesc(int currentPosition) {
 
-        String res = "نوع چوب:«" + woodOrderModelUtils.getNameByPosition(context, 0, items.get(currentPosition).getWoodType(),
-                0) + " « -";
 
-        res = res + (items.get(currentPosition).getPatterned() == 1 ? " [راه دار می باشد] - " : "");
-        res = res + " رنگ چوب:«" + items.get(currentPosition).getColor() + " » -";
+        String res = "<br>" + "چوب: "
+                + "[" + items.get(currentPosition).getWoodSheetLength() + "/" + items.get(currentPosition).getWoodSheetWidth() + "] "
+                + items.get(currentPosition).getWoodType().getName()+" "
+                + items.get(currentPosition).getColor() + (items.get(currentPosition).getPatterned() == 1 ? " [راه دار] " : "");
 
-        String pvcColor = items.get(currentPosition).getPvcColor();
-        res = res + ("".equals(pvcColor) ? "" : " رنگ پی وی سی:« " + pvcColor + " » -");
+        res = res + "<\br>";
 
-        int pvcLen = items.get(currentPosition).getPvcLenghtNo();
-        int pvcWid = items.get(currentPosition).getPvcWidthNo();
-        if (pvcLen > 0 || pvcWid > 0)
-            res = res + " جهت پی وی سی:« " + woodOrderModelUtils.getNameByPosition(context, 3, pvcLen, pvcWid) + " » -";
+        res = res + "<br>" + "پی وی سی: " + items.get(currentPosition).getPvcThickness().getName() +
+                 getCorrectFormat(items.get(currentPosition).getPvcLengthNo()) +  getCorrectFormat(items.get(currentPosition).getPvcWidthNo())  +
+                items.get(currentPosition).getPvcColor();
+        res = res + "<\br>";
 
+        res = res + "<br>" + "تعداد: " + items.get(currentPosition).getSheetCount();
+        res = res + "<\br>";
 
-        int pvcThick = items.get(currentPosition).getPvcThickness();
-        if (pvcThick > 0)
-            res = res + " ضخامت پی وی سی:« " + woodOrderModelUtils.getNameByPosition(context, 4, pvcThick,
-                    0) + " » -";
+        res = res + "<br>" + "فارسی بُر: " +
+                 getCorrectFormat(items.get(currentPosition).getPersianCutLenghtNo()) + getCorrectFormat(items.get(currentPosition).getPersianCutWidthNo()) ;
+        res = res + "<\br>";
 
-        int sheetLen = items.get(currentPosition).getWoodSheetLength();
-        int sheetWid = items.get(currentPosition).getWoodSheetWidth();
-        if (sheetLen > 0 || sheetWid > 0)
-            res = res + " ابعاد:« " + String.format("%d * %d", sheetLen, sheetWid) + " » -";
-
-
-        int sheetCount = items.get(currentPosition).getSheetCount();
-        if (sheetCount > 0)
-            res = res + "تعداد:« " + sheetCount + " ورق" + " » -";
-
-        int persianCutLen = items.get(currentPosition).getPersianCutLenghtNo();
-        int persianCutWid = items.get(currentPosition).getPersianCutWidthNo();
-        if (persianCutLen > 0 || persianCutWid > 0)
-            res = res + "فارسی بر:« " + woodOrderModelUtils.getNameByPosition(context, 7, persianCutLen, persianCutWid) + " » -";
-
-
-        int grooveLen = items.get(currentPosition).getGrooveLenghtNo();
-        int grooveWid = items.get(currentPosition).getGrooveWidthNo();
-        if (grooveLen > 0 || grooveWid > 0)
-            res = res + "شیار:« " + woodOrderModelUtils.getNameByPosition(context, 8, grooveLen, grooveWid) + " » -";
+        res = res + "<br>" + "شیار: " +
+                 getCorrectFormat(items.get(currentPosition).getGrooveLenghtNo())+ getCorrectFormat(items.get(currentPosition).getGrooveWidthNo()) ;
+        res = res + "<\br>";
 
         return res;
+
     }
 
     @Override
@@ -115,6 +98,16 @@ public class PreOrderAdapter extends RecyclerView.Adapter<PreOrderAdapter.ViewHo
             tvPreOrderDesc = itemView.findViewById(R.id.tv_pre_order_desc);
 
         }
+    }
+
+    private String getCorrectFormat(CheckableObject checkableObject)
+    {
+
+        if ("هیچکدام".equals(checkableObject.getName()))
+            return " ";
+
+        return !checkableObject.isChecked()?" ":" ["+checkableObject.getName()+"] ";
+
     }
 
 

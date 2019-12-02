@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.app.NotificationCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sarvwood.workshop.R;
@@ -81,10 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private void getUserName()
-    {
+    private void getUserName() {
         GetCustomerInfoReturnValue
-        getCustomerInfoReturnValue =
+                getCustomerInfoReturnValue =
                 GeneralPreferences.getInstance(APP.currentActivity).getListCustomerInfoResponse();
         textUser.setText(getCustomerInfoReturnValue.getFullName());
     }

@@ -69,7 +69,7 @@ public class StepperAdapter extends AbstractFragmentStepAdapter {
                 break;
             case 8:
                 builder
-                        .setEndButtonLabel("ثبت سفارش")
+                        .setEndButtonLabel("ثبت برش")
                         .setBackButtonLabel("مرحله قبل")
                         .setNextButtonEndDrawableResId(R.drawable.ic_arrow_left)
                         .setBackButtonStartDrawableResId(R.drawable.ic_arrow_right);

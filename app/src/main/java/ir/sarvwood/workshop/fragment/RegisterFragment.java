@@ -17,6 +17,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ir.sarvwood.workshop.BuildConfig;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.activity.ActivationActivity;
 import ir.sarvwood.workshop.activity.LoginActivity;
@@ -133,7 +134,7 @@ public class RegisterFragment extends Fragment implements IInternetController {
             return false;
         }
 
-        if (Objects.requireNonNull(etPass.getText()).toString().equals(Objects.requireNonNull(etConfirmPass.getText()).toString())) {
+        if (!Objects.requireNonNull(etPass.getText()).toString().equals(Objects.requireNonNull(etConfirmPass.getText()).toString())) {
             APP.customToast(getString(R.string.text_repeat_password));
             return false;
         }
@@ -163,11 +164,12 @@ public class RegisterFragment extends Fragment implements IInternetController {
                 .build();
 
         InsrtCustomerSimpleController insrtCustomerSimpleController = new InsrtCustomerSimpleController();
-        insrtCustomerSimpleController.start(insrtCustomerSimpleBody, new IResponseListener<SarvApiResponse>() {
+        insrtCustomerSimpleController.start(insrtCustomerSimpleBody,
+                new IResponseListener<SarvApiResponse<InsrtCustomerSimpleRerunValue>>() {
             @Override
-            public void onSuccess(SarvApiResponse response) {
+            public void onSuccess(SarvApiResponse<InsrtCustomerSimpleRerunValue> response) {
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                    insrtCustomerSimpleRerunValue = (InsrtCustomerSimpleRerunValue) response.getData().get(0);
+                    insrtCustomerSimpleRerunValue =  response.getData().get(0);
                     GeneralPreferences.getInstance(APP.currentActivity).putInsrtCustomerSimpleRerunValueResponse(insrtCustomerSimpleRerunValue);
                     sendSmsOfCnfrmCode();
                 }
@@ -195,6 +197,7 @@ public class RegisterFragment extends Fragment implements IInternetController {
             @Override
             public void onSuccess(SarvApiResponseNoList response) {
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
+                    GeneralPreferences.getInstance(APP.currentActivity).putString("mobile", etMobile.getText().toString());
                     startActivity(new Intent(APP.currentActivity, ActivationActivity.class));
                 }
             }
@@ -204,8 +207,6 @@ public class RegisterFragment extends Fragment implements IInternetController {
                 APP.customToast(error);
             }
         });
-
-
     }
 
 

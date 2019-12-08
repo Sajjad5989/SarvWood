@@ -1,5 +1,6 @@
 package ir.sarvwood.workshop.adapter;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +12,17 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.interfaces.RecyclerViewClickListener;
-import ir.sarvwood.workshop.webservice.myorders.GetOrderDetailsItemReturnValueList;
-import ir.sarvwood.workshop.webservice.orderdetail.GetOrderDetailsItemReturnValue;
+import ir.sarvwood.workshop.model.order.CheckableObject;
+import ir.sarvwood.workshop.model.order.WoodModel;
 
 public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.ViewHolder> {
 
 
-    private List<GetOrderDetailsItemReturnValue> items;
+    private List<WoodModel> items;
     private RecyclerViewClickListener listener;
 
-    public OrderItemsAdapter(GetOrderDetailsItemReturnValueList items, RecyclerViewClickListener listener) {
-        this.items = items.getGetOrderDetailsItemReturnValues();
+    public OrderItemsAdapter(List<WoodModel> items, RecyclerViewClickListener listener) {
+        this.items = items;
         this.listener = listener;
     }
 
@@ -42,18 +43,44 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
         holder.tvPreOrderTitle.setText(String.valueOf(position + 1));
         String desc = getDesc(position);
-        holder.tvPreOrderDesc.setText(desc);
+        holder.tvPreOrderDesc.setText(Html.fromHtml(desc));
     }
 
     private String getDesc(int currentPosition) {
 
-        String res = ""; //"نوع چوب:«"+
-//                 items.get(currentPosition).getWoodType();
+        String res = "<br>" + "چوب: "
+                + "[" + items.get(currentPosition).getWoodSheetLength() + "/" + items.get(currentPosition).getWoodSheetWidth() + "] "
+                + items.get(currentPosition).getWoodType().getName()+" "
+                + items.get(currentPosition).getColor() + (items.get(currentPosition).getPatterned() == 1 ? " [راه دار] " : "");
 
+        res = res + "<\br>";
 
-        res = res + (items.get(currentPosition).getPatterned() == 1 ? " [راه دار می باشد] " : "");
-        res = res + "..::.." + items.get(currentPosition).getColor() + " » -";
+        res = res + "<br>" + "پی وی سی: " + items.get(currentPosition).getPvcThickness().getName() +
+                getCorrectFormat(items.get(currentPosition).getPvcLengthNo()) +  getCorrectFormat(items.get(currentPosition).getPvcWidthNo())  +
+                items.get(currentPosition).getPvcColor();
+        res = res + "<\br>";
+
+        res = res + "<br>" + "تعداد: " + items.get(currentPosition).getSheetCount();
+        res = res + "<\br>";
+
+        res = res + "<br>" + "فارسی بُر: " +
+                getCorrectFormat(items.get(currentPosition).getPersianCutLenghtNo()) + getCorrectFormat(items.get(currentPosition).getPersianCutWidthNo()) ;
+        res = res + "<\br>";
+
+        res = res + "<br>" + "شیار: " +
+                getCorrectFormat(items.get(currentPosition).getGrooveLenghtNo())+ getCorrectFormat(items.get(currentPosition).getGrooveWidthNo()) ;
+        res = res + "<\br>";
+
         return res;
+
+    }
+    private String getCorrectFormat(CheckableObject checkableObject)
+    {
+
+        if ("هیچکدام".equals(checkableObject.getName()))
+            return " ";
+        return !checkableObject.isChecked()?" ":" [ "+checkableObject.getName()+" ]";
+
     }
 
     @Override

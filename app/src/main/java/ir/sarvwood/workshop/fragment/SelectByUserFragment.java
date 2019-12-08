@@ -35,7 +35,6 @@ public class SelectByUserFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
-        fillSelectedList();
     }
 
     public static SelectByUserFragment newInstance(String[]  inputValue) {
@@ -44,20 +43,5 @@ public class SelectByUserFragment extends Fragment {
     }
 
 
-    private void fillSelectedList() {
-//        FillListAdapter fillListAdapter = new FillListAdapter(value, new RecyclerViewClickListener() {
-//            @Override
-//            public void onItemClick(View v, int position) {
-//
-//            }
-//        });
-//
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
-//        selectionValueRecyclerView.setLayoutManager(gridLayoutManager);
-//        selectionValueRecyclerView.setAdapter(fillListAdapter);
-//        selectionValueRecyclerView.scheduleLayoutAnimation();
-
-
-    }
 
 }

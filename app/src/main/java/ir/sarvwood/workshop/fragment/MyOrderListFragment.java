@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.mlsdev.animatedrv.AnimatedRecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,18 +26,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.activity.ContainerActivity;
+import ir.sarvwood.workshop.activity.OrderActivity;
 import ir.sarvwood.workshop.adapter.MyOrderListAdapter;
 import ir.sarvwood.workshop.dialog.internet.ConnectionInternetDialog;
 import ir.sarvwood.workshop.dialog.internet.InternetConnectionListener;
 import ir.sarvwood.workshop.interfaces.IInternetController;
 import ir.sarvwood.workshop.interfaces.IResponseListener;
-import ir.sarvwood.workshop.model.order.WoodModel;
+import ir.sarvwood.workshop.model.order.ConvertToWoodModelList;
 import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.OnlineCheck;
 import ir.sarvwood.workshop.webservice.myorders.GetMyOrderBody;
 import ir.sarvwood.workshop.webservice.myorders.GetMyOrdersController;
-import ir.sarvwood.workshop.webservice.myorders.GetOrderDetailsItemReturnValueList;
 import ir.sarvwood.workshop.webservice.myorders.MyOrderReturnValue;
 import ir.sarvwood.workshop.webservice.orderdetail.GetOrderDetailsBody;
 import ir.sarvwood.workshop.webservice.orderdetail.GetOrderDetailsController;
@@ -54,7 +55,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
     private List<MyOrderReturnValue> myOrderReturnValueList;
     private int userId;
     private String token;
-    private GetOrderDetailsItemReturnValueList returnValueList = new GetOrderDetailsItemReturnValueList();
+    private List<GetOrderDetailsItemReturnValue> returnValueList;
 
     public static MyOrderListFragment newInstance() {
         return new MyOrderListFragment();
@@ -184,7 +185,9 @@ public class MyOrderListFragment extends Fragment implements IInternetController
                     @Override
                     public void onSuccess(SarvApiResponse<GetOrderDetailsReturnValue<GetOrderDetailsItemReturnValue>> response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                            returnValueList.setGetOrderDetailsItemReturnValues(response.getData().get(0).getItems());
+                            returnValueList = response.getData().get(0).getItems();
+                            OrderActivity.woodOrderModelList = new ArrayList<>();
+                            OrderActivity.woodOrderModelList = new ConvertToWoodModelList(returnValueList,APP.currentActivity).getWoodOrderModelList();
                             openOrderItems();
                         } else {
                             APP.customToast(response.getMessage());
@@ -205,7 +208,6 @@ public class MyOrderListFragment extends Fragment implements IInternetController
         Intent intent = new Intent(APP.currentActivity, ContainerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("fragmentFlag", 6);
-        bundle.putSerializable("GetOrderDetailsItemList", returnValueList);
         intent.putExtras(bundle);
         startActivity(intent);
 

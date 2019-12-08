@@ -1,9 +1,9 @@
-package ir.sarvwood.workshop.webservice.insertorder;
+package ir.sarvwood.workshop.webservice.updateorder;
 
+import java.io.Serializable;
 import java.util.List;
 
 import ir.sarvwood.workshop.model.WoodOrderModel;
-import ir.sarvwood.workshop.model.order.WoodModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,11 +15,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+public class UpdateOrderBody{
 
-public class InsertOrderBody {
-
+    private int orderId;
     private int customerId;
     private String desc;
     private List<WoodOrderModel> items;
-
 }

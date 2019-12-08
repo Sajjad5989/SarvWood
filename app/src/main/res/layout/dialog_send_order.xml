@@ -12,7 +12,7 @@
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/const_status"
+        app:layout_constraintBottom_toTopOf="@id/const_wood"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +26,6 @@
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,51 +38,6 @@
         app:layout_constraintRight_toLeftOf="@+id/img_detail"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/const_status"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dimen_dp_tiny"
-        android:background="@drawable/const_border_line"
-        android:padding="@dimen/dimen_dp_very_tiny"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_status_cation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_dp_small"
-            android:fontFamily="@font/iran_sans_medium"
-            android:text="وضعیت سفارش"
-            android:textColor="@color/colorBlackStep_4"
-            android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toRightOf="@+id/tv_status"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_status"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen_dp_tiny"
-            android:fontFamily="@font/iran_sans_medium"
-            android:gravity="start"
-            android:text="ثبت شده"
-            android:textColor="@color/color_red"
-            android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_status_cation"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_wood"
         android:layout_width="match_parent"
@@ -93,7 +47,7 @@
         android:padding="@dimen/dimen_dp_very_tiny"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/const_status">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_wood_type_cation"
@@ -485,7 +439,7 @@
             android:id="@+id/tv_correct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen_dp_small"
+            android:layout_marginEnd="@dimen/dimen_dp_tiny"
             android:background="@drawable/button_style_green"
             android:fontFamily="@font/iran_sans_medium"
             android:paddingLeft="@dimen/dimen_dp_large"
@@ -514,8 +468,28 @@
             android:textColor="@color/color_green"
             android:textSize="@dimen/dimen_sp_small"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_delete"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_dp_tiny"
+            android:background="@drawable/text_green_border_style"
+            android:fontFamily="@font/iran_sans_medium"
+            android:paddingLeft="@dimen/dimen_dp_large"
+            android:paddingTop="@dimen/dimen_dp_tiny"
+            android:paddingRight="@dimen/dimen_dp_large"
+            android:paddingBottom="@dimen/dimen_dp_tiny"
+            android:text="حذف"
+            android:textColor="@color/color_red"
+            android:textSize="@dimen/dimen_sp_small"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
 

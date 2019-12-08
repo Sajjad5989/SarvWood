@@ -43,7 +43,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_user"
         android:layout_width="wrap_content"
@@ -56,39 +55,45 @@
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintRight_toRightOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/const_border_light"
+        android:fontFamily="@font/iran_sans_bold"
+        android:layout_margin="@dimen/size_4_dp"
+        android:paddingLeft="@dimen/size_12_dp"
+        android:paddingRight="@dimen/size_12_dp"
+        android:paddingBottom="@dimen/size_4_dp"
+        android:text="@string/text_help_one"
+        android:textColor="@color/color_red"
+        android:textSize="@dimen/text_size_10_sp"
+        app:layout_constraintBottom_toTopOf="@id/fragment_container"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#FAFAFA"
+        android:background="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/tv_help" />
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:layout_margin="@dimen/dimen_dp_large"
-            android:src="@drawable/ic_plus"
-            app:backgroundTint="@color/color_green"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/dimen_dp_large"
+        android:src="@drawable/ic_plus"
+        app:backgroundTint="@color/color_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
-
-<!--    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
-<!--        android:id="@+id/fab"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="8dp"-->
-<!--        android:text="ثبت سفارش جدید"-->
-<!--        app:icon="@drawable/ic_plus"-->
-<!--        app:layout_anchorGravity="bottom|right|end"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

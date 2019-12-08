@@ -22,7 +22,7 @@ public class SendSmsOfCnfrmCodeController {
         call.enqueue(new Callback<SarvApiResponseNoList>() {
             @Override
             public void onResponse(@NonNull Call<SarvApiResponseNoList> call, @NonNull Response<SarvApiResponseNoList> response) {
-                listener.onSuccess(response);
+                listener.onSuccess(response.body());
             }
 
             @Override

@@ -8,12 +8,12 @@ public class PublicFunctions {
 
 
 
-    public int getAppVersionCode(Context context) {
-        int versionCode = 0;
+    public String  getAppVersionCode(Context context) {
+        String versionCode = "0";
         try {
             PackageInfo pInfo;
             pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            versionCode = pInfo.versionCode;
+            versionCode = pInfo.versionName;
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

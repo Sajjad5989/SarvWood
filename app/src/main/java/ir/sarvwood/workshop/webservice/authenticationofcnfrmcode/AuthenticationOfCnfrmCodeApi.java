@@ -1,6 +1,7 @@
 package ir.sarvwood.workshop.webservice.authenticationofcnfrmcode;
 
 import ir.sarvwood.workshop.BuildConfig;
+import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -13,7 +14,7 @@ public interface AuthenticationOfCnfrmCodeApi {
 
     @Headers({BuildConfig.contentType, BuildConfig.deviceType })
     @POST( "customer/authenticationOfCnfrmCode" )
-    Call<ResponseBody> execute (@Body AuthenticationOfCnfrmCodeBody authenticationOfCnfrmCodeBody);
+    Call<SarvApiResponseNoList> execute (@Body AuthenticationOfCnfrmCodeBody authenticationOfCnfrmCodeBody);
 
 
 }

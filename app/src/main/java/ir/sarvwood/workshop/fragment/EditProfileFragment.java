@@ -219,7 +219,7 @@ public class EditProfileFragment extends Fragment implements IInternetController
         return GetCustomerInfoBody.builder()
                 .username(userName)
                 .pass(userPass)
-                .applicationVersion(String.valueOf(new PublicFunctions().getAppVersionCode(APP.currentActivity)))
+                .applicationVersion(new PublicFunctions().getAppVersionCode(APP.currentActivity))
                 .deviceModel(Build.MODEL)
                 .deviceName(Build.MANUFACTURER)
                 .sdkVersion(String.valueOf(Build.VERSION.SDK_INT))

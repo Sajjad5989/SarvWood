@@ -17,6 +17,7 @@ import lombok.Setter;
 
 public class GetOrderDetailsItemReturnValue  implements Serializable  {
 
+
     private int id;
     private int orderId;
     private int woodType;

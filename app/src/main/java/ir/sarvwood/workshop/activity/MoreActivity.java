@@ -41,7 +41,7 @@ public class MoreActivity extends AppCompatActivity implements IRtl, IDefault {
 
     @OnClick(R.id.tv_edit_pass)
     void openChangePassFragment() {
-        openFragment(2);
+        openFragment(8);
     }
 
     @OnClick(R.id.tv_about_us)

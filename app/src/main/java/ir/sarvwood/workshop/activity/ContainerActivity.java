@@ -18,7 +18,6 @@ import ir.sarvwood.workshop.fragment.SuggestFragment;
 import ir.sarvwood.workshop.interfaces.IDefault;
 import ir.sarvwood.workshop.interfaces.IRtl;
 import ir.sarvwood.workshop.utils.APP;
-import ir.sarvwood.workshop.webservice.myorders.GetOrderDetailsItemReturnValueList;
 
 public class ContainerActivity extends AppCompatActivity implements IRtl, IDefault {
 
@@ -145,7 +144,7 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
 
     private void openPreOrderList() {
 
-        PreOrderFragment preOrderFragment = PreOrderFragment.newInstance(null, 2);
+        PreOrderFragment preOrderFragment = PreOrderFragment.newInstance( 2);
         getFragmentManager().beginTransaction()
                 .add(R.id.frag_container, preOrderFragment)
                 .addToBackStack(null)
@@ -162,10 +161,10 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
     }
 
     private void  openOrderItems() {
-        GetOrderDetailsItemReturnValueList returnValueList;
-        returnValueList = (GetOrderDetailsItemReturnValueList) bundle.getSerializable("GetOrderDetailsItemList");
+//        GetOrderDetailsItemReturnValueList returnValueList;
+//        returnValueList = (GetOrderDetailsItemReturnValueList) bundle.getSerializable("GetOrderDetailsItemList");
 
-        PreOrderFragment preOrderFragment = PreOrderFragment.newInstance(returnValueList, 1);
+        PreOrderFragment preOrderFragment = PreOrderFragment.newInstance( 1);
         getFragmentManager().beginTransaction()
                 .add(R.id.frag_container, preOrderFragment)
                 .addToBackStack(null)

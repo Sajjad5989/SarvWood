@@ -2,6 +2,7 @@ package ir.sarvwood.workshop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -30,16 +31,19 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.text_user)
     protected AppCompatTextView textUser;
 
+    @BindView(R.id.tv_help)
+    protected AppCompatTextView tvHelp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        tvHelp.setText(Html.fromHtml(getString(R.string.text_help_one)));
         getUserName();
         getMyOwnOrder();
         setButtonClickConfig();

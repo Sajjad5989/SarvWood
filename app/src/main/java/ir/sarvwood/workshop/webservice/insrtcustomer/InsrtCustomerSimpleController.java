@@ -29,7 +29,7 @@ public class InsrtCustomerSimpleController {
         call.enqueue(new Callback<SarvApiResponse<InsrtCustomerSimpleRerunValue>>() {
             @Override
             public void onResponse(@NonNull Call<SarvApiResponse<InsrtCustomerSimpleRerunValue>> call,@NonNull Response<SarvApiResponse<InsrtCustomerSimpleRerunValue>> response) {
-                listener.onSuccess(response);
+                listener.onSuccess(response.body());
             }
 
             @Override

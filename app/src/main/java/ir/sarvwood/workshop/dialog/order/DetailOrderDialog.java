@@ -11,6 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ir.sarvwood.workshop.R;
+import ir.sarvwood.workshop.model.order.CheckableObject;
 import ir.sarvwood.workshop.model.order.WoodModel;
 import ir.sarvwood.workshop.utils.APP;
 
@@ -56,13 +57,18 @@ public class DetailOrderDialog extends Dialog {
 
     @OnClick(R.id.tv_done)
     void done() {
-        detailOrderListener.onResponse(true);
+        detailOrderListener.onResponse(1);
         dismiss();
     }
 
     @OnClick(R.id.tv_correct)
     void correct() {
-        detailOrderListener.onResponse(false);
+        detailOrderListener.onResponse(2);
+        dismiss();
+    }
+    @OnClick(R.id.tv_cancel)
+    void cancelOrder() {
+        detailOrderListener.onResponse(0);
         dismiss();
     }
 
@@ -84,13 +90,40 @@ public class DetailOrderDialog extends Dialog {
             tvWoodColor.setText(woodOrderModel.getColor());
             tvPvcColor.setText(woodOrderModel.getPvcColor());
 
-            tvPvcDirection.setText(String.format("%s,%s", woodOrderModel.getPvcLengthNo().getName(), woodOrderModel.getPvcWidthNo().getName()));
-            tvPvcThickness.setText(woodOrderModel.getPvcThickness().getName());
-            tvPaperSize.setText(String.format("%s * %s", String.valueOf(woodOrderModel.getWoodSheetLength()), String.valueOf(woodOrderModel.getWoodSheetWidth())));
+            tvPvcDirection.setText(getCorrectString(String.format("%s,%s",
+                    getCorrectFormat(woodOrderModel.getPvcLengthNo()),
+                    getCorrectFormat(woodOrderModel.getPvcWidthNo()))));
+
+            tvPvcThickness.setText(getCorrectFormat(woodOrderModel.getPvcThickness()));
+
+            tvPaperSize.setText(String.format("%s * %s",
+                    String.valueOf(woodOrderModel.getWoodSheetLength()), String.valueOf(woodOrderModel.getWoodSheetWidth())));
+
             tvPaperCount.setText(String.valueOf(woodOrderModel.getSheetCount()));
-            tvPersianSheet.setText(String.format("%s,%s", woodOrderModel.getPersianCutLenghtNo().getName(), woodOrderModel.getPersianCutWidthNo().getName()));
-            tvGroove.setText(String.format("%s,%s", woodOrderModel.getGrooveLenghtNo().getName(), woodOrderModel.getGrooveWidthNo().getName()));
+            tvPersianSheet.setText(getCorrectString(String.format("%s,%s",
+                    getCorrectFormat(woodOrderModel.getPersianCutLenghtNo()),
+                    getCorrectFormat(woodOrderModel.getPersianCutWidthNo()))));
+            tvGroove.setText(getCorrectString(String.format("%s,%s",
+                    getCorrectFormat(woodOrderModel.getGrooveLenghtNo()),
+                    getCorrectFormat(woodOrderModel.getGrooveWidthNo()))));
         }
+    }
+
+
+
+    private String getCorrectFormat(CheckableObject checkableObject)
+    {
+        if ("هیچکدام".equals(checkableObject.getName()))
+            return " ";
+        return !checkableObject.isChecked()?" ":" "+checkableObject.getName();
+
+    }
+
+    private String getCorrectString(String value)
+    {
+        if (",".equals(value.trim()))
+            return "";
+        return value;
     }
 
 }

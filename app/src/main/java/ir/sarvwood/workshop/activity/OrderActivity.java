@@ -1,5 +1,6 @@
 package ir.sarvwood.workshop.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -20,7 +21,6 @@ import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.adapter.StepperAdapter;
 import ir.sarvwood.workshop.interfaces.IDefault;
 import ir.sarvwood.workshop.interfaces.IRtl;
-import ir.sarvwood.workshop.model.WoodOrderModel;
 import ir.sarvwood.workshop.model.order.CheckableObject;
 import ir.sarvwood.workshop.model.order.OrderListCreation;
 import ir.sarvwood.workshop.model.order.WoodModel;
@@ -29,7 +29,8 @@ import ir.sarvwood.workshop.utils.APP;
 public class OrderActivity extends AppCompatActivity implements StepperLayout.StepperListener, Serializable, IRtl, IDefault {
 
 
-    public static WoodModel woodModel = new WoodModel();// WoodModel.builder().build();
+    public static WoodModel woodModel;
+    public static int  listRowIdx = -1;
     public static List<WoodModel> woodOrderModelList = new ArrayList<>();
     public static OrderListCreation orderListCreation;
     public static List<CheckableObject> woodTypeList;
@@ -47,6 +48,7 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
     protected Toolbar toolbar;
     @BindView(R.id.stepperLayout)
     protected StepperLayout mStepperLayout;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,24 +56,34 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
         APP.currentActivity = OrderActivity.this;
         prepareToolbar();
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        openOrderSteps();
+
+        // باندل یه کلاس از چوب دارد کهبه صورت سریالیزیشن پاس دادم
+        Intent in = getIntent();
+        bundle = in.getExtras();
+        if (bundle != null)
+            woodModel = (WoodModel) bundle.getSerializable("woodModel");
+        else
+            woodModel = new WoodModel();
 
         orderListCreation = new OrderListCreation(this);
-        woodTypeList = orderListCreation.getWoodTypeList();
-        pvcThicknessList = orderListCreation.getPvcThickness();
-        pvcLengthNoList = orderListCreation.getPvcLengthNo();
-        pvcWidthNoList = orderListCreation.getPvcWidthNo();
-        persianCutLengthNo = orderListCreation.getPersianCutLenghtNo();
-        persianCutWidthNo = orderListCreation.getPersianCutWidthNo();
-        grooveLengthNo = orderListCreation.getGrooveLengthNo();
-        grooveWidthNo = orderListCreation.getGrooveWidthNo();
-        woodSheetList = orderListCreation.getWoodSheetList();
 
+        woodTypeList = orderListCreation.getWoodTypeList(woodModel.getWoodType());
+        pvcThicknessList = orderListCreation.getPvcThickness(woodModel.getPvcThickness());
+        pvcLengthNoList = orderListCreation.getPvcLengthNo(woodModel.getPvcLengthNo());
+        pvcWidthNoList = orderListCreation.getPvcWidthNo(woodModel.getPvcWidthNo());
+        persianCutLengthNo = orderListCreation.getPersianCutLenghtNo(woodModel.getPersianCutLenghtNo());
+        persianCutWidthNo = orderListCreation.getPersianCutWidthNo(woodModel.getPersianCutWidthNo());
+        grooveLengthNo = orderListCreation.getGrooveLengthNo(woodModel.getGrooveLenghtNo());
+        grooveWidthNo = orderListCreation.getGrooveWidthNo(woodModel.getGrooveWidthNo());
+        woodSheetList = orderListCreation.getWoodSheetList(woodModel.getWoodSheetList());
+
+        openOrderSteps();
 
     }
 

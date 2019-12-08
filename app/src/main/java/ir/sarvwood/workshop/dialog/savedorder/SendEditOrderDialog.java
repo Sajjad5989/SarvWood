@@ -12,9 +12,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.dialog.order.DetailOrderListener;
+import ir.sarvwood.workshop.model.order.CheckableObject;
+import ir.sarvwood.workshop.model.order.WoodModel;
 import ir.sarvwood.workshop.utils.APP;
-import ir.sarvwood.workshop.utils.WoodOrderModelUtils;
-import ir.sarvwood.workshop.webservice.orderdetail.GetOrderDetailsItemReturnValue;
 
 public class SendEditOrderDialog extends Dialog {
 
@@ -47,27 +47,25 @@ public class SendEditOrderDialog extends Dialog {
 
     @BindView(R.id.tv_groove)
     protected AppCompatTextView tvGroove;
-    private Context context;
-    private GetOrderDetailsItemReturnValue itemReturnValueList;
+    private WoodModel itemReturnValueList;
 
     public SendEditOrderDialog(@NonNull Context context, DetailOrderListener detailOrderListener,
-                               GetOrderDetailsItemReturnValue itemReturnValueList) {
+                               WoodModel itemReturnValueList) {
 
         super(context);
-        this.context = context;
         this.detailOrderListener = detailOrderListener;
         this.itemReturnValueList = itemReturnValueList;
     }
 
     @OnClick(R.id.tv_cancel)
     void done() {
-        detailOrderListener.onResponse(false);
+        detailOrderListener.onResponse(2);
         dismiss();
     }
 
     @OnClick(R.id.tv_correct)
     void correct() {
-        detailOrderListener.onResponse(true);
+        detailOrderListener.onResponse(1);
         dismiss();
     }
 
@@ -85,19 +83,42 @@ public class SendEditOrderDialog extends Dialog {
 
         if (itemReturnValueList != null) {
 
-            WoodOrderModelUtils woodOrderModelUtils = new WoodOrderModelUtils();
-
-            tvWoodType.setText(woodOrderModelUtils.getNameByPosition(context, 0, itemReturnValueList.getWoodType(), 0));
+            tvWoodType.setText(itemReturnValueList.getWoodType().getName());
             tvPatterned.setText(itemReturnValueList.getPatterned() == 1 ? "راه دار می باشد" : "");
             tvWoodColor.setText(itemReturnValueList.getColor());
             tvPvcColor.setText(itemReturnValueList.getPvcColor());
-            tvPvcDirection.setText(woodOrderModelUtils.getNameByPosition(context, 3, itemReturnValueList.getPvcLenghtNo(), itemReturnValueList.getPvcWidthNo()));
-            tvPvcThickness.setText(woodOrderModelUtils.getNameByPosition(context, 4, itemReturnValueList.getPvcThickness(), 0));
-            tvPaperSize.setText(String.format("%d * %d", itemReturnValueList.getWoodSheetLength(), itemReturnValueList.getWoodSheetWidth()));
+
+            tvPvcDirection.setText(getCorrectString(String.format("%s,%s",
+                    getCorrectFormat(itemReturnValueList.getPvcLengthNo()),
+                    getCorrectFormat(itemReturnValueList.getPvcWidthNo()))));
+
+
+            tvPvcThickness.setText(itemReturnValueList.getPvcThickness().getName());
+
+            tvPaperSize.setText(String.format("%s * %s", (itemReturnValueList.getWoodSheetLength()),
+                    (itemReturnValueList.getWoodSheetWidth())));
             tvPaperCount.setText(String.valueOf(itemReturnValueList.getSheetCount()));
-            tvPersianSheet.setText(woodOrderModelUtils.getNameByPosition(context, 7, itemReturnValueList.getPersianCutLenghtNo(), itemReturnValueList.getPersianCutWidthNo()));
-            tvGroove.setText(woodOrderModelUtils.getNameByPosition(context, 8, itemReturnValueList.getGrooveLenghtNo(), itemReturnValueList.getGrooveWidthNo()));
+
+            tvPersianSheet.setText(getCorrectString(String.format("%s,%s", getCorrectFormat(itemReturnValueList.getPersianCutLenghtNo()),
+                    getCorrectFormat(itemReturnValueList.getPersianCutWidthNo()))));
+            tvGroove.setText(String.format("%s,%s",getCorrectFormat(itemReturnValueList.getGrooveLenghtNo()
+            ), getCorrectFormat(itemReturnValueList.getGrooveWidthNo())));
         }
 
+    }
+
+    private String getCorrectFormat(CheckableObject checkableObject)
+    {
+        if ("هیچکدام".equals(checkableObject.getName()))
+            return " ";
+        return !checkableObject.isChecked()?" ":" [ "+checkableObject.getName()+" ]";
+
+    }
+
+    private String getCorrectString(String value)
+    {
+        if (",".equals(value))
+            return "";
+        return value;
     }
 }

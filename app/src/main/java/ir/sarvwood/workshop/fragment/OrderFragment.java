@@ -36,8 +36,6 @@ import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.activity.OrderActivity;
 import ir.sarvwood.workshop.adapter.RadioAdapter;
 import ir.sarvwood.workshop.dialog.order.DetailOrderDialog;
-import ir.sarvwood.workshop.model.StringRadio;
-import ir.sarvwood.workshop.model.WoodOrderModel;
 import ir.sarvwood.workshop.model.order.CheckableObject;
 import ir.sarvwood.workshop.model.order.WoodModel;
 import ir.sarvwood.workshop.utils.APP;
@@ -70,19 +68,9 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
     protected LinearLayout linearCustomDimension;
     @BindView(R.id.image_record)
     protected AppCompatImageView imageRecord;
-    private int customLengthWidth = 0;
     private int stepPosition;
-    private int selectWidth;
-    private int selectLength;
-    private int sheetLen = 0;
-    private int sheetWid = 0;
-
-    private List<StringRadio> lengthStringRadioList;
-    private List<StringRadio> widthStringRadioList;
-
     private RadioAdapter lengthAdapter;
     private RadioAdapter widthAdapter;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,21 +105,20 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
             stepPosition = b1.getInt("positionNumber");
         else Objects.requireNonNull(getActivity()).finish();
 
-        customLengthWidth = 0;
-
         setVisibility(View.GONE);
         setVisibilityCheckBox(View.GONE);
         setVisibilityCustomDimension(View.GONE);
 
         etDescription.setInputType(InputType.TYPE_CLASS_TEXT);
         etDescription.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        etDescription.setMaxLines(300);
         etDescription.setHint("رنگ");
+        etDescription.setText("");
 
         switch (stepPosition) {
             case 0:
                 tvSubTitle.setText(getString(R.string.text_select_wood_type));
                 setVisibilityCheckBox(View.VISIBLE);
+                chkWoodArrow.setChecked(OrderActivity.woodModel.getPatterned() == 1);
                 break;
             case 3:
             case 7:
@@ -140,23 +127,34 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
                 break;
             case 1:
                 tvSubTitle.setText(getString(R.string.text_wood_color));
+                if (OrderActivity.woodModel != null)
+                    etDescription.setText(OrderActivity.woodModel.getColor());
                 setVisibility(View.VISIBLE);
                 break;
             case 2:
                 tvSubTitle.setText(getString(R.string.text_pvc_color));
+                if (OrderActivity.woodModel != null)
+                    etDescription.setText(OrderActivity.woodModel.getPvcColor());
                 setVisibility(View.VISIBLE);
                 break;
             case 4:
                 tvSubTitle.setText(getString(R.string.text_pvc_thickness));
                 break;
             case 5:
-                customLengthWidth = 1;
                 tvSubTitle.setText(R.string.text_select_width_length);
-//                   valueLength = getResources().getStringArray( R.array.sheet_dimensions );
+                if (OrderActivity.woodModel.getWoodSheetList() != null) {
+                    if (OrderActivity.woodModel.getWoodSheetList().getIndex() == 4) {
+                        linearCustomDimension.setVisibility(View.VISIBLE);
+                        etHeight.setText(String.valueOf(OrderActivity.woodModel.getWoodSheetLength()));
+                        etWidth.setText(String.valueOf(OrderActivity.woodModel.getWoodSheetWidth()));
+                    }
+                }
                 break;
             case 6:
                 tvSubTitle.setText(R.string.text_paper_count);
                 setVisibility();
+                if (OrderActivity.woodModel != null)
+                    etDescription.setText(String.valueOf(OrderActivity.woodModel.getSheetCount()));
                 etDescription.setHint("تعداد");
                 etDescription.setInputType(InputType.TYPE_CLASS_NUMBER);
                 etDescription.setGravity(View.TEXT_ALIGNMENT_CENTER);
@@ -202,20 +200,61 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
     @Override
     @UiThread
     public void onNextClicked(final StepperLayout.OnNextClickedCallback callback) {
-//        if (selectLength == -1 || selectWidth == -1) {
-//            APP.customToast(getString(R.string.text_error_select_one));
-//            return;
-//        }
-//
-//        if (stepPosition == 1 || stepPosition == 6) {
-//            if ("".equals(Objects.requireNonNull(etDescription.getText()).toString())) {
-//                APP.customToast(getString(R.string.text_need_value));
-//                return;
-//            }
-//        }
-
-
         setOrder();
+
+        if (stepPosition == 0) {
+            if (OrderActivity.woodModel.getWoodType() == null) {
+                APP.customToast(getString(R.string.text_select_one));
+                return;
+            }
+        } else if (stepPosition == 1) {
+            if ("".equals(OrderActivity.woodModel.getColor())) {
+                APP.customToast(getString(R.string.text_need_value));
+                return;
+            }
+        } else if (stepPosition == 3) {
+            if (OrderActivity.woodModel.getPvcLengthNo() == null || OrderActivity.woodModel.getPvcWidthNo() == null) {
+                APP.customToast(getString(R.string.text_choose_sirection));
+                return;
+            }
+        } else if (stepPosition == 4) {
+            if (OrderActivity.woodModel.getPvcThickness() == null) {
+                APP.customToast(getString(R.string.text_select_one));
+                return;
+            }
+        } else if (stepPosition == 5) {
+            if (OrderActivity.woodModel.getWoodSheetList() != null) {
+                if (OrderActivity.woodModel.getWoodSheetList().getIndex() == 4) {
+                    linearCustomDimension.setVisibility(View.VISIBLE);
+
+                    int sheetLen = Integer.valueOf(Objects.requireNonNull(etHeight.getText()).toString());
+                    int sheetWid = Integer.valueOf(Objects.requireNonNull(etWidth.getText()).toString());
+
+                    OrderActivity.woodModel.setWoodSheetLength(sheetLen);
+                    OrderActivity.woodModel.setWoodSheetWidth(sheetWid);
+                }
+            } else {
+                APP.customToast(getString(R.string.text_select_one));
+                return;
+            }
+        } else if (stepPosition == 6) {
+            if (OrderActivity.woodModel.getSheetCount() == 0 || "".equals(String.valueOf(OrderActivity.woodModel.getSheetCount()))) {
+                APP.customToast(getString(R.string.text_need_all_parameter));
+                return;
+            }
+        } else if (stepPosition == 7) {
+            if (OrderActivity.woodModel.getPersianCutLenghtNo() == null ||
+                    OrderActivity.woodModel.getPersianCutWidthNo() == null) {
+                APP.customToast(getString(R.string.text_select_one));
+                return;
+            }
+        } else if (stepPosition == 8) {
+            if (OrderActivity.woodModel.getGrooveLenghtNo() == null || OrderActivity.woodModel.getGrooveWidthNo() == null) {
+                APP.customToast(getString(R.string.text_select_one));
+                return;
+            }
+        }
+
         callback.goToNextStep();
     }
 
@@ -237,23 +276,28 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
     }
 
     private void showOrderDetail() {
-
         DetailOrderDialog detailOrderDialog = new DetailOrderDialog(
-                APP.currentActivity, res -> {
-            if (res) {
+                Objects.requireNonNull(getActivity()), res -> {
+            if (res == 1) {
                 addToOrderList();
                 getActivity().finish();
+            } else if (res == 0) {
+                OrderActivity.woodModel = new WoodModel();
+                getActivity().finish();
             }
-        }
-        , OrderActivity.woodModel);
+        }, OrderActivity.woodModel);
 
-        DialogUtil.showDialog(APP.currentActivity, detailOrderDialog, false, true);
+        DialogUtil.showDialog(getActivity(), detailOrderDialog, false, true);
 
     }
 
     private void addToOrderList() {
-        OrderActivity.woodOrderModelList.add(OrderActivity.woodModel);
+        if (OrderActivity.listRowIdx > -1)
+            OrderActivity.woodOrderModelList.set(OrderActivity.listRowIdx, OrderActivity.woodModel);
+        else
+            OrderActivity.woodOrderModelList.add(OrderActivity.woodModel);
         OrderActivity.woodModel = new WoodModel();
+        OrderActivity.listRowIdx = -1;
     }
 
     private void callAdapterLength() {
@@ -273,8 +317,6 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
     }
 
     private void callAdapterWidth() {
-        selectWidth = -1;
-
         List<CheckableObject> list = getSecondListByPosition();
 
         if (list != null)
@@ -344,6 +386,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
             co.setChecked(false);
         }
         OrderActivity.woodTypeList.get(position).setChecked(true);
+        OrderActivity.woodTypeList.get(position).setIndex(position);
         OrderActivity.woodModel.setWoodType(OrderActivity.woodTypeList.get(position));
 
         lengthAdapter.notifyDataSetChanged();
@@ -354,6 +397,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
             co.setChecked(false);
         }
         OrderActivity.pvcThicknessList.get(position).setChecked(true);
+        OrderActivity.pvcThicknessList.get(position).setIndex(position);
         OrderActivity.woodModel.setPvcThickness(OrderActivity.pvcThicknessList.get(position));
 
         lengthAdapter.notifyDataSetChanged();
@@ -364,6 +408,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
             co.setChecked(false);
         }
         OrderActivity.pvcLengthNoList.get(position).setChecked(true);
+        OrderActivity.pvcLengthNoList.get(position).setIndex(position);
         OrderActivity.woodModel.setPvcLengthNo(OrderActivity.pvcLengthNoList.get(position));
         lengthAdapter.notifyDataSetChanged();
     }
@@ -373,6 +418,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
             co.setChecked(false);
         }
         OrderActivity.pvcWidthNoList.get(position).setChecked(true);
+        OrderActivity.pvcWidthNoList.get(position).setIndex(position);
         OrderActivity.woodModel.setPvcWidthNo(OrderActivity.pvcWidthNoList.get(position));
         widthAdapter.notifyDataSetChanged();
     }
@@ -382,6 +428,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
             co.setChecked(false);
         }
         OrderActivity.persianCutLengthNo.get(position).setChecked(true);
+        OrderActivity.persianCutLengthNo.get(position).setIndex(position);
         OrderActivity.woodModel.setPersianCutLenghtNo(OrderActivity.persianCutLengthNo.get(position));
         lengthAdapter.notifyDataSetChanged();
     }
@@ -391,6 +438,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
             co.setChecked(false);
         }
         OrderActivity.persianCutWidthNo.get(position).setChecked(true);
+        OrderActivity.persianCutWidthNo.get(position).setIndex(position);
         OrderActivity.woodModel.setPersianCutWidthNo(OrderActivity.persianCutWidthNo.get(position));
         widthAdapter.notifyDataSetChanged();
     }
@@ -400,6 +448,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
             co.setChecked(false);
         }
         OrderActivity.grooveLengthNo.get(position).setChecked(true);
+        OrderActivity.grooveLengthNo.get(position).setIndex(position);
         OrderActivity.woodModel.setGrooveLenghtNo(OrderActivity.grooveLengthNo.get(position));
         lengthAdapter.notifyDataSetChanged();
     }
@@ -409,6 +458,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
             co.setChecked(false);
         }
         OrderActivity.grooveWidthNo.get(position).setChecked(true);
+        OrderActivity.grooveWidthNo.get(position).setIndex(position);
         OrderActivity.woodModel.setGrooveWidthNo(OrderActivity.grooveWidthNo.get(position));
         widthAdapter.notifyDataSetChanged();
     }
@@ -418,41 +468,43 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
             co.setChecked(false);
         }
         OrderActivity.woodSheetList.get(position).setChecked(true);
+        OrderActivity.woodSheetList.get(position).setIndex(position);
 
         OrderActivity.woodModel.setWoodSheetList(OrderActivity.woodSheetList.get(position));
 
-                switch (position) {
-                    case 0:
-                        sheetLen = 366;
-                        sheetWid = 183;
-                        break;
-                    case 1:
-                        sheetLen = 280;
-                        sheetWid = 122;
-                        break;
-                    case 2:
-                        sheetLen = 240;
-                        sheetWid = 122;
-                        break;
-                    case 3:
-                        sheetLen = 210;
-                        sheetWid = 183;
-                        break;
-                    default:
-                        sheetLen = Integer.valueOf(Objects.requireNonNull(etHeight.getText()).toString());
-                        sheetWid = Integer.valueOf(Objects.requireNonNull(etWidth.getText()).toString());
-                        break;
-                }
+        int sheetLen = 0;
+        int sheetWid = 0;
 
-                OrderActivity.woodModel.setWoodSheetLength(sheetLen);
-                OrderActivity.woodModel.setWoodSheetWidth(sheetWid);
+        switch (position) {
+            case 0:
+                sheetLen = 366;
+                sheetWid = 183;
+                break;
+            case 1:
+                sheetLen = 280;
+                sheetWid = 122;
+                break;
+            case 2:
+                sheetLen = 240;
+                sheetWid = 122;
+                break;
+            case 3:
+                sheetLen = 210;
+                sheetWid = 183;
+                break;
+            default:
+                linearCustomDimension.setVisibility(View.VISIBLE);
+                break;
+        }
+
+        OrderActivity.woodModel.setWoodSheetLength(sheetLen);
+        OrderActivity.woodModel.setWoodSheetWidth(sheetWid);
 
         lengthAdapter.notifyDataSetChanged();
     }
 
 
     private void setOrder() {
-
 
         switch (stepPosition) {
             case 0:
@@ -479,23 +531,5 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
             }
         }
     }
-
-    private List<StringRadio> StringArrayToObject(String[] obj) {
-        List<StringRadio> stringRadios = new ArrayList<>();
-        for (String s : obj) {
-            stringRadios.add(StringRadio.builder().title(s).checked(false).build());
-        }
-
-        return stringRadios;
-    }
-
-    private void setLengthValue(StringRadio lengthValue) {
-        for (StringRadio sr : lengthStringRadioList) {
-            sr.setChecked(sr.equals(lengthValue));
-        }
-
-        lengthAdapter.notifyDataSetChanged();
-    }
-
 
 }

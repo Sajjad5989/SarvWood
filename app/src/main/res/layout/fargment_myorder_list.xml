@@ -28,6 +28,7 @@
         android:layout_height="0dp"
         android:visibility="gone"
         android:src="@drawable/img_not_found_any_item"
+        android:background="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

@@ -15,5 +15,6 @@ import lombok.Setter;
 @Builder
 public class CheckableObject implements Serializable {
     private boolean checked;
+    private int index;
     private String name;
 }

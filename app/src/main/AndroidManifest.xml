@@ -24,6 +24,7 @@
 
 
         <activity android:name="ir.sarvwood.workshop.activity.IntroSliderActivity"  android:screenOrientation = "portrait"/>
+        <activity android:name="ir.sarvwood.workshop.activity.ActivationActivity"  android:screenOrientation = "portrait"/>
         <activity android:name="ir.sarvwood.workshop.activity.LoginActivity"  android:screenOrientation = "portrait"/>
         <activity android:name="ir.sarvwood.workshop.activity.MainActivity"  android:screenOrientation = "portrait"/>
         <activity android:name="ir.sarvwood.workshop.activity.OrderActivity"  android:screenOrientation = "portrait"/>

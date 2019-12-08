@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,12 +36,12 @@ import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.OnlineCheck;
 import ir.sarvwood.workshop.utils.PublicFunctions;
-import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoBody;
 import ir.sarvwood.workshop.webservice.baseinfo.BaseInfoController;
 import ir.sarvwood.workshop.webservice.baseinfo.BaseInfoReturnValue;
-import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponse;
+import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoBody;
 import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoController;
 import ir.sarvwood.workshop.webservice.getcustomerinfo.GetCustomerInfoReturnValue;
+import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponse;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
 import ir.sarvwood.workshop.webservice.savedeviceinfo.SaveDeviceInfoBody;
 import ir.sarvwood.workshop.webservice.savedeviceinfo.SaveDeviceInfoController;
@@ -57,9 +60,13 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
     protected AppCompatEditText etPassword;
     @BindView(R.id.chk_remember)
     protected AppCompatCheckBox chkRemember;
+    @BindView(R.id.image_view_pass)
+    protected AppCompatImageButton imageViewPass;
 
     private GetCustomerInfoReturnValue getCustomerInfoReturnValue;
-private PublicFunctions  publicFunctions=new PublicFunctions();
+    private PublicFunctions publicFunctions = new PublicFunctions();
+    private BaseInfoReturnValue baseInfoReturnValue;
+    private int showHide = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +93,18 @@ private PublicFunctions  publicFunctions=new PublicFunctions();
     private void buttonClickConfig() {
         btnLogin.setOnClickListener(view -> logIn());
         btnRegister.setOnClickListener(view -> openRegisterFragment());
+        imageViewPass.setOnClickListener(v -> {
 
+            if (showHide == 0) {
+                etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                imageViewPass.setImageResource(R.drawable.eye);
+                showHide = 1;
+            } else if (showHide == 1) {
+                etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                imageViewPass.setImageResource(R.drawable.eye_off);
+                showHide = 0;
+            }
+        });
     }
 
     private void openRegisterFragment() {
@@ -140,13 +158,12 @@ private PublicFunctions  publicFunctions=new PublicFunctions();
         dialog.getWindow().setLayout(width, ConstraintLayout.LayoutParams.WRAP_CONTENT);
     }
 
-
     private GetCustomerInfoBody getCustomerInfoBody() {
 
         GetCustomerInfoBody getCustomerInfoBody = GetCustomerInfoBody.builder()
                 .username(Objects.requireNonNull(etUserName.getText()).toString())
                 .pass(Objects.requireNonNull(etPassword.getText()).toString())
-                .applicationVersion(String.valueOf(publicFunctions.getAppVersionCode(LoginActivity.this)))
+                .applicationVersion(publicFunctions.getAppVersionCode(LoginActivity.this))
                 .deviceModel(Build.MODEL)
                 .deviceName(Build.MANUFACTURER)
                 .sdkVersion(String.valueOf(Build.VERSION.SDK_INT))
@@ -165,7 +182,7 @@ private PublicFunctions  publicFunctions=new PublicFunctions();
             @Override
             public void onSuccess(SarvApiResponse response) {
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                    getCustomerInfoReturnValue =(GetCustomerInfoReturnValue) response.getData().get(0);
+                    getCustomerInfoReturnValue = (GetCustomerInfoReturnValue) response.getData().get(0);
 
                     saveInSharePreference();
                     if (chkRemember.isChecked()) {
@@ -189,7 +206,6 @@ private PublicFunctions  publicFunctions=new PublicFunctions();
         });
     }
 
-    private BaseInfoReturnValue baseInfoReturnValue;
     private void getBaseInfo() {
         BaseInfoController baseInfoController = new BaseInfoController();
         baseInfoController.start(getCustomerInfoReturnValue.getCustomerId(), getCustomerInfoReturnValue.getAccessToken(),
@@ -219,8 +235,7 @@ private PublicFunctions  publicFunctions=new PublicFunctions();
     }
 
 
-    public void saveInSharePreference()
-    {
+    public void saveInSharePreference() {
 
         GeneralPreferences.getInstance(LoginActivity.this).putListCustomerInfoResponse(getCustomerInfoReturnValue);
         GeneralPreferences.getInstance(LoginActivity.this).putCustomerId(getCustomerInfoReturnValue.getCustomerId());
@@ -259,18 +274,17 @@ private PublicFunctions  publicFunctions=new PublicFunctions();
                 getString(R.string.text_optional_update);
     }
 
-    private void saveDeviceInfo()
-    {
+    private void saveDeviceInfo() {
         SaveDeviceInfoBody saveDeviceInfoBody = SaveDeviceInfoBody.builder().
-        customerId(getCustomerInfoReturnValue.getCustomerId()).
-        applicationVersion(String.valueOf(publicFunctions.getAppVersionCode(LoginActivity.this))).
-        sdkVersion(String.valueOf(Build.VERSION.SDK_INT)).
-        deviceName(Build.MANUFACTURER).
-        deviceModel(Build.MODEL).
-        updteAppTime("0").
-        updteAppYear("0").
-        updteAppMonth("0").
-        updteAppDay("0").
+                customerId(getCustomerInfoReturnValue.getCustomerId()).
+                applicationVersion(publicFunctions.getAppVersionCode(LoginActivity.this)).
+                sdkVersion(String.valueOf(Build.VERSION.SDK_INT)).
+                deviceName(Build.MANUFACTURER).
+                deviceModel(Build.MODEL).
+                updteAppTime("0").
+                updteAppYear("0").
+                updteAppMonth("0").
+                updteAppDay("0").
                 build();
 
         SaveDeviceInfoController saveDeviceInfoController = new SaveDeviceInfoController();
@@ -278,13 +292,12 @@ private PublicFunctions  publicFunctions=new PublicFunctions();
                 , saveDeviceInfoBody, new IResponseListener<SarvApiResponseNoList>() {
                     @Override
                     public void onSuccess(SarvApiResponseNoList response) {
-                        if (response.getCode() == 0 && "success".equals(response.getStatus()))
-                        {
+                        if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             LoginActivity.this.finish();
+                        } else {
+                            APP.customToast(response.getMessage());
                         }
-                        else
-                        {APP.customToast(response.getMessage());}
                     }
 
                     @Override

@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import ir.sarvwood.workshop.BuildConfig;
 import ir.sarvwood.workshop.R;
@@ -61,6 +62,9 @@ private   PublicFunctions publicFunctions = new PublicFunctions();
 
         setContentView(R.layout.activity_splash);
         APP.currentActivity = SplashActivity.this;
+
+        AppCompatTextView tvVersion = findViewById(R.id.tv_version);
+        tvVersion.setText(String.valueOf(new PublicFunctions().getAppVersionCode(SplashActivity.this)));
         doActionAfterSplash();
     }
 
@@ -138,7 +142,7 @@ private   PublicFunctions publicFunctions = new PublicFunctions();
         GetCustomerInfoBody getCustomerInfoBody = GetCustomerInfoBody.builder()
                 .username(userName)
                 .pass(userPass)
-                .applicationVersion(String.valueOf(publicFunctions.getAppVersionCode(SplashActivity.this)))
+                .applicationVersion(publicFunctions.getAppVersionCode(SplashActivity.this))
                 .deviceModel(Build.MODEL)
                 .deviceName(Build.MANUFACTURER)
                 .sdkVersion(String.valueOf(Build.VERSION.SDK_INT))
@@ -246,7 +250,7 @@ private   PublicFunctions publicFunctions = new PublicFunctions();
     {
         SaveDeviceInfoBody saveDeviceInfoBody = SaveDeviceInfoBody.builder().
                 customerId(getCustomerInfoReturnValue.getCustomerId()).
-                applicationVersion(String.valueOf(publicFunctions.getAppVersionCode(SplashActivity.this))).
+                applicationVersion(publicFunctions.getAppVersionCode(SplashActivity.this)).
                 sdkVersion(String.valueOf(Build.VERSION.SDK_INT)).
                 deviceName(Build.MANUFACTURER).
                 deviceModel(Build.MODEL).

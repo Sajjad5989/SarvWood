@@ -4,7 +4,7 @@
     <string name="start_app_button_text">شروع کنید</string>
     <string name="all_string_next">بعدی</string>
     <string name="all_string_previous">قبلی</string>
-    <string name="text_fix_login_pass">ورود به نرم افزار کارگاه سرو</string>
+    <string name="text_fix_login_pass">ورود</string>
 
 
     <string name="text_preference_slider_is_show">slider_is_show</string>
@@ -82,13 +82,17 @@
     <string name="text_register_suggest">ثبت</string>
     <string name="text_repeat_activation_code">با تغییر شماره موبایل، بایستی مجددا به برنامه وارد شوید.</string>
 
+    <string name="text_help_one"><![CDATA[<br>در این لیست، تمام سفارشات شما، نمایش داده می شود.</br>
+<br>جهت ویرایش یا مشاهده ی جزییات روی ردیف مربوطه کلیک نمایید.</br>
+<br>جهت ثبت سفارش جدید بر روی دکمه<b> « به اضافه »</b> در قسمت پایین همین صفحه، کلیک نمایید.</br>
+]]></string>
 
     <string name="text_name_social_apparat">آپارات</string>
     <string name="text_name_social_telegram">تلگرام</string>
     <string name="text_name_social_insta">اینستاگرام</string>
     <string name="nav_social">ما را در شبکه های اجتماعی دنبال کنید</string>
     <string name="dlg_title_close_dialog">بستن</string>
-    <string name="text_send_order">ارسال سفارش</string>
+    <string name="text_send_order">ثبت سفارش</string>
     <string name="text_new_order">برش جدید</string>
     <string name="text_edit_profile">ویرایش اطلاعات کاربری</string>
     <string name="text_about_us">درباره ما</string>
@@ -116,5 +120,11 @@
     <string name="text_product_member_one">سولماز زارع مهذبیه [ 09303339116 ]</string>
     <string name="text_product_member_two">قاسم آقابابائی [ 09177189730 ]</string>
     <string name="text_change_pass">تغییر کلمه عبور</string>
+    <string name="text_choose_sirection">لطفا جهت طول و عرض را انتخاب نمایید</string>
+    <string name="text_no_item_add">هنوز ردیف سفارش ثبت نشده است</string>
+    <string name="text_add_row_by_click">جهت اضافه کردن، سفارش خود بر روی دکمه ی برش جدید کلیک نمایید.</string>
+    <string name="text_discard_done">سفارش شما لغو گردید</string>
+    <string name="text_cancel_order">مشتری گرامی; لطفا دلیل لغو این سفارش را به ما بگویید تا بتوانیم در سفارشات بعدی، رضایت شما را جلب نمایید.</string>
+    <string name="text_cancel_title">انتخاب گزینه های لغو سفارش</string>
 
 </resources>

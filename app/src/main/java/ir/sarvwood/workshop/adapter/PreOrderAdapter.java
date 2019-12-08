@@ -61,7 +61,8 @@ public class PreOrderAdapter extends RecyclerView.Adapter<PreOrderAdapter.ViewHo
         res = res + "<\br>";
 
         res = res + "<br>" + "پی وی سی: " + items.get(currentPosition).getPvcThickness().getName() +
-                 getCorrectFormat(items.get(currentPosition).getPvcLengthNo()) +  getCorrectFormat(items.get(currentPosition).getPvcWidthNo())  +
+                 getCorrectFormat(items.get(currentPosition).getPvcLengthNo()) +
+                 getCorrectFormat(items.get(currentPosition).getPvcWidthNo())  +
                 items.get(currentPosition).getPvcColor();
         res = res + "<\br>";
 
@@ -96,19 +97,17 @@ public class PreOrderAdapter extends RecyclerView.Adapter<PreOrderAdapter.ViewHo
 
             tvPreOrderTitle = itemView.findViewById(R.id.tv_pre_order_title);
             tvPreOrderDesc = itemView.findViewById(R.id.tv_pre_order_desc);
-
         }
     }
 
     private String getCorrectFormat(CheckableObject checkableObject)
     {
-
         if ("هیچکدام".equals(checkableObject.getName()))
             return " ";
 
-        return !checkableObject.isChecked()?" ":" ["+checkableObject.getName()+"] ";
-
+        return !checkableObject.isChecked()?" ":" [ "+checkableObject.getName()+" ]";
     }
+
 
 
 }

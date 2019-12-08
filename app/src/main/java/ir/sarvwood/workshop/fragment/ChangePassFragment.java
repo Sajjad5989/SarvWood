@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatImageButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,7 +30,6 @@ import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.OnlineCheck;
 import ir.sarvwood.workshop.webservice.changepassword.ChangeCustomerPasswordBody;
 import ir.sarvwood.workshop.webservice.changepassword.ChangeCustomerPasswordController;
-import ir.sarvwood.workshop.webservice.myorders.GetOrderDetailsItemReturnValueList;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
 import ir.solmazzm.lib.engine.util.DialogUtil;
 
@@ -43,14 +45,18 @@ public class ChangePassFragment extends Fragment implements IInternetController 
     @BindView(R.id.et_new_pass_repeat)
     protected AppCompatEditText etNewPassRepeat;
 
+    @BindView(R.id.image_view_old_pass)
+    protected AppCompatImageButton imageViewOldPass;
+    @BindView(R.id.image_view_repeat_pass)
+    protected AppCompatImageButton imageViewRepeatPass;
+    @BindView(R.id.image_view_new_pass)
+    protected AppCompatImageButton imageViewNewPass;
+
     @OnClick(R.id.btn_change)
     void callChangePass() {
         if (!checkValidity())
             return;
 
-        if (!isOnline()) {
-            openInternetCheckingDialog();
-        }
 
         changePass();
 
@@ -79,8 +85,66 @@ public class ChangePassFragment extends Fragment implements IInternetController 
 
         ButterKnife.bind(this, view);
 
+        btnClickConfig();
     }
 
+    private void btnClickConfig()
+    {
+       imageViewOldPass.setOnClickListener(view -> showOldPass());
+       imageViewNewPass.setOnClickListener(view -> showNewPass());
+       imageViewRepeatPass.setOnClickListener(view -> showRepeatPass());
+    }
+
+    private int showHideOld;
+    private int showHideNewPass;
+    private int showHideRepeat;
+    private void showOldPass()
+    {
+        imageViewOldPass.setOnClickListener(v -> {
+
+            if (showHideOld == 0) {
+                etOldPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                imageViewOldPass.setImageResource(R.drawable.eye);
+                showHideOld = 1;
+            } else if (showHideOld == 1) {
+                etOldPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                imageViewOldPass.setImageResource(R.drawable.eye_off);
+                showHideOld = 0;
+            }
+        });
+    }
+
+    private void showNewPass()
+    {
+        imageViewNewPass.setOnClickListener(v -> {
+
+            if (showHideNewPass == 0) {
+                etNewPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                imageViewNewPass.setImageResource(R.drawable.eye);
+                showHideNewPass = 1;
+            } else if (showHideNewPass == 1) {
+                etNewPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                imageViewNewPass.setImageResource(R.drawable.eye_off);
+                showHideNewPass = 0;
+            }
+        });
+    }
+
+    private void showRepeatPass()
+    {
+        imageViewRepeatPass.setOnClickListener(v -> {
+
+            if (showHideRepeat == 0) {
+                etNewPassRepeat.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                imageViewRepeatPass.setImageResource(R.drawable.eye);
+                showHideRepeat = 1;
+            } else if (showHideRepeat == 1) {
+                etNewPassRepeat.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                imageViewRepeatPass.setImageResource(R.drawable.eye_off);
+                showHideRepeat = 0;
+            }
+        });
+    }
     @Override
     public boolean isOnline() {
         return OnlineCheck.getInstance(APP.currentActivity).isOnline();
@@ -100,6 +164,7 @@ public class ChangePassFragment extends Fragment implements IInternetController 
 
             @Override
             public void OnRetry() {
+                changePass();
             }
         });
 
@@ -113,7 +178,7 @@ public class ChangePassFragment extends Fragment implements IInternetController 
             APP.customToast(getString(R.string.text_need_all_parameter));
             return false;
         }
-        if (!etOldPass.getText().toString().equals(etNewPass.getText().toString())) {
+        if (!etNewPassRepeat.getText().toString().equals(etNewPass.getText().toString())) {
             APP.customToast(getString(R.string.text_repeat_password));
             return false;
         }
@@ -122,6 +187,11 @@ public class ChangePassFragment extends Fragment implements IInternetController 
     }
 
     private void changePass() {
+
+        if (!isOnline()) {
+            openInternetCheckingDialog();
+        }
+
         int userId = GeneralPreferences.getInstance(APP.currentActivity).getInt(BuildConfig.userId);
         String token = GeneralPreferences.getInstance(APP.currentActivity).getString(BuildConfig.accessToken);
 
@@ -137,8 +207,9 @@ public class ChangePassFragment extends Fragment implements IInternetController 
                     @Override
                     public void onSuccess(SarvApiResponseNoList response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                            GeneralPreferences.getInstance(APP.currentActivity).remove(BuildConfig.userName);
-                            GeneralPreferences.getInstance(APP.currentActivity).remove(BuildConfig.userPass);
+                            APP.customToast(getString(R.string.text_successful));
+                            GeneralPreferences.getInstance(APP.currentActivity).deleteAllInfo();
+                            APP.killApp();
                         } else {
                             APP.customToast(response.getMessage());
                         }

@@ -41,11 +41,7 @@ public class FillListAdapter extends RecyclerView.Adapter< FillListAdapter.ViewH
     @Override
     public void onBindViewHolder( @NonNull FillListAdapter.ViewHolder holder, int position ){
 
-        //    holder.tvName.setText(items[position]);
-
-//        holder.rbValues.setChecked(currentValue.equals(String.valueOf(position)));
         holder.rbValues.setText( items[ position ] );
-        //holder.rbValues.setChecked(currentValue==position);
         holder.rbValues.setChecked( lastSelectedPosition == position );
     }
 
@@ -55,13 +51,11 @@ public class FillListAdapter extends RecyclerView.Adapter< FillListAdapter.ViewH
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        //        private AppCompatTextView tvName;
         private AppCompatRadioButton rbValues;
 
 
         private ViewHolder( final View itemView ){
             super( itemView );
-            //  tvName = itemView.findViewById(R.id.tv_name);
             rbValues = itemView.findViewById( R.id.rb_vales );
             rbValues.setOnClickListener( v -> {
 

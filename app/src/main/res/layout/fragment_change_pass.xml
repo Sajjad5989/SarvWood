@@ -45,13 +45,25 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/box_for_edits"
                     android:gravity="center"
-                    android:inputType="number"
+                    android:inputType="numberPassword"
                     android:maxLines="1"
                     android:padding="@dimen/dimen_dp_small"
                     android:singleLine="true"
                     android:textSize="@dimen/dimen_sp_medium"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_old_pass_caption" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/image_view_old_pass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_dp_medium"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/eye"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_old_pass"
+                    app:layout_constraintLeft_toLeftOf="@+id/et_old_pass"
+                    app:layout_constraintTop_toTopOf="@+id/et_old_pass" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -79,13 +91,25 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/box_for_edits"
                     android:gravity="center"
-                    android:inputType="number"
+                    android:inputType="numberPassword"
                     android:maxLines="1"
                     android:padding="@dimen/dimen_dp_small"
                     android:singleLine="true"
                     android:textSize="@dimen/dimen_sp_medium"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_new_caption" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/image_view_new_pass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_dp_medium"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/eye"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_new_pass"
+                    app:layout_constraintLeft_toLeftOf="@+id/et_new_pass"
+                    app:layout_constraintTop_toTopOf="@+id/et_new_pass" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -114,12 +138,22 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/box_for_edits"
                     android:gravity="center"
-                    android:inputType="number"
+                    android:inputType="numberPassword"
                     android:padding="@dimen/dimen_dp_small"
                     android:textSize="@dimen/dimen_sp_medium"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_repeat_caption" />
 
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/image_view_repeat_pass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_dp_medium"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/eye"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_new_pass_repeat"
+                    app:layout_constraintLeft_toLeftOf="@+id/et_new_pass_repeat"
+                    app:layout_constraintTop_toTopOf="@+id/et_new_pass_repeat" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

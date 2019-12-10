@@ -72,12 +72,12 @@ public class MyOrderListFragment extends Fragment implements IInternetController
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
+        //getMyOrders();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        APP.currentActivity = getActivity();
         getMyOrders();
     }
 
@@ -95,12 +95,12 @@ public class MyOrderListFragment extends Fragment implements IInternetController
 
             @Override
             public void onFinish() {
-                APP.killApp();
+                APP.killApp(getActivity());
             }
 
             @Override
             public void OnRetry() {
-                //تابع مربوطه ر صدا بزنم
+                getMyOrderBody();
             }
         });
 
@@ -117,8 +117,8 @@ public class MyOrderListFragment extends Fragment implements IInternetController
 
     private GetMyOrderBody getMyOrderBody() {
 
-        userId = GeneralPreferences.getInstance(APP.currentActivity).getCustomerId();
-        token = GeneralPreferences.getInstance(APP.currentActivity).getToken();
+        userId = GeneralPreferences.getInstance(getActivity()).getCustomerId();
+        token = GeneralPreferences.getInstance(getActivity()).getToken();
 
         GetMyOrderBody getMyOrderBody = new GetMyOrderBody();
         getMyOrderBody.setCustomerId(userId);
@@ -141,7 +141,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
                     if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                         myOrderReturnValueList = response.getData();
                     } else {
-                        APP.customToast(response.getMessage());
+                        APP.customToast(response.getMessage(),getActivity());
                         myOrderReturnValueList = null;
                     }
                     showMyOrders();
@@ -153,7 +153,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
 
             @Override
             public void onFailure(String error) {
-                APP.customToast(error);
+                APP.customToast(error,getActivity());
                 myOrderReturnValueList = null;
                 showMyOrders();
             }
@@ -187,10 +187,10 @@ public class MyOrderListFragment extends Fragment implements IInternetController
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                             returnValueList = response.getData().get(0).getItems();
                             OrderActivity.woodOrderModelList = new ArrayList<>();
-                            OrderActivity.woodOrderModelList = new ConvertToWoodModelList(returnValueList,APP.currentActivity).getWoodOrderModelList();
+                            OrderActivity.woodOrderModelList = new ConvertToWoodModelList(returnValueList,getActivity()).getWoodOrderModelList();
                             openOrderItems();
                         } else {
-                            APP.customToast(response.getMessage());
+                            APP.customToast(response.getMessage(),getActivity());
                             returnValueList = null;
                         }
                     }
@@ -198,14 +198,14 @@ public class MyOrderListFragment extends Fragment implements IInternetController
                     @Override
                     public void onFailure(String error) {
 
-                        APP.customToast(error);
+                        APP.customToast(error,getActivity());
                         returnValueList = null;
                     }
                 });
     }
 
     private void openOrderItems() {
-        Intent intent = new Intent(APP.currentActivity, ContainerActivity.class);
+        Intent intent = new Intent(getActivity(), ContainerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("fragmentFlag", 6);
         intent.putExtras(bundle);

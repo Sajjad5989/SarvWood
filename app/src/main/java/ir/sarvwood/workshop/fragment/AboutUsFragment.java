@@ -42,7 +42,7 @@ public class AboutUsFragment extends Fragment {
     protected AppCompatImageView imageCallUs;
 
    private void call() {
-        String phone = GeneralPreferences.getInstance(APP.currentActivity).getBaseInfo().getSupportPhone();
+        String phone = GeneralPreferences.getInstance(getActivity()).getBaseInfo().getSupportPhone();
         if (!"".equals(phone)) {
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
             callIntent.setData(Uri.parse("tel:" + phone.trim()));
@@ -64,7 +64,6 @@ public class AboutUsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        APP.currentActivity = getActivity();
         getAboutUsText();
     }
 
@@ -75,8 +74,8 @@ public class AboutUsFragment extends Fragment {
 
     private void getAboutUsText() {
 
-        int userId = GeneralPreferences.getInstance(APP.currentActivity).getCustomerId();
-        String token = GeneralPreferences.getInstance(APP.currentActivity).getToken();
+        int userId = GeneralPreferences.getInstance(getActivity()).getCustomerId();
+        String token = GeneralPreferences.getInstance(getActivity()).getToken();
 
         GetStaticPagesTextBody getStaticPagesTextBody = GetStaticPagesTextBody.builder().type(currentType).build();
 
@@ -92,7 +91,7 @@ public class AboutUsFragment extends Fragment {
 
                     @Override
                     public void onFailure(String error) {
-                        APP.customToast(error);
+                        APP.customToast(error,getActivity());
                     }
                 });
     }

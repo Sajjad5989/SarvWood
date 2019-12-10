@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ir.sarvwood.workshop.BuildConfig;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.adapter.DiscardOptionAdapter;
@@ -21,10 +22,7 @@ import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.webservice.discardoption.DiscardOptionController;
 import ir.sarvwood.workshop.webservice.discardoption.DiscardOptionReturnValue;
-import ir.sarvwood.workshop.webservice.discardorder.DiscardOrderBody;
-import ir.sarvwood.workshop.webservice.discardorder.DiscardOrderController;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponse;
-import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
 
 public class DiscardOptionDialog extends Dialog {
 
@@ -33,12 +31,17 @@ public class DiscardOptionDialog extends Dialog {
     private List<DiscardOptionReturnValue> valueList;
     private int userId;
     private String token;
-    private int orderId = 33;
     private RecyclerViewClickListenerDiscard listenerDiscard;
 
     public DiscardOptionDialog(@NonNull Context context, RecyclerViewClickListenerDiscard listenerDiscard) {
         super(context);
         this.listenerDiscard = listenerDiscard;
+    }
+
+    @OnClick(R.id.btn_return)
+    void returnToOwner() {
+        listenerDiscard.onItemClick(-1);
+        dismiss();
     }
 
     @Override
@@ -47,7 +50,6 @@ public class DiscardOptionDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_discard_option);
         ButterKnife.bind(this);
-        APP.currentActivity = this.getOwnerActivity();
         getIds();
         getDiscardOptionList();
 
@@ -55,13 +57,9 @@ public class DiscardOptionDialog extends Dialog {
 
     private void getDiscardOption() {
 
-        DiscardOptionAdapter discardOptionAdapter = new DiscardOptionAdapter(valueList, new RecyclerViewClickListenerDiscard() {
-            @Override
-            public void onItemClick(int id) {
-                listenerDiscard.onItemClick(id);
-                dismiss();
-//                DiscardOptionDialog.this.discardOrder(valueList.get(id).getId());
-            }
+        DiscardOptionAdapter discardOptionAdapter = new DiscardOptionAdapter(valueList, id -> {
+            listenerDiscard.onItemClick(valueList.get(id).getId());
+            dismiss();
         });
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
@@ -71,8 +69,8 @@ public class DiscardOptionDialog extends Dialog {
     }
 
     private void getIds() {
-        userId = GeneralPreferences.getInstance(APP.currentActivity).getInt(BuildConfig.userId);
-        token = GeneralPreferences.getInstance(APP.currentActivity).getString(BuildConfig.accessToken);
+        userId = GeneralPreferences.getInstance(getContext()).getInt(BuildConfig.userId);
+        token = GeneralPreferences.getInstance(getContext()).getString(BuildConfig.accessToken);
     }
 
     private void getDiscardOptionList() {
@@ -84,42 +82,16 @@ public class DiscardOptionDialog extends Dialog {
                     valueList = response.getData();
                     getDiscardOption();
                 } else {
-                    APP.customToast(response.getMessage());
+                    APP.customToast(response.getMessage(),getOwnerActivity());
                 }
             }
 
             @Override
             public void onFailure(String error) {
-                APP.customToast(error);
+                APP.customToast(error,getOwnerActivity());
             }
         });
     }
 
-//    private void discardOrder(int id) {
-//        DiscardOrderBody discardOrderBody = DiscardOrderBody.builder()
-//                .customerId(userId)
-//                .orderId(orderId)//نتیفیکیشن این آی دی بهم میده
-//                .discardOptionId(id)
-//                .build();
-//
-//        DiscardOrderController discardOrderController = new DiscardOrderController();
-//        discardOrderController.start(userId, token, discardOrderBody, new IResponseListener<SarvApiResponseNoList>() {
-//            @Override
-//            public void onSuccess(SarvApiResponseNoList response) {
-//                if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-//                    APP.customToast("سفارش شما لغو گردید");
-//                    dismiss();
-//                } else {
-//                    APP.customToast(response.getMessage());
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(String error) {
-//                APP.customToast(error);
-//            }
-//        });
-//    }
 
 }

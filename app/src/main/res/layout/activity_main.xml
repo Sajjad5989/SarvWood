@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorWhite"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
@@ -60,7 +61,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/const_border_light"
-        android:fontFamily="@font/iran_sans_bold"
+        android:fontFamily="@font/iran_sans"
         android:layout_margin="@dimen/size_4_dp"
         android:paddingLeft="@dimen/size_12_dp"
         android:paddingRight="@dimen/size_12_dp"

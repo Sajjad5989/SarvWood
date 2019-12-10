@@ -78,7 +78,6 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
 
         //initialize your UI
         ButterKnife.bind(this, v);
-        APP.currentActivity = getActivity();
         imageRecord.setOnClickListener(view -> setDescriptionByMic());
         return v;
     }
@@ -87,7 +86,7 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
         try {
             startActivityForResult(SpeechIntentBuilder.getInstance(getContext()).getSpeechIntent(), REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException a) {
-            APP.customToast(getResources().getString(R.string.speech_not_supported));
+            APP.customToast(getResources().getString(R.string.speech_not_supported),getActivity());
         }
     }
 
@@ -204,22 +203,22 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
 
         if (stepPosition == 0) {
             if (OrderActivity.woodModel.getWoodType() == null) {
-                APP.customToast(getString(R.string.text_select_one));
+                APP.customToast(getString(R.string.text_select_one),getActivity());
                 return;
             }
         } else if (stepPosition == 1) {
             if ("".equals(OrderActivity.woodModel.getColor())) {
-                APP.customToast(getString(R.string.text_need_value));
+                APP.customToast(getString(R.string.text_need_value),getActivity());
                 return;
             }
         } else if (stepPosition == 3) {
             if (OrderActivity.woodModel.getPvcLengthNo() == null || OrderActivity.woodModel.getPvcWidthNo() == null) {
-                APP.customToast(getString(R.string.text_choose_sirection));
+                APP.customToast(getString(R.string.text_choose_sirection),getActivity());
                 return;
             }
         } else if (stepPosition == 4) {
             if (OrderActivity.woodModel.getPvcThickness() == null) {
-                APP.customToast(getString(R.string.text_select_one));
+                APP.customToast(getString(R.string.text_select_one),getActivity());
                 return;
             }
         } else if (stepPosition == 5) {
@@ -234,23 +233,23 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
                     OrderActivity.woodModel.setWoodSheetWidth(sheetWid);
                 }
             } else {
-                APP.customToast(getString(R.string.text_select_one));
+                APP.customToast(getString(R.string.text_select_one),getActivity());
                 return;
             }
         } else if (stepPosition == 6) {
             if (OrderActivity.woodModel.getSheetCount() == 0 || "".equals(String.valueOf(OrderActivity.woodModel.getSheetCount()))) {
-                APP.customToast(getString(R.string.text_need_all_parameter));
+                APP.customToast(getString(R.string.text_need_all_parameter),getActivity());
                 return;
             }
         } else if (stepPosition == 7) {
             if (OrderActivity.woodModel.getPersianCutLenghtNo() == null ||
                     OrderActivity.woodModel.getPersianCutWidthNo() == null) {
-                APP.customToast(getString(R.string.text_select_one));
+                APP.customToast(getString(R.string.text_select_one),getActivity());
                 return;
             }
         } else if (stepPosition == 8) {
             if (OrderActivity.woodModel.getGrooveLenghtNo() == null || OrderActivity.woodModel.getGrooveWidthNo() == null) {
-                APP.customToast(getString(R.string.text_select_one));
+                APP.customToast(getString(R.string.text_select_one),getActivity());
                 return;
             }
         }

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.ArrayList;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
@@ -52,7 +54,6 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
     @Override
     protected void onResume() {
         super.onResume();
-        APP.currentActivity = ContainerActivity.this;
         APP.setPersianUi();
     }
 
@@ -144,6 +145,7 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
 
     private void openPreOrderList() {
 
+        OrderActivity.woodOrderModelList = new ArrayList<>();
         PreOrderFragment preOrderFragment = PreOrderFragment.newInstance( 2);
         getFragmentManager().beginTransaction()
                 .add(R.id.frag_container, preOrderFragment)

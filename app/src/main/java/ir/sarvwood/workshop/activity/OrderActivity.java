@@ -54,12 +54,11 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
-        APP.currentActivity = OrderActivity.this;
         prepareToolbar();
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
@@ -90,7 +89,6 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
     @Override
     protected void onResume() {
         super.onResume();
-        APP.currentActivity = OrderActivity.this;
     }
 
     @Override

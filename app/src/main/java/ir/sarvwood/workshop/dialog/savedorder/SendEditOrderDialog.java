@@ -74,7 +74,6 @@ public class SendEditOrderDialog extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_send_order);
-        APP.currentActivity = getOwnerActivity();
         ButterKnife.bind(this);
         loadDetail();
     }

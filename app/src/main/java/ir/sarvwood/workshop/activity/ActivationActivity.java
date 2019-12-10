@@ -51,12 +51,12 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
     {
         if ("".equals(Objects.requireNonNull(etActivationCode.getText()).toString()))
         {
-            APP.customToast("کد وارد نشده است");
+            APP.customToast("کد وارد نشده است",ActivationActivity.this);
             return;
         }
         if (etActivationCode.getText().length()<6)
         {
-            APP.customToast("کد وارد نشده صحیح نمی باشد");
+            APP.customToast("کد وارد نشده صحیح نمی باشد",ActivationActivity.this);
             return;
         }
 
@@ -91,7 +91,6 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
     @Override
     protected void onResume() {
         super.onResume();
-        APP.currentActivity = ActivationActivity.this;
         APP.setPersianUi();
     }
 
@@ -127,7 +126,7 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
 
             @Override
             public void onFinish() {
-                APP.killApp();
+                APP.killApp(ActivationActivity.this);
             }
 
             @Override
@@ -174,7 +173,7 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
             openInternetCheckingDialog();
         }
 
-        String mobileNo =  GeneralPreferences.getInstance(APP.currentActivity).getString("mobile");
+        String mobileNo =  GeneralPreferences.getInstance(ActivationActivity.this).getString("mobile");
         AuthenticationOfCnfrmCodeBody authenticationOfCnfrmCodeBody = AuthenticationOfCnfrmCodeBody.builder()
                 .cofirmationCode(etActivationCode.getText().toString())
                 .mobileNo(mobileNo)
@@ -190,16 +189,16 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
             public void onSuccess(SarvApiResponseNoList response) {
 
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                    APP.customToast("عملیات فعال سازی با موفقیت انجام شد");
+                    APP.customToast(getString(R.string.text_successful_activation),ActivationActivity.this);
                     startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
                     ActivationActivity.this.finish();
                 }
-                APP.customToast(response.getMessage());
+                APP.customToast(response.getMessage(),ActivationActivity.this);
             }
 
             @Override
             public void onFailure(String error) {
-                APP.customToast(error);
+                APP.customToast(error,ActivationActivity.this);
             }
         });
     }

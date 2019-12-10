@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">کــارگاه سرو</string>
+    <string name="app_name">کارگاه ســرو</string>
 
     <string name="start_app_button_text">شروع کنید</string>
     <string name="all_string_next">بعدی</string>
@@ -126,5 +126,8 @@
     <string name="text_discard_done">سفارش شما لغو گردید</string>
     <string name="text_cancel_order">مشتری گرامی; لطفا دلیل لغو این سفارش را به ما بگویید تا بتوانیم در سفارشات بعدی، رضایت شما را جلب نمایید.</string>
     <string name="text_cancel_title">انتخاب گزینه های لغو سفارش</string>
+    <string name="text_order_status">تعیین وضعیت سفارش</string>
+    <string name="text_successful_activation">عملیات فعال سازی با موفقیت انجام شد</string>
+    <string name="text_all_tap_back_button">لطفا برای خروج کلید بازگشت را مجددا فشار دهید.</string>
 
 </resources>

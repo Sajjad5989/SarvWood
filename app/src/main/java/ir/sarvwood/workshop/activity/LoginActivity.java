@@ -67,12 +67,13 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
     private PublicFunctions publicFunctions = new PublicFunctions();
     private BaseInfoReturnValue baseInfoReturnValue;
     private int showHide = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         buttonClickConfig();
@@ -82,7 +83,6 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
     @Override
     protected void onResume() {
         super.onResume();
-        APP.currentActivity = LoginActivity.this;
     }
 
     @Override
@@ -118,11 +118,11 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
 
     private void logIn() {
         if ("".equals(Objects.requireNonNull(etUserName.getText()).toString())) {
-            APP.customToast(getString(R.string.text_enter_user_name));
+            APP.customToast(getString(R.string.text_enter_user_name), LoginActivity.this);
             return;
         }
         if ("".equals(Objects.requireNonNull(etPassword.getText()).toString())) {
-            APP.customToast(getString(R.string.text_enter_password));
+            APP.customToast(getString(R.string.text_enter_password), LoginActivity.this);
             return;
         }
 
@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
 
             @Override
             public void onFinish() {
-                APP.killApp();
+                APP.killApp(LoginActivity.this);
             }
 
             @Override
@@ -192,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
                     getBaseInfo();
 
                 } else {
-                    APP.customToast(response.getMessage());
+                    APP.customToast(response.getMessage(), LoginActivity.this);
                     return;
                 }
 
@@ -200,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
 
             @Override
             public void onFailure(String error) {
-                APP.customToast(error);
+                APP.customToast(error, LoginActivity.this);
                 LoginActivity.this.finish();
             }
         });
@@ -228,8 +228,8 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
 
                     @Override
                     public void onFailure(String error) {
-                        APP.customToast(error);
-                        APP.killApp();
+                        APP.customToast(error, LoginActivity.this);
+                        APP.killApp(LoginActivity.this);
                     }
                 });
     }
@@ -256,7 +256,7 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
                 startDownload(updateLink);
             else {
                 if (updateIsForce == 1)
-                    APP.killApp();
+                    APP.killApp(LoginActivity.this);
                 else {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     LoginActivity.this.finish();
@@ -296,13 +296,13 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             LoginActivity.this.finish();
                         } else {
-                            APP.customToast(response.getMessage());
+                            APP.customToast(response.getMessage(), LoginActivity.this);
                         }
                     }
 
                     @Override
                     public void onFailure(String error) {
-                        APP.customToast(error);
+                        APP.customToast(error, LoginActivity.this);
                     }
                 });
     }

@@ -37,5 +37,6 @@ public class MyOrderReturnValue {
     private String stateTitle;
     private int sheetSupplier;
     private String sheetSupplierTitle;
-
+    private int itemsCount;
+    private String discardDesc;
 }

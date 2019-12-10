@@ -42,9 +42,29 @@
         android:layout_marginEnd="@dimen/size_12_dp"
         android:layout_marginStart="@dimen/size_12_dp"
         android:layout_marginBottom="@dimen/size_14_dp"
-         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintBottom_toTopOf="@id/btn_return"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_decs" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_return"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/dimen_dp_zero"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_16_dp"
+        android:layout_marginBottom="@dimen/size_16_dp"
+        android:layout_marginEnd="@dimen/size_12_dp"
+        android:layout_marginStart="@dimen/size_12_dp"
+        android:background="@drawable/text_green_border_style"
+        android:fontFamily="@font/iran_sans_bold"
+        android:text="بازگشت"
+        android:textColor="@color/color_green"
+        android:textSize="@dimen/dimen_sp_medium"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycle_option" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

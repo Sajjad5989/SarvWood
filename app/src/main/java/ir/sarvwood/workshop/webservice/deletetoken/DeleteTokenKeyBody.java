@@ -1,4 +1,4 @@
-package ir.sarvwood.workshop.webservice.apibodies;
+package ir.sarvwood.workshop.webservice.deletetoken;
 
 
 import lombok.AllArgsConstructor;
@@ -12,9 +12,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class SaveTokenKeyBody {
+public class DeleteTokenKeyBody {
 
 
-    private int customerId;
-    private String  deviceTokenKey;
+    private int  customerId;
 }

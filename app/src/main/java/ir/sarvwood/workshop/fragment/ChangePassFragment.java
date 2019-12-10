@@ -76,7 +76,6 @@ public class ChangePassFragment extends Fragment implements IInternetController 
     @Override
     public void onResume() {
         super.onResume();
-        APP.currentActivity = getActivity();
     }
 
     @Override
@@ -147,11 +146,11 @@ public class ChangePassFragment extends Fragment implements IInternetController 
     }
     @Override
     public boolean isOnline() {
-        return OnlineCheck.getInstance(APP.currentActivity).isOnline();
+        return OnlineCheck.getInstance(getActivity()).isOnline();
     }
 
     private void openInternetCheckingDialog() {
-        ConnectionInternetDialog dialog = new ConnectionInternetDialog(APP.currentActivity, new InternetConnectionListener() {
+        ConnectionInternetDialog dialog = new ConnectionInternetDialog(getActivity(), new InternetConnectionListener() {
             @Override
             public void onInternet() {
                 startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
@@ -159,7 +158,7 @@ public class ChangePassFragment extends Fragment implements IInternetController 
 
             @Override
             public void onFinish() {
-                APP.killApp();
+                APP.killApp(getActivity());
             }
 
             @Override
@@ -168,18 +167,18 @@ public class ChangePassFragment extends Fragment implements IInternetController 
             }
         });
 
-        DialogUtil.showDialog(APP.currentActivity, dialog, false, true);
+        DialogUtil.showDialog(getActivity(), dialog, false, true);
 
     }
 
     private boolean checkValidity() {
         if ("".equals(etOldPass.getText().toString()) || "".equals(etNewPass.getText().toString()) ||
                 "".equals(etNewPassRepeat.getText().toString())) {
-            APP.customToast(getString(R.string.text_need_all_parameter));
+            APP.customToast(getString(R.string.text_need_all_parameter),getActivity());
             return false;
         }
         if (!etNewPassRepeat.getText().toString().equals(etNewPass.getText().toString())) {
-            APP.customToast(getString(R.string.text_repeat_password));
+            APP.customToast(getString(R.string.text_repeat_password),getActivity());
             return false;
         }
 
@@ -192,8 +191,8 @@ public class ChangePassFragment extends Fragment implements IInternetController 
             openInternetCheckingDialog();
         }
 
-        int userId = GeneralPreferences.getInstance(APP.currentActivity).getInt(BuildConfig.userId);
-        String token = GeneralPreferences.getInstance(APP.currentActivity).getString(BuildConfig.accessToken);
+        int userId = GeneralPreferences.getInstance(getActivity()).getInt(BuildConfig.userId);
+        String token = GeneralPreferences.getInstance(getActivity()).getString(BuildConfig.accessToken);
 
         ChangeCustomerPasswordBody changeCustomerPasswordBody = ChangeCustomerPasswordBody.builder()
                 .customerId(userId)
@@ -207,17 +206,17 @@ public class ChangePassFragment extends Fragment implements IInternetController 
                     @Override
                     public void onSuccess(SarvApiResponseNoList response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                            APP.customToast(getString(R.string.text_successful));
-                            GeneralPreferences.getInstance(APP.currentActivity).deleteAllInfo();
-                            APP.killApp();
+                            APP.customToast(getString(R.string.text_successful),getActivity());
+                            GeneralPreferences.getInstance(getActivity()).deleteAllInfo();
+                            APP.killApp(getActivity());
                         } else {
-                            APP.customToast(response.getMessage());
+                            APP.customToast(response.getMessage(),getActivity());
                         }
                     }
 
                     @Override
                     public void onFailure(String error) {
-                        APP.customToast(error);
+                        APP.customToast(error,getActivity());
                     }
                 });
     }

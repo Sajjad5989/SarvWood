@@ -39,10 +39,9 @@ public class MyOrderListAdapter extends RecyclerView.Adapter<MyOrderListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull MyOrderListAdapter.ViewHolder holder, int position) {
-        holder.tvTrackingCode.setText(items.get(position).getTrackingCode());
-        holder.tvMyOrderTime.setText(items.get(position).getInsrtTimeSimple());
+        holder.tvTrackingCode.setText(String.format("%s [ %s برش ]", items.get(position).getTrackingCode(), String.valueOf(items.get(position).getItemsCount())));
+        holder.tvMyOrderTime.setText(String.format("%s [ %s ]", items.get(position).getInsrtTimeSimple(), items.get(position).getInsrtDatePersian1()));
         holder.tvOrderStatus.setText(items.get(position).getStateTitle());
-
 
         int state = items.get(position).getState();
         switch (state) {

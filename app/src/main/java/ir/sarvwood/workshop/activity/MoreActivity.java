@@ -17,10 +17,15 @@ import ir.sarvwood.workshop.dialog.socaildialog.SocialNetworkDialog;
 import ir.sarvwood.workshop.dialog.socaildialog.SocialNetworkOnClickListener;
 import ir.sarvwood.workshop.dialog.yesno.YesNoDialog;
 import ir.sarvwood.workshop.interfaces.IDefault;
+import ir.sarvwood.workshop.interfaces.IResponseListener;
 import ir.sarvwood.workshop.interfaces.IRtl;
 import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.webservice.baseinfo.BaseInfoReturnValue;
+import ir.sarvwood.workshop.webservice.deletetoken.DeleteTokenKeyBody;
+import ir.sarvwood.workshop.webservice.deletetoken.DeleteTokenKeyController;
+import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
+import ir.sarvwood.workshop.webservice.savetoken.SaveTokenKeyBody;
 import ir.solmazzm.lib.engine.util.DialogUtil;
 
 public class MoreActivity extends AppCompatActivity implements IRtl, IDefault {
@@ -110,7 +115,6 @@ public class MoreActivity extends AppCompatActivity implements IRtl, IDefault {
     @Override
     protected void onResume() {
         super.onResume();
-        APP.currentActivity = MoreActivity.this;
         APP.setPersianUi();
     }
 
@@ -139,9 +143,7 @@ public class MoreActivity extends AppCompatActivity implements IRtl, IDefault {
         YesNoDialog yesNoDialog = new YesNoDialog(MoreActivity.this, getString(R.string.text_exit_title)
                 , msgExit, done -> {
             if (done) {
-                GeneralPreferences.getInstance(this).remove(BuildConfig.userName);
-                GeneralPreferences.getInstance(this).remove(BuildConfig.userPass);
-                APP.killApp();
+                deleteToken();
             }
         });
 
@@ -166,4 +168,29 @@ public class MoreActivity extends AppCompatActivity implements IRtl, IDefault {
         startActivity(intent);
     }
 
+    private void deleteToken()
+    {
+        int userId = GeneralPreferences.getInstance(MoreActivity.this).getCustomerId();
+        String token = GeneralPreferences.getInstance(MoreActivity.this).getToken();
+
+        DeleteTokenKeyBody keyBody = DeleteTokenKeyBody.builder()
+                .customerId(userId)
+                .build();
+        DeleteTokenKeyController deleteTokenKeyController = new DeleteTokenKeyController();
+        deleteTokenKeyController.start(userId, token, keyBody, new IResponseListener<SarvApiResponseNoList>() {
+            @Override
+            public void onSuccess(SarvApiResponseNoList response) {
+                if (response.getCode() == 0 && "success".equals(response.getStatus())) {
+                    GeneralPreferences.getInstance(MoreActivity.this).deleteAllInfo();
+                    APP.killApp(MoreActivity.this);
+                }
+                else APP.customToast(response.getMessage(),MoreActivity.this);
+            }
+
+            @Override
+            public void onFailure(String error) {
+
+            }
+        });
+    }
 }

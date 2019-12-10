@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ir.sarvwood.workshop.BuildConfig;
 import ir.sarvwood.workshop.R;
+import ir.sarvwood.workshop.activity.LoginActivity;
 import ir.sarvwood.workshop.dialog.internet.ConnectionInternetDialog;
 import ir.sarvwood.workshop.dialog.internet.InternetConnectionListener;
 import ir.sarvwood.workshop.interfaces.IInternetController;
@@ -60,7 +61,7 @@ public class EditProfileFragment extends Fragment implements IInternetController
     void updateInfo() {
 
         if (!checkValidity()) {
-            APP.customToast(getString(R.string.text_need_all_parameter));
+            APP.customToast(getString(R.string.text_need_all_parameter), getActivity());
             return;
         }
 
@@ -88,7 +89,6 @@ public class EditProfileFragment extends Fragment implements IInternetController
     @Override
     public void onResume() {
         super.onResume();
-        APP.currentActivity = getActivity();
 
     }
 
@@ -103,11 +103,11 @@ public class EditProfileFragment extends Fragment implements IInternetController
 
     @Override
     public boolean isOnline() {
-        return OnlineCheck.getInstance(APP.currentActivity).isOnline();
+        return OnlineCheck.getInstance(getActivity()).isOnline();
     }
 
     private void openInternetCheckingDialog() {
-        ConnectionInternetDialog dialog = new ConnectionInternetDialog(APP.currentActivity, new InternetConnectionListener() {
+        ConnectionInternetDialog dialog = new ConnectionInternetDialog(getActivity(), new InternetConnectionListener() {
             @Override
             public void onInternet() {
                 startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
@@ -115,7 +115,7 @@ public class EditProfileFragment extends Fragment implements IInternetController
 
             @Override
             public void onFinish() {
-                APP.killApp();
+                APP.killApp(getActivity());
             }
 
             @Override
@@ -123,21 +123,21 @@ public class EditProfileFragment extends Fragment implements IInternetController
             }
         });
 
-        DialogUtil.showDialog(APP.currentActivity, dialog, false, true);
+        DialogUtil.showDialog(getActivity(), dialog, false, true);
 
     }
 
     private void loadInfo() {
         getCustomerInfoReturnValue =
-                GeneralPreferences.getInstance(APP.currentActivity).getListCustomerInfoResponse();
+                GeneralPreferences.getInstance(getActivity()).getListCustomerInfoResponse();
 
         etFullName.setText(getCustomerInfoReturnValue.getFullName());
         etCompany.setText(getCustomerInfoReturnValue.getCompanyName());
         etPhone.setText(getCustomerInfoReturnValue.getPhone());
         etAddress.setText(getCustomerInfoReturnValue.getAddress());
 
-        userName = GeneralPreferences.getInstance(APP.currentActivity).getString(BuildConfig.userName);
-        userPass = GeneralPreferences.getInstance(APP.currentActivity).getString(BuildConfig.userPass);
+        userName = GeneralPreferences.getInstance(getActivity()).getString(BuildConfig.userName);
+        userPass = GeneralPreferences.getInstance(getActivity()).getString(BuildConfig.userPass);
 
         etMobile.setText(userName);
 
@@ -163,19 +163,19 @@ public class EditProfileFragment extends Fragment implements IInternetController
                     public void onSuccess(SarvApiResponse<UpdateCustomerInfoReturnValue> response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                             if (response.getData().get(0).getSignout() == 1) {
-                                APP.customToast(getString(R.string.text_log_in_again));
-                                GeneralPreferences.getInstance(APP.currentActivity).deleteAllInfo();
-                                APP.killApp();
+                                APP.customToast(getString(R.string.text_log_in_again),getActivity());
+                                GeneralPreferences.getInstance(getActivity()).deleteAllInfo();
+                                APP.killApp(getActivity());
                             } else {
                                 getCustomerInfo();
                             }
                         } else
-                            APP.customToast(response.getMessage());
+                            APP.customToast(response.getMessage(),getActivity());
                     }
 
                     @Override
                     public void onFailure(String error) {
-                        APP.customToast(error);
+                        APP.customToast(error,getActivity());
                     }
                 }
         );
@@ -198,18 +198,18 @@ public class EditProfileFragment extends Fragment implements IInternetController
                             getCustomerInfoReturnValue = (GetCustomerInfoReturnValue) response.getData().get(0);
 
                             saveInSharePreference();
-                            GeneralPreferences.getInstance(APP.currentActivity).putString(BuildConfig.userName, userName);
-                            GeneralPreferences.getInstance(APP.currentActivity).putString(BuildConfig.userPass, userPass);
-                            APP.customToast(getString(R.string.text_successful));
-                            APP.currentActivity.finish();
+                            GeneralPreferences.getInstance(getActivity()).putString(BuildConfig.userName, userName);
+                            GeneralPreferences.getInstance(getActivity()).putString(BuildConfig.userPass, userPass);
+                            APP.customToast(getString(R.string.text_successful),getActivity());
+                            getActivity().finish();
                         } else {
-                            APP.customToast(response.getMessage());
+                            APP.customToast(response.getMessage(),getActivity());
                         }
                     }
 
                     @Override
                     public void onFailure(String error) {
-                        APP.customToast(error);
+                        APP.customToast(error,getActivity());
                     }
                 });
     }
@@ -219,7 +219,7 @@ public class EditProfileFragment extends Fragment implements IInternetController
         return GetCustomerInfoBody.builder()
                 .username(userName)
                 .pass(userPass)
-                .applicationVersion(new PublicFunctions().getAppVersionCode(APP.currentActivity))
+                .applicationVersion(new PublicFunctions().getAppVersionCode(getActivity()))
                 .deviceModel(Build.MODEL)
                 .deviceName(Build.MANUFACTURER)
                 .sdkVersion(String.valueOf(Build.VERSION.SDK_INT))
@@ -227,9 +227,9 @@ public class EditProfileFragment extends Fragment implements IInternetController
     }
 
     public void saveInSharePreference() {
-        GeneralPreferences.getInstance(APP.currentActivity).putListCustomerInfoResponse(getCustomerInfoReturnValue);
-        GeneralPreferences.getInstance(APP.currentActivity).putCustomerId(getCustomerInfoReturnValue.getCustomerId());
-        GeneralPreferences.getInstance(APP.currentActivity).putToken(getCustomerInfoReturnValue.getAccessToken());
+        GeneralPreferences.getInstance(getActivity()).putListCustomerInfoResponse(getCustomerInfoReturnValue);
+        GeneralPreferences.getInstance(getActivity()).putCustomerId(getCustomerInfoReturnValue.getCustomerId());
+        GeneralPreferences.getInstance(getActivity()).putToken(getCustomerInfoReturnValue.getAccessToken());
     }
 
 }

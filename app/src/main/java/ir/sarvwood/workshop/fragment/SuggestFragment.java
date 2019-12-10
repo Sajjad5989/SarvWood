@@ -58,12 +58,12 @@ public class SuggestFragment extends Fragment {
 
     private boolean checkValidity() {
         if (type == 0) {
-            APP.customToast(getString(R.string.text_suggest_kind));
+            APP.customToast(getString(R.string.text_suggest_kind),getActivity());
             return false;
         }
 
         if ("".equals(etSuggestText.getText().toString())) {
-            APP.customToast(getString(R.string.text_suggest_input));
+            APP.customToast(getString(R.string.text_suggest_input),getActivity());
             return false;
         }
 
@@ -74,7 +74,6 @@ public class SuggestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_suggest, container, false);
 
-        APP.currentActivity = getActivity();
         return v;
     }
 
@@ -130,8 +129,8 @@ public class SuggestFragment extends Fragment {
 
     private void insertSuggest() {
 
-        int userId = GeneralPreferences.getInstance(APP.currentActivity).getCustomerId();
-        String token = GeneralPreferences.getInstance(APP.currentActivity).getToken();
+        int userId = GeneralPreferences.getInstance(getActivity()).getCustomerId();
+        String token = GeneralPreferences.getInstance(getActivity()).getToken();
         InsrtSuggestionBody insrtSuggestionBody = InsrtSuggestionBody.builder().
                 reporterId(userId).
                 type(type).
@@ -143,16 +142,16 @@ public class SuggestFragment extends Fragment {
                     @Override
                     public void onSuccess(SarvApiResponse<InsrtSuggestionReturnValue> response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                            APP.customToast(getString(R.string.text_successful));
-                            APP.currentActivity.finish();
+                            APP.customToast(getString(R.string.text_successful),getActivity());
+                            getActivity().finish();
                         } else {
-                            APP.customToast(response.getMessage());
+                            APP.customToast(response.getMessage(),getActivity());
                         }
                     }
 
                     @Override
                     public void onFailure(String error) {
-                        APP.customToast(error);
+                        APP.customToast(error,getActivity());
 
                     }
                 });

@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="ir.sarvwood.workshop.utils.APP"
+        android:name=".utils.APP"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,23 +15,40 @@
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="ir.sarvwood.workshop.activity.SplashActivity">
+
+        <service android:name=".firebase.SarvPushNotificationService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-        <activity android:name="ir.sarvwood.workshop.activity.IntroSliderActivity"  android:screenOrientation = "portrait"/>
-        <activity android:name="ir.sarvwood.workshop.activity.ActivationActivity"  android:screenOrientation = "portrait"/>
-        <activity android:name="ir.sarvwood.workshop.activity.LoginActivity"  android:screenOrientation = "portrait"/>
-        <activity android:name="ir.sarvwood.workshop.activity.MainActivity"  android:screenOrientation = "portrait"/>
-        <activity android:name="ir.sarvwood.workshop.activity.OrderActivity"  android:screenOrientation = "portrait"/>
-        <activity android:name="ir.sarvwood.workshop.activity.MoreActivity"  android:screenOrientation = "portrait"/>
-        <activity android:name="ir.sarvwood.workshop.activity.ContainerActivity"  android:screenOrientation = "portrait"/>
-
+        <activity
+            android:name=".activity.IntroSliderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ActivationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.OrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MoreActivity"
+            android:screenOrientation="portrait" />
+        <activity   android:name=".activity.ContainerActivity" android:screenOrientation="portrait" />
+        <activity   android:name=".activity.SupplierActivity" android:screenOrientation="portrait" />
     </application>
-
 
 </manifest>

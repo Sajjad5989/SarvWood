@@ -49,7 +49,8 @@ public class SplashActivity extends AppCompatActivity implements IInternetContro
 
     private GetCustomerInfoReturnValue getCustomerInfoReturnValue;
     private BaseInfoReturnValue baseInfoReturnValue;
-private   PublicFunctions publicFunctions = new PublicFunctions();
+    private PublicFunctions publicFunctions = new PublicFunctions();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,6 @@ private   PublicFunctions publicFunctions = new PublicFunctions();
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_splash);
-        APP.currentActivity = SplashActivity.this;
 
         AppCompatTextView tvVersion = findViewById(R.id.tv_version);
         tvVersion.setText(String.valueOf(new PublicFunctions().getAppVersionCode(SplashActivity.this)));
@@ -98,7 +98,7 @@ private   PublicFunctions publicFunctions = new PublicFunctions();
 
             @Override
             public void onFinish() {
-                APP.killApp();
+                APP.killApp(SplashActivity.this);
             }
 
             @Override
@@ -165,8 +165,8 @@ private   PublicFunctions publicFunctions = new PublicFunctions();
                     saveInSharePreference();
                     getBaseInfo();
                 } else {
-                    APP.customToast(response.getMessage());
-                    GeneralPreferences.getInstance(APP.currentActivity).deleteAllInfo();
+                    APP.customToast(response.getMessage(),SplashActivity.this);
+                    GeneralPreferences.getInstance(SplashActivity.this).deleteAllInfo();
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     SplashActivity.this.finish();
                 }
@@ -175,7 +175,7 @@ private   PublicFunctions publicFunctions = new PublicFunctions();
 
             @Override
             public void onFailure(String error) {
-                APP.customToast(error);
+                APP.customToast(error,SplashActivity.this);
                 SplashActivity.this.finish();
             }
         });
@@ -204,8 +204,8 @@ private   PublicFunctions publicFunctions = new PublicFunctions();
 
                     @Override
                     public void onFailure(String error) {
-                        APP.customToast(error);
-                        APP.killApp();
+                        APP.customToast(error,SplashActivity.this);
+                        APP.killApp(SplashActivity.this);
                     }
                 });
     }
@@ -229,7 +229,7 @@ private   PublicFunctions publicFunctions = new PublicFunctions();
                 startDownload(updateLink);
             else {
                 if (updateIsForce == 1)
-                    APP.killApp();
+                    APP.killApp(SplashActivity.this);
                 else {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     SplashActivity.this.finish();
@@ -246,8 +246,8 @@ private   PublicFunctions publicFunctions = new PublicFunctions();
                 getString(R.string.text_obligation_update) :
                 getString(R.string.text_optional_update);
     }
-    private void saveDeviceInfo()
-    {
+
+    private void saveDeviceInfo() {
         SaveDeviceInfoBody saveDeviceInfoBody = SaveDeviceInfoBody.builder().
                 customerId(getCustomerInfoReturnValue.getCustomerId()).
                 applicationVersion(publicFunctions.getAppVersionCode(SplashActivity.this)).
@@ -265,18 +265,17 @@ private   PublicFunctions publicFunctions = new PublicFunctions();
                 , saveDeviceInfoBody, new IResponseListener<SarvApiResponseNoList>() {
                     @Override
                     public void onSuccess(SarvApiResponseNoList response) {
-                        if (response.getCode() == 0 && "success".equals(response.getStatus()))
-                        {
+                        if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                             startActivity(new Intent(SplashActivity.this, MainActivity.class));
                             SplashActivity.this.finish();
+                        } else {
+                            APP.customToast(response.getMessage(),SplashActivity.this);
                         }
-                        else
-                        {APP.customToast(response.getMessage());}
                     }
 
                     @Override
                     public void onFailure(String error) {
-                        APP.customToast(error);
+                        APP.customToast(error,SplashActivity.this);
                     }
                 });
     }

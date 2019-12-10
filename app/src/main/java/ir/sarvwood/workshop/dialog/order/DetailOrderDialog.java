@@ -77,7 +77,6 @@ public class DetailOrderDialog extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_detail_order);
-        APP.currentActivity = getOwnerActivity();
         ButterKnife.bind(this);
         loadDetail();
     }

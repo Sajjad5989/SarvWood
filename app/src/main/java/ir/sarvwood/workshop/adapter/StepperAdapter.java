@@ -16,8 +16,10 @@ import ir.sarvwood.workshop.utils.APP;
 
 public class StepperAdapter extends AbstractFragmentStepAdapter {
 
+//    private Context context;
     public StepperAdapter(FragmentManager fm, Context context) {
         super(fm, context);
+//        this.context=context;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class StepperAdapter extends AbstractFragmentStepAdapter {
     @Override
     public StepViewModel getViewModel(@IntRange(from = 0) int position) {
 
-        String[] subTitles = APP.currentActivity.getResources().getStringArray(R.array.step_subtitle);
+        String[] subTitles = context.getResources().getStringArray(R.array.step_subtitle);
         StepViewModel.Builder builder = new StepViewModel.Builder(context)
                 .setTitle(getCurrentStep(position))
                 .setSubtitle(subTitles[position])

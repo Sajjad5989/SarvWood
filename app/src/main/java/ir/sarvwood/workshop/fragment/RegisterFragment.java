@@ -62,7 +62,7 @@ public class RegisterFragment extends Fragment implements IInternetController {
     @OnClick(R.id.btn_register)
     void register() {
         if (!checkValidity()) {
-            APP.customToast(getString(R.string.text_need_all_parameter));
+            APP.customToast(getString(R.string.text_need_all_parameter),getActivity());
             return;
         }
 
@@ -81,7 +81,6 @@ public class RegisterFragment extends Fragment implements IInternetController {
     @Override
     public void onResume() {
         super.onResume();
-        APP.currentActivity = getActivity();
 
     }
 
@@ -96,11 +95,11 @@ public class RegisterFragment extends Fragment implements IInternetController {
 
     @Override
     public boolean isOnline() {
-        return OnlineCheck.getInstance(APP.currentActivity).isOnline();
+        return OnlineCheck.getInstance(getActivity()).isOnline();
     }
 
     private void openInternetCheckingDialog(int methodCaller) {
-        ConnectionInternetDialog dialog = new ConnectionInternetDialog(APP.currentActivity, new InternetConnectionListener() {
+        ConnectionInternetDialog dialog = new ConnectionInternetDialog(getActivity(), new InternetConnectionListener() {
             @Override
             public void onInternet() {
                 startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
@@ -108,7 +107,7 @@ public class RegisterFragment extends Fragment implements IInternetController {
 
             @Override
             public void onFinish() {
-                APP.killApp();
+                APP.killApp(getActivity());
             }
 
             @Override
@@ -124,18 +123,18 @@ public class RegisterFragment extends Fragment implements IInternetController {
             }
         });
 
-        DialogUtil.showDialog(APP.currentActivity, dialog, false, true);
+        DialogUtil.showDialog(getActivity(), dialog, false, true);
 
     }
 
     private boolean checkPassword() {
         if (etPass.length() < 6) {
-            APP.customToast(getString(R.string.text_password_lenght));
+            APP.customToast(getString(R.string.text_password_lenght),getActivity());
             return false;
         }
 
         if (!Objects.requireNonNull(etPass.getText()).toString().equals(Objects.requireNonNull(etConfirmPass.getText()).toString())) {
-            APP.customToast(getString(R.string.text_repeat_password));
+            APP.customToast(getString(R.string.text_repeat_password),getActivity());
             return false;
         }
 
@@ -170,7 +169,7 @@ public class RegisterFragment extends Fragment implements IInternetController {
             public void onSuccess(SarvApiResponse<InsrtCustomerSimpleRerunValue> response) {
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                     insrtCustomerSimpleRerunValue =  response.getData().get(0);
-                    GeneralPreferences.getInstance(APP.currentActivity).putInsrtCustomerSimpleRerunValueResponse(insrtCustomerSimpleRerunValue);
+                    GeneralPreferences.getInstance(getActivity()).putInsrtCustomerSimpleRerunValueResponse(insrtCustomerSimpleRerunValue);
                     sendSmsOfCnfrmCode();
                 }
             }
@@ -178,7 +177,7 @@ public class RegisterFragment extends Fragment implements IInternetController {
             @Override
             public void onFailure(String error) {
                 insrtCustomerSimpleRerunValue = null;
-                APP.customToast(error);
+                APP.customToast(error,getActivity());
             }
         });
     }
@@ -197,14 +196,14 @@ public class RegisterFragment extends Fragment implements IInternetController {
             @Override
             public void onSuccess(SarvApiResponseNoList response) {
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                    GeneralPreferences.getInstance(APP.currentActivity).putString("mobile", etMobile.getText().toString());
-                    startActivity(new Intent(APP.currentActivity, ActivationActivity.class));
+                    GeneralPreferences.getInstance(getActivity()).putString("mobile", etMobile.getText().toString());
+                    startActivity(new Intent(getActivity(), ActivationActivity.class));
                 }
             }
 
             @Override
             public void onFailure(String error) {
-                APP.customToast(error);
+                APP.customToast(error,getActivity());
             }
         });
     }

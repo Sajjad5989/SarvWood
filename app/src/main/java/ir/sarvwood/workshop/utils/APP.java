@@ -29,18 +29,19 @@ public class APP extends MultiDexApplication {
 
     @SuppressLint("StaticFieldLeak")
     public static Context context;
-    @SuppressLint("StaticFieldLeak")
-    public static Activity currentActivity;
+//    @SuppressLint("StaticFieldLeak")
+//    public static Activity currentActivity;
 //    public static final String CURRENCY_SYMBOL = Objects.requireNonNull(currentActivity).getString(R.string.text_currency_symbol);
     public static Typeface defaultFont;
 
-    public static void customToast(String paramString) {
-        Display display = currentActivity.getWindowManager().getDefaultDisplay();
+    public static void customToast(String paramString,Activity activity) {
+
+        Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
 
         LinearLayout localLinearLayout = new LinearLayout(context);
-        localLinearLayout.setBackground(ContextCompat.getDrawable(APP.currentActivity, R.drawable.bg_toast_custom_primary));
+        localLinearLayout.setBackground(ContextCompat.getDrawable(activity, R.drawable.bg_toast_custom_primary));
         localLinearLayout.setGravity(1);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
         localLinearLayout.setLayoutParams(layoutParams);
@@ -61,9 +62,9 @@ public class APP extends MultiDexApplication {
         localToast.show();
     }
 
-    public static void killApp() {
-        currentActivity.finishAffinity();
-        ActivityCompat.finishAffinity(currentActivity);
+    public static void killApp(Activity activity) {
+        activity.finishAffinity();
+        ActivityCompat.finishAffinity(activity);
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
@@ -89,14 +90,7 @@ public class APP extends MultiDexApplication {
             config.setLayoutDirection( localeNew );
         }
         resources.updateConfiguration( config, resources.getDisplayMetrics() );
-//
-//        String languageToLoad = "fa";
-//        Locale locale = new Locale(languageToLoad);
-//        Locale.setDefault(locale);
-//        Configuration config = new Configuration();
-//        config.locale = locale;
-//        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
-//        new Geocoder(currentActivity, new Locale(languageToLoad));
+
     }
 
     private void setFonts( ){

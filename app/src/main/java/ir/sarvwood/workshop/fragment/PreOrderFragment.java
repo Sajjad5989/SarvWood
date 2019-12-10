@@ -1,8 +1,11 @@
 package ir.sarvwood.workshop.fragment;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +40,8 @@ import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
 import ir.sarvwood.workshop.webservice.updateorder.UpdateOrderBody;
 import ir.sarvwood.workshop.webservice.updateorder.UpdateOrderController;
 import ir.solmazzm.lib.engine.util.DialogUtil;
+import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class PreOrderFragment extends Fragment {
 
@@ -68,8 +73,9 @@ public class PreOrderFragment extends Fragment {
 
         if (OrderActivity.woodOrderModelList.size() != 0) {
 
-            userId = GeneralPreferences.getInstance(APP.currentActivity).getCustomerId();
-            token = GeneralPreferences.getInstance(APP.currentActivity).getToken();
+            showProgress();
+            userId = GeneralPreferences.getInstance(getActivity()).getCustomerId();
+            token = GeneralPreferences.getInstance(getActivity()).getToken();
 
             WoodModel wModel = OrderActivity.woodOrderModelList.get(0);
             int orderId = wModel.getOrderId();
@@ -80,19 +86,35 @@ public class PreOrderFragment extends Fragment {
         }
     }
 
+    private ProgressDialog progress;
+    private void showProgress() {
+
+
+//        progress = new ProgressDialog(getActivity());
+//        progress.setTitle("لطفا منتظر بمانید");
+//
+//        progress.setCancelable(true);
+//        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        progress.show();
+
+        progress = new ProgressDialog(getActivity());
+        String message = "لطفا منتظر بمانید";
+        SpannableString spannableString =  new SpannableString(message);
+
+        CalligraphyTypefaceSpan typefaceSpan = new CalligraphyTypefaceSpan(TypefaceUtils.load(getActivity().getAssets(),
+                "fonts/iran_sans.ttf"));
+        spannableString.setSpan(typefaceSpan, 0, message.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        progress.setMessage(spannableString);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.setCancelable(false);
+        progress.show();
+
+    }
 
     @OnClick(R.id.btn_new_order)
     void openOrderList() {
-
-//        DiscardOptionDialog discardOptionDialog = new DiscardOptionDialog(
-//                Objects.requireNonNull(getActivity()), new RecyclerViewClickListenerDiscard() {
-//            @Override
-//            public void onItemClick(int id) {
-//                discardOrder(id);
-//            }
-//        }
-//        );
-//        DialogUtil.showDialog(getActivity(), discardOptionDialog, false, true);
 
         startActivity(new Intent(getActivity(), OrderActivity.class));
     }
@@ -164,7 +186,6 @@ public class PreOrderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        APP.currentActivity = getActivity();
         callOrderOrPreOrder();
     }
 
@@ -229,18 +250,21 @@ public class PreOrderFragment extends Fragment {
             @Override
             public void onSuccess(SarvApiResponseNoList response) {
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                    APP.currentActivity = getActivity();
-                    APP.customToast(getString(R.string.text_successful));
+                    APP.customToast(getString(R.string.text_successful), getActivity());
                     OrderActivity.woodOrderModelList = new ArrayList<>();
-                    APP.currentActivity.finish();
+                    progress.hide();
+                    getActivity().finish();
                 } else {
-                    APP.customToast(response.getMessage());
+                    APP.customToast(response.getMessage(), getActivity());
+                    progress.hide();
                 }
             }
 
             @Override
-            public void onFailure(String error) {
-                APP.customToast(error);
+            public void onFailure(String error)
+            {
+                APP.customToast(error, getActivity());
+                progress.hide();
             }
         });
     }
@@ -263,49 +287,23 @@ public class PreOrderFragment extends Fragment {
             public void onSuccess(SarvApiResponse response) {
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                     InsertOrderBodyReturnValue data = (InsertOrderBodyReturnValue) response.getData().get(0);
-                    GeneralPreferences.getInstance(APP.currentActivity).putToken(data.getAccessToken());
-                    APP.customToast(getString(R.string.text_successful));
+                    GeneralPreferences.getInstance(getActivity()).putToken(data.getAccessToken());
+                    APP.customToast(getString(R.string.text_successful), getActivity());
                     OrderActivity.woodOrderModelList = new ArrayList<>();
-                    APP.currentActivity.finish();
+                    progress.hide();
+                    getActivity().finish();
                 } else {
-                    APP.customToast(response.getMessage());
+                    APP.customToast(response.getMessage(), getActivity());
+                    progress.hide();
                 }
             }
 
             @Override
             public void onFailure(String error) {
-                APP.customToast(error);
+                APP.customToast(error, getActivity());
+                progress.hide();
             }
         });
     }
-
-
-//    private void discardOrder(int id) {
-//
-//        DiscardOrderBody discardOrderBody = DiscardOrderBody.builder()
-//                .customerId(userId)
-//                .orderId(34)//نتیفیکیشن این آی دی بهم میده
-//                .discardOptionId(id)
-//                .build();
-//
-//        DiscardOrderController discardOrderController = new DiscardOrderController();
-//        discardOrderController.start(userId, token, discardOrderBody, new IResponseListener<SarvApiResponseNoList>() {
-//            @Override
-//            public void onSuccess(SarvApiResponseNoList response) {
-//                if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-//                    APP.customToast("سفارش شما لغو گردید");
-////                    getActivity().finish();
-//                } else {
-//                    APP.customToast(response.getMessage());
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(String error) {
-//                APP.customToast(error);
-//            }
-//        });
-//    }
 
 }

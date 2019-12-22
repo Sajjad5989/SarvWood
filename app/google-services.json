@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "714008768290",
+    "firebase_url": "https://sarvwood-e6458.firebaseio.com",
+    "project_id": "sarvwood-e6458",
+    "storage_bucket": "sarvwood-e6458.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714008768290:android:625f7f2475d36f390e7f7b",
+        "android_client_info": {
+          "package_name": "ir.sarvwood.workshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714008768290-3rumalkdo0514lqepfkon1p7so94vn49.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ir.sarvwood.workshop",
+            "certificate_hash": "eb074cf2f2134eedf9b28b443720c610bd216a75"
+          }
+        },
+        {
+          "client_id": "714008768290-cfjlv6etpr7lhk3hiqvuijq7fba5irek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNZNCMesP-vAg0NHi1tFhdQ7FKI-cW0-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714008768290-cfjlv6etpr7lhk3hiqvuijq7fba5irek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

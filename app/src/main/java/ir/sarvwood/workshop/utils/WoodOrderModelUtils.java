@@ -30,7 +30,7 @@ public class WoodOrderModelUtils {
     }
 
     private String getLength(int len) {
-        return len == 1 ? "1 طـول" : len == 2 ? "2 طـول" : "";
+        return len == 1 ? "1 طول" : len == 2 ? "2 طول" : "";
     }
 
     private String getWidth(int wid) {

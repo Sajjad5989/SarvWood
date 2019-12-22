@@ -33,7 +33,7 @@
         android:textSize="@dimen/size_10_dp"
         android:fontFamily="@font/iran_sans"
         android:textColor="@color/color_red"
-        android:text="با انتخاب استفاده از ورق کــارگاه، سفارش شما، سریعتر آماده خواهد شد."/>
+        android:text="با انتخاب استفاده از ورق کارگاه، سفارش شما، سریعتر آماده خواهد شد."/>
 
 
 

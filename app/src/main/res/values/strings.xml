@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">کارگاه ســرو</string>
+    <string name="app_name">کارگاه سرو</string>
 
     <string name="start_app_button_text">شروع کنید</string>
     <string name="all_string_next">بعدی</string>
@@ -23,7 +23,7 @@
     <string name="text_confirm_password">تکرار کلمه ی عبور</string>
 
     <string name="error_net_title">اینترنت درستگاه شما قطع می باشد</string>
-    <string name="internet_connection_error">اتصال دستگاه شما به اینترنت برقرار نیست. برای استـفاده از خدمات شیراز سرویس به اینترنت متصل شوید.</string>
+    <string name="internet_connection_error">اتصال دستگاه شما به اینترنت برقرار نیست. برای استفاده از خدمات شیراز سرویس به اینترنت متصل شوید.</string>
     <string name="internet_connection_error_title">خطا در اتصال به اینترنت!</string>
     <string name="internet">اینترنت</string>
     <string name="exit">خروج</string>
@@ -49,7 +49,7 @@
     <string name="text_order_detail">جزئیات سفارش</string>
     <string name="text_order_done">تایید سفارش</string>
     <string name="text_order_save">ثبت برش</string>
-    <string name="text_order_correct">اصـلاح</string>
+    <string name="text_order_correct">اصلاح</string>
     <string name="text_password_lenght">حداقل طول رمز عبور 6 کاراکتر می باشد</string>
     <string name="text_repeat_password">کلمه عبور با تکرار آن همخوانی ندارد</string>
 

@@ -2,15 +2,15 @@
 <resources>
 
 
-    <color name="color_toast_solid_color">#d21d1d1d</color>
-    <color name="color_red">#D81B2B</color>
-    <color name="color_green">#00805b</color>
+    <color name="color_toast_solid_color">#212121</color>
+    <color name="color_red">#CC0000</color>
+    <color name="color_green">#388E3C</color>
     <color name="color_yellow">#8B5007</color>
     <color name="color_brown">#FF8B5007</color>
 
-    <color name="colorGreenStep_1">#3F665A</color>
-    <color name="colorGreenStep_2">#739900</color>
-    <color name="colorOrange">#ff6600</color>
+    <color name="colorGreenStep_1">#00695c</color>
+    <color name="colorGreenStep_2">#43A047</color>
+    <color name="colorOrange">#FF8800</color>
 
 
     <color name="color_in_loading">#FFFF</color>
@@ -20,7 +20,7 @@
     <color name="color_active_dit">#000</color>
     <color name="color_in_active_dot">#B8B8B8</color>
 
-    <color name="colorBlackStep_0">#E6E5E5</color>
+    <color name="colorBlackStep_0">#F1F1F1</color>
     <color name="colorBlackStep_1">#8F8F8F</color>
     <color name="colorBlackStep_2">#545454</color>
     <color name="colorBlackStep_3">#373737</color>

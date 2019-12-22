@@ -103,7 +103,7 @@
                 android:fontFamily="@font/iran_sans_medium"
                 android:gravity="end"
 
-                android:text="کــد"
+                android:text="کد"
                 android:textColor="@color/colorBlackStep_1"
                 android:textSize="@dimen/text_size_12_sp" />
 

@@ -1,208 +1,262 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorWhite"
-    android:layoutDirection="rtl">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+                                                   xmlns:app = "http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width = "match_parent"
+                                                   android:layout_height = "match_parent"
+                                                   android:background = "@color/grey_50"
+                                                   android:layoutDirection = "rtl">
 
     <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:id = "@+id/toolbar"
+        layout = "@layout/toolbar"
+        android:layout_width = "0dp"
+        android:layout_height = "wrap_content"
+        app:layout_constraintLeft_toLeftOf = "parent"
+        app:layout_constraintRight_toRightOf = "parent"
+        app:layout_constraintTop_toTopOf = "parent" />
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/btn_ok_header_order"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        android:layout_margin = "@dimen/size_4_dp"
+        app:layout_constraintBottom_toTopOf = "@id/btn_ok_header_order"
+        app:layout_constraintLeft_toLeftOf = "parent"
+        app:layout_constraintRight_toRightOf = "parent"
+        app:layout_constraintTop_toBottomOf = "@id/toolbar">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:layout_margin = "@dimen/size_8_dp"
+            android:orientation = "vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/const_border_line"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:layout_marginBottom = "@dimen/size_8_dp"
+                android:background = "@drawable/box_bg"
+                app:layout_constraintLeft_toLeftOf = "parent"
+                app:layout_constraintRight_toRightOf = "parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorBlackStep_0"
-                    android:fontFamily="@font/iran_sans_medium"
-                    android:gravity="center"
-                    android:padding="@dimen/dimen_dp_small"
-                    android:text="مشخصات چوب"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_size_12_sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:id = "@+id/tv_caption"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content"
+                    android:background = "@drawable/box_bg_top_lbl_head"
+                    android:fontFamily = "@font/iran_sans_medium"
+                    android:gravity = "start"
+                    android:text = "1. مشخصات چوب"
+                    android:textColor = "@color/white"
+                    android:textSize = "@dimen/text_size_14_sp"
+                    app:layout_constraintRight_toRightOf = "parent"
+                    app:layout_constraintTop_toTopOf = "parent" />
 
                 <com.mlsdev.animatedrv.AnimatedRecyclerView
-                    android:id="@+id/recycler_wood"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_dp_tiny"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_caption" />
+                    android:id = "@+id/recycler_wood"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content"
+                    android:layout_margin = "@dimen/size_12_dp"
+                    android:layoutAnimation = "@anim/layout_animation_right_to_left"
+                    android:orientation = "horizontal"
+                    app:layout_constraintLeft_toLeftOf = "parent"
+                    app:layout_constraintRight_toRightOf = "parent"
+                    app:layout_constraintTop_toBottomOf = "@id/tv_caption" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
-                    android:id="@+id/chk_wood_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/color_green"
-                    app:layout_constraintBottom_toTopOf="@id/et_wood_color"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recycler_wood" />
+                    android:id = "@+id/chk_wood_arrow"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:buttonTint = "@color/color_green"
+                    app:layout_constraintRight_toRightOf = "@id/recycler_wood"
+                    app:layout_constraintTop_toBottomOf = "@id/recycler_wood" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_wood_arrow_caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/dimen_dp_small"
-                    android:fontFamily="@font/iran_sans_medium"
-                    android:gravity="center"
-                    android:text="چوب راه دار است"
-                    android:textColor="@color/colorBlackStep_5"
-                    android:textSize="@dimen/dimen_sp_small"
-                    app:layout_constraintRight_toLeftOf="@id/chk_wood_arrow"
-                    app:layout_constraintTop_toTopOf="@id/chk_wood_arrow" />
+                    android:id = "@+id/tv_wood_arrow_caption"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:fontFamily = "@font/iran_sans_medium"
+                    android:gravity = "start"
+                    android:text = "چوب راه دار است"
+                    android:textColor = "@color/colorBlackStep_5"
+                    android:textSize = "@dimen/dimen_sp_small"
+                    app:layout_constraintBottom_toBottomOf = "@id/chk_wood_arrow"
+                    app:layout_constraintRight_toLeftOf = "@id/chk_wood_arrow"
+                    app:layout_constraintTop_toTopOf = "@id/chk_wood_arrow"
+
+                    />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id = "@+id/et_wood_color_caption"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:fontFamily = "@font/iran_sans_medium"
+                    android:gravity = "start"
+                    android:text = "رنگ چوب"
+                    android:textColor = "@color/colorBlackStep_5"
+                    android:textSize = "@dimen/dimen_sp_small"
+                    app:layout_constraintBottom_toBottomOf = "@id/et_wood_color"
+                    app:layout_constraintRight_toRightOf = "@id/recycler_wood"
+                    app:layout_constraintTop_toTopOf = "@id/et_wood_color" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_wood_color"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_dp_tiny"
-                    android:background="@drawable/box_for_edits"
-                    android:fontFamily="@font/iran_sans"
-                    android:gravity="center"
-                    android:hint="رنگ چوب"
-                    android:padding="@dimen/dimen_dp_small"
-                    android:textSize="@dimen/dimen_sp_small"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/chk_wood_arrow" />
+                    android:id = "@+id/et_wood_color"
+                    android:layout_width = "0dp"
+                    android:layout_height = "wrap_content"
+                    android:layout_margin = "@dimen/size_8_dp"
+                    android:background = "@drawable/box_for_edits"
+                    android:fontFamily = "@font/iran_sans"
+                    android:gravity = "start"
+                    android:inputType = "text"
+                    android:padding = "@dimen/dimen_dp_small"
+                    android:textSize = "@dimen/dimen_sp_small"
+                    app:layout_constraintLeft_toLeftOf = "@id/recycler_wood"
+                    app:layout_constraintRight_toLeftOf = "@id/et_wood_color_caption"
+                    app:layout_constraintTop_toBottomOf = "@id/chk_wood_arrow">
+
+                    <requestFocus />
+                </androidx.appcompat.widget.AppCompatEditText>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id = "@+id/et_wood_brand_caption"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:fontFamily = "@font/iran_sans_medium"
+                    android:gravity = "start"
+                    android:text = "برند چوب"
+                    android:textColor = "@color/colorBlackStep_5"
+                    android:textSize = "@dimen/dimen_sp_small"
+                    app:layout_constraintBottom_toBottomOf = "@id/et_wood_brand"
+                    app:layout_constraintRight_toRightOf = "@id/recycler_wood"
+                    app:layout_constraintTop_toTopOf = "@id/et_wood_brand" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_wood_brand"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_dp_tiny"
-                    android:background="@drawable/box_for_edits"
-                    android:fontFamily="@font/iran_sans"
-                    android:gravity="center"
-                    android:hint="برند چوب"
-                    android:padding="@dimen/dimen_dp_small"
-                    android:textSize="@dimen/dimen_sp_small"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_wood_color" />
+                    android:id = "@+id/et_wood_brand"
+                    android:layout_width = "0dp"
+                    android:layout_height = "wrap_content"
+                    android:layout_marginTop = "@dimen/size_8_dp"
+                    android:layout_marginBottom = "@dimen/size_8_dp"
+                    android:background = "@drawable/box_for_edits"
+                    android:fontFamily = "@font/iran_sans"
+                    android:gravity = "start"
+                    android:inputType = "text"
+                    android:padding = "@dimen/dimen_dp_small"
+                    android:textSize = "@dimen/dimen_sp_small"
+                    app:layout_constraintLeft_toLeftOf = "@id/et_wood_color"
+                    app:layout_constraintRight_toRightOf = "@id/et_wood_color"
+                    app:layout_constraintTop_toBottomOf = "@id/et_wood_color" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id = "@+id/et_wood_code_caption"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:fontFamily = "@font/iran_sans_medium"
+                    android:gravity = "start"
+                    android:text = "کد چوب"
+                    android:textColor = "@color/colorBlackStep_5"
+                    android:textSize = "@dimen/dimen_sp_small"
+                    app:layout_constraintBottom_toBottomOf = "@id/et_wood_code"
+                    app:layout_constraintRight_toRightOf = "@id/recycler_wood"
+                    app:layout_constraintTop_toTopOf = "@id/et_wood_code" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_wood_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_dp_tiny"
-                    android:background="@drawable/box_for_edits"
-                    android:fontFamily="@font/iran_sans"
-                    android:gravity="center"
-                    android:hint="کد چوب"
-                    android:padding="@dimen/dimen_dp_small"
-                    android:textSize="@dimen/dimen_sp_small"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_wood_brand" />
+                    android:id = "@+id/et_wood_code"
+                    android:layout_width = "0dp"
+                    android:layout_height = "wrap_content"
+                    android:layout_marginTop = "@dimen/size_8_dp"
+                    android:layout_marginBottom = "@dimen/size_8_dp"
+                    android:background = "@drawable/box_for_edits"
+                    android:fontFamily = "@font/iran_sans"
+                    android:gravity = "start"
+                    android:inputType = "text"
+                    android:padding = "@dimen/dimen_dp_small"
+                    android:textSize = "@dimen/dimen_sp_small"
+                    app:layout_constraintLeft_toLeftOf = "@id/et_wood_color"
+                    app:layout_constraintRight_toRightOf = "@id/et_wood_color"
+                    app:layout_constraintTop_toBottomOf = "@id/et_wood_brand" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_dp_tiny"
-                android:background="@drawable/const_border_line"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:layout_marginTop = "@dimen/size_8_dp"
+                android:layout_marginBottom = "@dimen/size_8_dp"
+                android:background = "@drawable/box_bg"
+                app:layout_constraintLeft_toLeftOf = "parent"
+                app:layout_constraintRight_toRightOf = "parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_size_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_10_dp"
-                    android:background="@color/colorBlackStep_0"
-                    android:fontFamily="@font/iran_sans_medium"
-                    android:gravity="center"
-                    android:padding="@dimen/dimen_dp_small"
-                    android:text="سایز ورق"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_size_12_sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:id = "@+id/tv_size_caption"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content"
+                    android:background = "@drawable/box_bg_top_lbl_head"
+                    android:fontFamily = "@font/iran_sans_medium"
+                    android:gravity = "start"
+                    android:text = "2. سایز ورق"
+
+                    android:textColor = "@color/white"
+                    android:textSize = "@dimen/text_size_14_sp"
+                    app:layout_constraintRight_toRightOf = "parent"
+                    app:layout_constraintTop_toTopOf = "parent" />
 
                 <com.mlsdev.animatedrv.AnimatedRecyclerView
-                    android:id="@+id/recycler_sheet_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_dp_tiny"
-                    android:background="@drawable/const_border_line"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_size_caption" />
+                    android:id = "@+id/recycler_sheet_size"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content"
+                    android:layout_margin = "@dimen/size_12_dp"
+                    android:layoutAnimation = "@anim/layout_animation_right_to_left"
+                    android:orientation = "horizontal"
+                    app:layout_constraintLeft_toLeftOf = "parent"
+                    app:layout_constraintRight_toRightOf = "parent"
+                    app:layout_constraintTop_toBottomOf = "@id/tv_size_caption" />
 
 
                 <LinearLayout
-                    android:id="@+id/linear_custom_dimension"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_sheet_size">
+                    android:id = "@+id/linear_custom_dimension"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content"
+                    android:visibility = "gone"
+                    app:layout_constraintTop_toBottomOf = "@+id/recycler_sheet_size">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/et_width"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/size_28_dp"
-                        android:layout_marginEnd="@dimen/dimen_dp_tiny"
-                        android:layout_weight="1"
-                        android:background="@drawable/box_for_edits"
-                        android:gravity="center"
-                        android:hint="عرض"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:padding="@dimen/dimen_dp_small"
-                        android:textSize="@dimen/dimen_sp_medium" />
+                        android:id = "@+id/et_width"
+                        android:layout_width = "0dp"
+                        android:layout_height = "wrap_content"
+                        android:layout_marginStart = "@dimen/size_28_dp"
+                        android:layout_marginEnd = "@dimen/dimen_dp_tiny"
+                        android:layout_weight = "1"
+                        android:background = "@drawable/box_for_edits"
+                        android:gravity = "center"
+                        android:hint = "عرض"
+                        android:inputType = "number"
+                        android:maxLength = "3"
+                        android:padding = "@dimen/dimen_dp_small"
+                        android:textSize = "@dimen/dimen_sp_medium" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="@dimen/size_0_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:gravity="center"
-                        android:text="*" />
+                        android:layout_width = "@dimen/size_0_dp"
+                        android:layout_height = "wrap_content"
+                        android:layout_weight = "0.5"
+                        android:gravity = "center"
+                        android:text = "*" />
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/et_height"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/size_28_dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/box_for_edits"
-                        android:gravity="center"
-                        android:hint="طول"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:padding="@dimen/dimen_dp_small"
-                        android:textSize="@dimen/dimen_sp_medium" />
+                        android:id = "@+id/et_height"
+                        android:layout_width = "0dp"
+                        android:layout_height = "wrap_content"
+                        android:layout_marginEnd = "@dimen/size_28_dp"
+                        android:layout_weight = "1"
+                        android:background = "@drawable/box_for_edits"
+                        android:gravity = "center"
+                        android:hint = "طول"
+                        android:inputType = "number"
+                        android:maxLength = "3"
+                        android:padding = "@dimen/dimen_dp_small"
+                        android:textSize = "@dimen/dimen_sp_medium" />
 
                 </LinearLayout>
 
@@ -210,53 +264,68 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/const_border_line"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:layout_marginTop = "@dimen/size_8_dp"
+                android:layout_marginBottom = "@dimen/size_8_dp"
+                android:background = "@drawable/box_bg"
+                app:layout_constraintLeft_toLeftOf = "parent"
+                app:layout_constraintRight_toRightOf = "parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_thickness_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_10_dp"
-                    android:layout_marginBottom="@dimen/dimen_dp_small"
-                    android:background="@color/colorBlackStep_0"
-                    android:fontFamily="@font/iran_sans_bold"
-                    android:gravity="center"
-                    android:padding="@dimen/dimen_dp_small"
-                    android:text="ضخامت pvc"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_size_12_sp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:id = "@+id/tv_thickness_caption"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content"
+                    android:background = "@drawable/box_bg_top_lbl_head"
+                    android:fontFamily = "@font/iran_sans_medium"
+                    android:gravity = "start"
+                    android:text = "3. ضخامت pvc"
+                    android:textColor = "@color/white"
+                    android:textSize = "@dimen/text_size_16_sp"
+                    app:layout_constraintRight_toRightOf = "parent"
+                    app:layout_constraintTop_toTopOf = "parent" />
 
                 <com.mlsdev.animatedrv.AnimatedRecyclerView
-                    android:id="@+id/recycler_pvc_thickness"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_dp_tiny"
-                    android:layout_marginBottom="@dimen/dimen_dp_tiny"
-                    android:background="@drawable/const_border_line"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_thickness_caption" />
+                    android:id = "@+id/recycler_pvc_thickness"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content"
+                    android:layout_margin = "@dimen/size_12_dp"
+                    android:layoutAnimation = "@anim/layout_animation_right_to_left"
+                    android:orientation = "horizontal"
+                    app:layout_constraintLeft_toLeftOf = "parent"
+                    app:layout_constraintRight_toRightOf = "parent"
+                    app:layout_constraintTop_toBottomOf = "@id/tv_thickness_caption" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id = "@+id/et_pvc_color_caption"
+                    android:layout_width = "wrap_content"
+                    android:layout_height = "wrap_content"
+                    android:fontFamily = "@font/iran_sans_medium"
+                    android:gravity = "start"
+                    android:text = "رنگ pvc"
+                    android:textColor = "@color/colorBlackStep_5"
+                    android:textSize = "@dimen/dimen_sp_small"
+                    app:layout_constraintBottom_toBottomOf = "@id/et_pvc_color"
+                    app:layout_constraintRight_toRightOf = "@id/recycler_pvc_thickness"
+                    app:layout_constraintTop_toTopOf = "@id/et_pvc_color" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_pvc_color"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_dp_tiny"
-                    android:background="@drawable/box_for_edits"
-                    android:fontFamily="@font/iran_sans"
-                    android:gravity="start"
-                    android:hint="رنگ pvc"
-                    android:padding="@dimen/dimen_dp_small"
-                    android:textSize="@dimen/dimen_sp_small"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recycler_pvc_thickness" />
+                    android:id = "@+id/et_pvc_color"
+                    android:layout_width = "0dp"
+                    android:layout_height = "wrap_content"
+                    android:layout_margin = "@dimen/size_8_dp"
+                    android:background = "@drawable/box_for_edits"
+                    android:fontFamily = "@font/iran_sans"
+                    android:gravity = "start"
+                    android:inputType = "text"
+                    android:padding = "@dimen/dimen_dp_small"
+                    android:textSize = "@dimen/dimen_sp_small"
+                    app:layout_constraintLeft_toLeftOf = "@id/recycler_pvc_thickness"
+                    app:layout_constraintRight_toLeftOf = "@id/et_pvc_color_caption"
+
+                    app:layout_constraintTop_toBottomOf = "@id/recycler_pvc_thickness"
+
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -267,22 +336,22 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_ok_header_order"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="@dimen/dimen_dp_zero"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dimen_dp_small"
-        android:layout_marginTop="@dimen/dimen_dp_very_large"
-        android:layout_marginEnd="@dimen/dimen_dp_small"
-        android:layout_marginBottom="@dimen/dimen_dp_small"
-        android:background="@drawable/button_style_green"
-        android:fontFamily="@font/iran_sans_bold"
-        android:text="تــایید"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/dimen_sp_small"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:id = "@+id/btn_ok_header_order"
+        style = "?android:attr/borderlessButtonStyle"
+        android:layout_width = "@dimen/dimen_dp_zero"
+        android:layout_height = "wrap_content"
+        android:layout_marginStart = "@dimen/dimen_dp_small"
+        android:layout_marginTop = "@dimen/dimen_dp_very_large"
+        android:layout_marginEnd = "@dimen/dimen_dp_small"
+        android:layout_marginBottom = "@dimen/dimen_dp_small"
+        android:background = "@drawable/button_style_green"
+        android:fontFamily = "@font/iran_sans_bold"
+        android:text = "تایید"
+        android:textColor = "@color/colorWhite"
+        android:textSize = "@dimen/text_size_18_sp"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintLeft_toLeftOf = "parent"
+        app:layout_constraintRight_toRightOf = "parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

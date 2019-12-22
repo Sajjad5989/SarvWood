@@ -51,7 +51,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/text_green_border_style"
                 android:fontFamily="@font/iran_sans_medium"
-                android:text="نـظر"
+                android:text="نظر"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/text_size_10_sp" />
 
@@ -137,7 +137,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/iran_sans_medium"
-            android:text="متـن"
+            android:text="متن"
             android:textColor="@color/colorBlackStep_1"
             android:textSize="@dimen/text_size_12_sp"
             app:layout_constraintRight_toRightOf="parent"

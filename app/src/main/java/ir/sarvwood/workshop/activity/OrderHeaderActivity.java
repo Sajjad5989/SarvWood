@@ -23,6 +23,8 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -203,8 +205,8 @@ public class OrderHeaderActivity extends AppCompatActivity implements IInternetC
             changeWoodTypeListValue(position);
         });
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        recyclerWood.setLayoutManager(gridLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false );
+        recyclerWood.setLayoutManager(layoutManager);
         recyclerWood.setAdapter(woodTypeAdapter);
         recyclerWood.scheduleLayoutAnimation();
     }
@@ -220,8 +222,8 @@ public class OrderHeaderActivity extends AppCompatActivity implements IInternetC
             changePvcThicknessListValue(position);
         });
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-        recyclerThickness.setLayoutManager(gridLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false );
+        recyclerThickness.setLayoutManager(layoutManager);
         recyclerThickness.setAdapter(pvcThicknessAdapter);
         recyclerThickness.scheduleLayoutAnimation();
     }
@@ -236,8 +238,8 @@ public class OrderHeaderActivity extends AppCompatActivity implements IInternetC
             changeWoodSheetListValue(position);
         });
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-        recyclerSheetSize.setLayoutManager(gridLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false );
+        recyclerSheetSize.setLayoutManager(layoutManager);
         recyclerSheetSize.setAdapter(woodSizeAdapter);
         recyclerSheetSize.scheduleLayoutAnimation();
     }

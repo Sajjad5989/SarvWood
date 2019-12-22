@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
-import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -52,10 +50,10 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
     protected AnimatedRecyclerView recyclerWidth;
     @BindView(R.id.const_description)
     protected ConstraintLayout constDescription;
-    @BindView(R.id.chk_wood_arrow)
-    protected AppCompatCheckBox chkWoodArrow;
-    @BindView(R.id.tv_wood_arrow_caption)
-    protected AppCompatTextView tvWoodArrowCaption;
+    //    @BindView(R.id.chk_wood_arrow)
+//    protected AppCompatCheckBox chkWoodArrow;
+//    @BindView(R.id.tv_wood_arrow_caption)
+//    protected AppCompatTextView tvWoodArrowCaption;
     @BindView(R.id.tv_sub_title)
     protected AppCompatTextView tvSubTitle;
     @BindView(R.id.et_description)
@@ -64,6 +62,8 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
     protected AppCompatEditText etHeight;
     @BindView(R.id.et_width)
     protected AppCompatEditText etWidth;
+    @BindView(R.id.et_count)
+    protected AppCompatEditText etCount;
     @BindView(R.id.linear_custom_dimension)
     protected LinearLayout linearCustomDimension;
     @BindView(R.id.image_record)
@@ -79,14 +79,28 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
         //initialize your UI
         ButterKnife.bind(this, v);
         imageRecord.setOnClickListener(view -> setDescriptionByMic());
+        fillEdits();
         return v;
+    }
+
+    private void fillEdits() {
+        if (OrderActivity.woodModel != null) {
+            if (OrderActivity.woodModel.getCutLength() > 0)
+                etHeight.setText(String.valueOf(OrderActivity.woodModel.getCutLength()));
+            if (OrderActivity.woodModel.getCutWidth() > 0)
+                etWidth.setText(String.valueOf(OrderActivity.woodModel.getCutWidth()));
+            if (OrderActivity.woodModel.getSheetCount() > 0)
+                etCount.setText(String.valueOf(OrderActivity.woodModel.getSheetCount()));
+
+            etDescription.setText(OrderActivity.woodModel.getDesc());
+        }
     }
 
     private void setDescriptionByMic() {
         try {
             startActivityForResult(SpeechIntentBuilder.getInstance(getContext()).getSpeechIntent(), REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException a) {
-            APP.customToast(getResources().getString(R.string.speech_not_supported),getActivity());
+            APP.customToast(getResources().getString(R.string.speech_not_supported), getActivity());
         }
     }
 
@@ -105,59 +119,68 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
         else Objects.requireNonNull(getActivity()).finish();
 
         setVisibility(View.GONE);
-        setVisibilityCheckBox(View.GONE);
+//        setVisibilityCheckBox(View.GONE);
+//        constDescription.setVisibility(View.GONE);
         setVisibilityCustomDimension(View.GONE);
 
-        etDescription.setInputType(InputType.TYPE_CLASS_TEXT);
-        etDescription.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        etDescription.setHint("رنگ");
-        etDescription.setText("");
+//        etDescription.setInputType(InputType.TYPE_CLASS_TEXT);
+//        etDescription.setGravity(View.TEXT_ALIGNMENT_CENTER);
+//        etDescription.setHint("رنگ");
+        //  etDescription.setText("");
 
         switch (stepPosition) {
             case 0:
-                tvSubTitle.setText(getString(R.string.text_select_wood_type));
-                setVisibilityCheckBox(View.VISIBLE);
-                chkWoodArrow.setChecked(OrderActivity.woodModel.getPatterned() == 1);
-                break;
-            case 3:
-            case 7:
-            case 8:
-                tvSubTitle.setText(R.string.text_select_width_length);
-                break;
-            case 1:
-                tvSubTitle.setText(getString(R.string.text_wood_color));
-                if (OrderActivity.woodModel != null)
-                    etDescription.setText(OrderActivity.woodModel.getColor());
-                setVisibility(View.VISIBLE);
-                break;
-            case 2:
-                tvSubTitle.setText(getString(R.string.text_pvc_color));
-                if (OrderActivity.woodModel != null)
-                    etDescription.setText(OrderActivity.woodModel.getPvcColor());
-                setVisibility(View.VISIBLE);
+                //طول، عرض، تعداد
+                setVisibilityCustomDimension(View.VISIBLE);
                 break;
             case 4:
-                tvSubTitle.setText(getString(R.string.text_pvc_thickness));
+                //توضیحات تکمیلی
+                setVisibility(View.VISIBLE);
                 break;
-            case 5:
-                tvSubTitle.setText(R.string.text_select_width_length);
-                if (OrderActivity.woodModel.getWoodSheetList() != null) {
-                    if (OrderActivity.woodModel.getWoodSheetList().getIndex() == 4) {
-                        linearCustomDimension.setVisibility(View.VISIBLE);
-                        etHeight.setText(String.valueOf(OrderActivity.woodModel.getWoodSheetLength()));
-                        etWidth.setText(String.valueOf(OrderActivity.woodModel.getWoodSheetWidth()));
-                    }
-                }
-                break;
-            case 6:
-                tvSubTitle.setText(R.string.text_paper_count);
-                setVisibility();
-                if (OrderActivity.woodModel != null)
-                    etDescription.setText(String.valueOf(OrderActivity.woodModel.getSheetCount()));
-                etDescription.setHint("تعداد");
-                etDescription.setInputType(InputType.TYPE_CLASS_NUMBER);
-                etDescription.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                break;
+//            case 0:
+//                tvSubTitle.setText(getString(R.string.text_select_wood_type));
+//                setVisibilityCheckBox(View.VISIBLE);
+//                chkWoodArrow.setChecked(OrderActivity.woodModel.getPatterned() == 1);
+//                break;
+//            case 3:
+//            case 7:
+//            case 8:
+//                tvSubTitle.setText(R.string.text_select_width_length);
+//                break;
+//            case 1:
+//                tvSubTitle.setText(getString(R.string.text_wood_color));
+//                if (OrderActivity.woodModel != null)
+//                    etDescription.setText(OrderActivity.woodModel.getColor());
+//                setVisibility(View.VISIBLE);
+//                break;
+//            case 2:
+//                tvSubTitle.setText(getString(R.string.text_pvc_color));
+//                if (OrderActivity.woodModel != null)
+//                    etDescription.setText(OrderActivity.woodModel.getPvcColor());
+//                setVisibility(View.VISIBLE);
+//                break;
+//            case 4:
+//                tvSubTitle.setText(getString(R.string.text_pvc_thickness));
+//                break;
+//            case 5:
+//                tvSubTitle.setText(R.string.text_select_width_length);
+//                if (OrderActivity.woodModel.getWoodSheetList() != null) {
+//                    if (OrderActivity.woodModel.getWoodSheetList().getIndex() == 4) {
+//                        linearCustomDimension.setVisibility(View.VISIBLE);
+//                        etHeight.setText(String.valueOf(OrderActivity.woodModel.getWoodSheetLength()));
+//                        etWidth.setText(String.valueOf(OrderActivity.woodModel.getWoodSheetWidth()));
+//                    }
+//                }
+//                break;
+//            case 6:
+//                tvSubTitle.setText(R.string.text_paper_count);
+//                setVisibility();
+//                if (OrderActivity.woodModel != null)
+//                    etDescription.setText(String.valueOf(OrderActivity.woodModel.getSheetCount()));
+//                etDescription.setHint("تعداد");
+//                etDescription.setInputType(InputType.TYPE_CLASS_NUMBER);
+//                etDescription.setGravity(View.TEXT_ALIGNMENT_CENTER);
+//                break;
         }
 
         recyclerLength.setVisibility(View.GONE);
@@ -171,25 +194,26 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
 
     //
     private void setVisibility(int vs) {
+        // constDescription.setVisibility(vs);
         etDescription.setVisibility(vs);
         imageRecord.setVisibility(vs);
     }
 
-    private void setVisibilityCheckBox(int vs) {
-        chkWoodArrow.setVisibility(vs);
-        tvWoodArrowCaption.setVisibility(vs);
-    }
+//    private void setVisibilityCheckBox(int vs) {
+//        chkWoodArrow.setVisibility(vs);
+//        tvWoodArrowCaption.setVisibility(vs);
+//    }
 
     private void setVisibilityCustomDimension(int vs) {
         linearCustomDimension.setVisibility(vs);
     }
 
-    private void setVisibility() {
-
-        etDescription.setVisibility(View.VISIBLE);
-        // tvDescription.setVisibility(View.VISIBLE);
-        imageRecord.setVisibility(View.GONE);
-    }
+//    private void setVisibility() {
+//
+//        etDescription.setVisibility(View.VISIBLE);
+//        // tvDescription.setVisibility(View.VISIBLE);
+//        imageRecord.setVisibility(View.GONE);
+//    }
 
     @Override
     public void onError(@NonNull VerificationError error) {
@@ -201,55 +225,59 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
     public void onNextClicked(final StepperLayout.OnNextClickedCallback callback) {
         setOrder();
 
-        if (stepPosition == 0) {
-            if (OrderActivity.woodModel.getWoodType() == null) {
-                APP.customToast(getString(R.string.text_select_one),getActivity());
+//        if (stepPosition == 0) {
+//            if (OrderActivity.woodModel.getWoodType() == null) {
+//                APP.customToast(getString(R.string.text_select_one),getActivity());
+//                return;
+//            }
+//        } else if (stepPosition == 1) {
+//            if ("".equals(OrderActivity.woodModel.getColor())) {
+//                APP.customToast(getString(R.string.text_need_value),getActivity());
+//                return;
+//            }
+//        } else
+        if (stepPosition == 1) {
+            if (OrderActivity.woodModel.getPvcLengthNo() == null || OrderActivity.woodModel.getPvcWidthNo() == null) {
+                APP.customToast(getString(R.string.text_choose_sirection), getActivity());
                 return;
             }
-        } else if (stepPosition == 1) {
-            if ("".equals(OrderActivity.woodModel.getColor())) {
-                APP.customToast(getString(R.string.text_need_value),getActivity());
+        }
+//            else if (stepPosition == 4) {
+//            if (OrderActivity.woodModel.getPvcThickness() == null) {
+//                APP.customToast(getString(R.string.text_select_one),getActivity());
+//                return;
+//            }
+//        }
+//            else if (stepPosition == 5) {
+//            if (OrderActivity.woodModel.getWoodSheetList() != null) {
+//                if (OrderActivity.woodModel.getWoodSheetList().getIndex() == 4) {
+//                    linearCustomDimension.setVisibility(View.VISIBLE);
+//
+//                    int sheetLen = Integer.valueOf(Objects.requireNonNull(etHeight.getText()).toString());
+//                    int sheetWid = Integer.valueOf(Objects.requireNonNull(etWidth.getText()).toString());
+//
+//                    OrderActivity.woodModel.setWoodSheetLength(sheetLen);
+//                    OrderActivity.woodModel.setWoodSheetWidth(sheetWid);
+//                }
+//            } else {
+//                APP.customToast(getString(R.string.text_select_one),getActivity());
+//                return;
+//            }
+//        } else if (stepPosition == 6) {
+//            if (OrderActivity.woodModel.getSheetCount() == 0 || "".equals(String.valueOf(OrderActivity.woodModel.getSheetCount()))) {
+//                APP.customToast(getString(R.string.text_need_all_parameter),getActivity());
+//                return;
+//            }
+//        } else
+        if (stepPosition == 2) {
+            if (OrderActivity.woodModel.getPersianCutLenghtNo() == null ||
+                    OrderActivity.woodModel.getPersianCutWidthNo() == null) {
+                APP.customToast(getString(R.string.text_select_one), getActivity());
                 return;
             }
         } else if (stepPosition == 3) {
-            if (OrderActivity.woodModel.getPvcLengthNo() == null || OrderActivity.woodModel.getPvcWidthNo() == null) {
-                APP.customToast(getString(R.string.text_choose_sirection),getActivity());
-                return;
-            }
-        } else if (stepPosition == 4) {
-            if (OrderActivity.woodModel.getPvcThickness() == null) {
-                APP.customToast(getString(R.string.text_select_one),getActivity());
-                return;
-            }
-        } else if (stepPosition == 5) {
-            if (OrderActivity.woodModel.getWoodSheetList() != null) {
-                if (OrderActivity.woodModel.getWoodSheetList().getIndex() == 4) {
-                    linearCustomDimension.setVisibility(View.VISIBLE);
-
-                    int sheetLen = Integer.valueOf(Objects.requireNonNull(etHeight.getText()).toString());
-                    int sheetWid = Integer.valueOf(Objects.requireNonNull(etWidth.getText()).toString());
-
-                    OrderActivity.woodModel.setWoodSheetLength(sheetLen);
-                    OrderActivity.woodModel.setWoodSheetWidth(sheetWid);
-                }
-            } else {
-                APP.customToast(getString(R.string.text_select_one),getActivity());
-                return;
-            }
-        } else if (stepPosition == 6) {
-            if (OrderActivity.woodModel.getSheetCount() == 0 || "".equals(String.valueOf(OrderActivity.woodModel.getSheetCount()))) {
-                APP.customToast(getString(R.string.text_need_all_parameter),getActivity());
-                return;
-            }
-        } else if (stepPosition == 7) {
-            if (OrderActivity.woodModel.getPersianCutLenghtNo() == null ||
-                    OrderActivity.woodModel.getPersianCutWidthNo() == null) {
-                APP.customToast(getString(R.string.text_select_one),getActivity());
-                return;
-            }
-        } else if (stepPosition == 8) {
             if (OrderActivity.woodModel.getGrooveLenghtNo() == null || OrderActivity.woodModel.getGrooveWidthNo() == null) {
-                APP.customToast(getString(R.string.text_select_one),getActivity());
+                APP.customToast(getString(R.string.text_select_one), getActivity());
                 return;
             }
         }
@@ -259,11 +287,6 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
 
     @Override
     public void onCompleteClicked(StepperLayout.OnCompleteClickedCallback callback) {
-//        if (selectLength == -1 || selectWidth == -1) {
-//            APP.customToast(getString(R.string.text_error_select_one));
-//            return;
-//        }
-
         setOrder();
         showOrderDetail();
         callback.complete();
@@ -331,76 +354,80 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
     }
 
     private List<CheckableObject> getListByPosition() {
-        if (stepPosition == 0) {
-            return OrderActivity.woodTypeList;
-        } else if (stepPosition == 3)
+//1        if (stepPosition == 0) {
+//1            return OrderActivity.woodTypeList;
+//1        } else
+//asli            if (stepPosition == 3)
+//asli            return OrderActivity.pvcLengthNoList;
+        if (stepPosition == 1)
             return OrderActivity.pvcLengthNoList;
-        else if (stepPosition == 4)
-            return OrderActivity.pvcThicknessList;
-        else if (stepPosition == 5)
-            return OrderActivity.woodSheetList;
-        else if (stepPosition == 7)
+//1        else if (stepPosition == 4)
+//1            return OrderActivity.pvcThicknessList;
+//1        else if (stepPosition == 5)
+//1            return OrderActivity.woodSheetList;
+        else if (stepPosition == 2)
             return OrderActivity.persianCutLengthNo;
-        else if (stepPosition == 8)
+        else if (stepPosition == 3)
             return OrderActivity.grooveLengthNo;
         else return new ArrayList<>();
     }
 
     private List<CheckableObject> getSecondListByPosition() {
-        if (stepPosition == 3)
+        if (stepPosition == 1)
             return OrderActivity.pvcWidthNoList;
-        else if (stepPosition == 7)
+        else if (stepPosition == 2)
             return OrderActivity.persianCutWidthNo;
-        else if (stepPosition == 8)
+        else if (stepPosition == 3)
             return OrderActivity.grooveWidthNo;
         else return new ArrayList<>();
     }
 
     private void onItemClick(int position) {
-        if (stepPosition == 0)
-            changeWoodTypeListValue(position);
-        else if (stepPosition == 3)
+//        if (stepPosition == 0)
+//            changeWoodTypeListValue(position);
+//        else
+        if (stepPosition == 1)
             changePvcLengthListValue(position);
-        else if (stepPosition == 4)
-            changePvcThicknessListValue(position);
-        else if (stepPosition == 5)
-            changeWoodSheetListValue(position);
-        else if (stepPosition == 7)
+//        else if (stepPosition == 4)
+//            changePvcThicknessListValue(position);
+//        else if (stepPosition == 5)
+//            changeWoodSheetListValue(position);
+        else if (stepPosition == 2)
             changePersianCutterLengthListValue(position);
-        else if (stepPosition == 8)
+        else if (stepPosition == 3)
             changeGrooveLengthListValue(position);
     }
 
     private void onItemWidthClick(int position) {
-        if (stepPosition == 3)
+        if (stepPosition == 1)
             changePvcWidthListValue(position);
-        else if (stepPosition == 7)
+        else if (stepPosition == 2)
             changePersianCutterWidthListValue(position);
-        else if (stepPosition == 8)
+        else if (stepPosition == 3)
             changeGrooveWidthListValue(position);
     }
 
-    private void changeWoodTypeListValue(int position) {
-        for (CheckableObject co : OrderActivity.woodTypeList) {
-            co.setChecked(false);
-        }
-        OrderActivity.woodTypeList.get(position).setChecked(true);
-        OrderActivity.woodTypeList.get(position).setIndex(position);
-        OrderActivity.woodModel.setWoodType(OrderActivity.woodTypeList.get(position));
-
-        lengthAdapter.notifyDataSetChanged();
-    }
-
-    private void changePvcThicknessListValue(int position) {
-        for (CheckableObject co : OrderActivity.pvcThicknessList) {
-            co.setChecked(false);
-        }
-        OrderActivity.pvcThicknessList.get(position).setChecked(true);
-        OrderActivity.pvcThicknessList.get(position).setIndex(position);
-        OrderActivity.woodModel.setPvcThickness(OrderActivity.pvcThicknessList.get(position));
-
-        lengthAdapter.notifyDataSetChanged();
-    }
+//    private void changeWoodTypeListValue(int position) {
+//        for (CheckableObject co : OrderActivity.woodTypeList) {
+//            co.setChecked(false);
+//        }
+//        OrderActivity.woodTypeList.get(position).setChecked(true);
+//        OrderActivity.woodTypeList.get(position).setIndex(position);
+//        OrderActivity.woodModel.setWoodType(OrderActivity.woodTypeList.get(position));
+//
+//        lengthAdapter.notifyDataSetChanged();
+//    }
+//
+//    private void changePvcThicknessListValue(int position) {
+//        for (CheckableObject co : OrderActivity.pvcThicknessList) {
+//            co.setChecked(false);
+//        }
+//        OrderActivity.pvcThicknessList.get(position).setChecked(true);
+//        OrderActivity.pvcThicknessList.get(position).setIndex(position);
+//        OrderActivity.woodModel.setPvcThickness(OrderActivity.pvcThicknessList.get(position));
+//
+//        lengthAdapter.notifyDataSetChanged();
+//    }
 
     private void changePvcLengthListValue(int position) {
         for (CheckableObject co : OrderActivity.pvcLengthNoList) {
@@ -462,63 +489,72 @@ public class OrderFragment extends Fragment implements Step, BlockingStep {
         widthAdapter.notifyDataSetChanged();
     }
 
-    private void changeWoodSheetListValue(int position) {
-        for (CheckableObject co : OrderActivity.woodSheetList) {
-            co.setChecked(false);
-        }
-        OrderActivity.woodSheetList.get(position).setChecked(true);
-        OrderActivity.woodSheetList.get(position).setIndex(position);
-
-        OrderActivity.woodModel.setWoodSheetList(OrderActivity.woodSheetList.get(position));
-
-        int sheetLen = 0;
-        int sheetWid = 0;
-
-        switch (position) {
-            case 0:
-                sheetLen = 366;
-                sheetWid = 183;
-                break;
-            case 1:
-                sheetLen = 280;
-                sheetWid = 122;
-                break;
-            case 2:
-                sheetLen = 240;
-                sheetWid = 122;
-                break;
-            case 3:
-                sheetLen = 210;
-                sheetWid = 183;
-                break;
-            default:
-                linearCustomDimension.setVisibility(View.VISIBLE);
-                break;
-        }
-
-        OrderActivity.woodModel.setWoodSheetLength(sheetLen);
-        OrderActivity.woodModel.setWoodSheetWidth(sheetWid);
-
-        lengthAdapter.notifyDataSetChanged();
-    }
+//    private void changeWoodSheetListValue(int position) {
+//        for (CheckableObject co : OrderActivity.woodSheetList) {
+//            co.setChecked(false);
+//        }
+//        OrderActivity.woodSheetList.get(position).setChecked(true);
+//        OrderActivity.woodSheetList.get(position).setIndex(position);
+//
+//        OrderActivity.woodModel.setWoodSheetList(OrderActivity.woodSheetList.get(position));
+//
+//        int sheetLen = 0;
+//        int sheetWid = 0;
+//
+//        switch (position) {
+//            case 0:
+//                sheetLen = 366;
+//                sheetWid = 183;
+//                break;
+//            case 1:
+//                sheetLen = 280;
+//                sheetWid = 122;
+//                break;
+//            case 2:
+//                sheetLen = 240;
+//                sheetWid = 122;
+//                break;
+//            case 3:
+//                sheetLen = 210;
+//                sheetWid = 183;
+//                break;
+//            default:
+//                linearCustomDimension.setVisibility(View.VISIBLE);
+//                break;
+//        }
+//
+//        OrderActivity.woodModel.setWoodSheetLength(sheetLen);
+//        OrderActivity.woodModel.setWoodSheetWidth(sheetWid);
+//
+//        lengthAdapter.notifyDataSetChanged();
+//    }
 
 
     private void setOrder() {
 
-        switch (stepPosition) {
-            case 0:
-                OrderActivity.woodModel.setPatterned(chkWoodArrow.isChecked() ? 1 : 0);
-                break;
-            case 1:
-                OrderActivity.woodModel.setColor(Objects.requireNonNull(etDescription.getText()).toString());
-                break;
-            case 2:
-                OrderActivity.woodModel.setPvcColor(Objects.requireNonNull(etDescription.getText()).toString());
-                break;
-            case 6:
-                OrderActivity.woodModel.setSheetCount(Integer.valueOf(Objects.requireNonNull(etDescription.getText()).toString()));
-                break;
-        }
+        if (stepPosition == 0) {
+
+            OrderActivity.woodModel.setCutLength(Float.valueOf(etHeight.getText().toString()));
+            OrderActivity.woodModel.setCutWidth(Float.valueOf(etWidth.getText().toString()));
+
+            OrderActivity.woodModel.setSheetCount(Integer.valueOf(etCount.getText().toString()));
+        } else if (stepPosition == 4)
+            OrderActivity.woodModel.setDesc(Objects.requireNonNull(etDescription.getText()).toString());
+
+//        switch (stepPosition) {
+//            case 0:
+//                OrderActivity.woodModel.setPatterned(chkWoodArrow.isChecked() ? 1 : 0);
+//                break;
+//            case 1:
+//                OrderActivity.woodModel.setColor(Objects.requireNonNull(etDescription.getText()).toString());
+//                break;
+//            case 2:
+//                OrderActivity.woodModel.setPvcColor(Objects.requireNonNull(etDescription.getText()).toString());
+//                break;
+//            case 6:
+//                OrderActivity.woodModel.setSheetCount(Integer.valueOf(Objects.requireNonNull(etDescription.getText()).toString()));
+//                break;
+//        }
     }
 
     @Override

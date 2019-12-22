@@ -35,7 +35,7 @@ public class StepperAdapter extends AbstractFragmentStepAdapter {
 
     @Override
     public int getCount() {
-        return 9;
+        return 5;
     }
 
     @NonNull
@@ -59,17 +59,17 @@ public class StepperAdapter extends AbstractFragmentStepAdapter {
             case 1:
             case 2:
             case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
+//            case 4:
+//            case 5:
+//            case 6:
+//            case 7:
                 builder
                         .setEndButtonLabel("مرحله بعد")
                         .setBackButtonLabel("مرحله قبل")
                         .setNextButtonEndDrawableResId(R.drawable.ic_arrow_left)
                         .setBackButtonStartDrawableResId(R.drawable.ic_arrow_right);
                 break;
-            case 8:
+            case 4:
                 builder
                         .setEndButtonLabel("ثبت برش")
                         .setBackButtonLabel("مرحله قبل")

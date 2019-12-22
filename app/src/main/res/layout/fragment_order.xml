@@ -46,36 +46,14 @@
         android:layout_height="match_parent"
         android:padding="@dimen/dimen_dp_small">
 
-
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/chk_wood_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/color_green"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wood_arrow_caption"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/dimen_dp_small"
-            android:fontFamily="@font/iran_sans_medium"
-            android:gravity="center"
-            android:text="چوب راه دار است"
-            android:textColor="@color/colorBlackStep_5"
-            android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintRight_toLeftOf="@id/chk_wood_arrow"
-            app:layout_constraintTop_toTopOf="@id/chk_wood_arrow" />
-
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/box_for_edits"
-            android:gravity="center"
-            android:inputType="number"
-            android:maxLength="11"
+            android:gravity="start"
+            android:lines="10"
+            android:inputType="text"
             android:padding="@dimen/dimen_dp_small"
             android:textSize="@dimen/dimen_sp_medium"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -99,6 +77,24 @@
 
 
             <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_28_dp"
+                android:layout_marginEnd="@dimen/dimen_dp_tiny"
+                android:layout_weight="1"
+                android:background="@drawable/box_for_edits"
+                android:gravity="center"
+                android:hint="تعداد"
+                android:inputType="number"
+                android:maxLength="3"
+                android:padding="@dimen/dimen_dp_small"
+                android:textSize="@dimen/dimen_sp_medium" />
+
+
+
+
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_width"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -108,7 +104,7 @@
                 android:background="@drawable/box_for_edits"
                 android:gravity="center"
                 android:hint="عرض"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:maxLength="3"
                 android:padding="@dimen/dimen_dp_small"
                 android:textSize="@dimen/dimen_sp_medium" />
@@ -129,7 +125,7 @@
                 android:background="@drawable/box_for_edits"
                 android:gravity="center"
                 android:hint="طول"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:maxLength="3"
                 android:padding="@dimen/dimen_dp_small"
                 android:textSize="@dimen/dimen_sp_medium" />

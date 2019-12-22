@@ -22,17 +22,27 @@
         <item>@string/slider_3_desc</item>
     </string-array>
 
+
+
     <string-array name="step_subtitle">
-        <item>نوع چوب</item>
-        <item>رنگ چوب</item>
-        <item>رنگ pvc</item>
+        <item>سایز برش</item>
         <item>جهت pvc</item>
-        <item>ضخامت pvc</item>
-        <item>ابعاد ورق</item>
-        <item>تعداد هر ورق</item>
         <item>فارسی بر</item>
         <item>شیار</item>
+        <item>توضیحات</item>
     </string-array>
+
+<!--    <string-array name="step_subtitle">-->
+<!--        <item>نوع چوب</item>-->
+<!--        <item>رنگ چوب</item>-->
+<!--        <item>رنگ pvc</item>-->
+<!--        <item>جهت pvc</item>-->
+<!--        <item>ضخامت pvc</item>-->
+<!--        <item>ابعاد ورق</item>-->
+<!--        <item>تعداد هر ورق</item>-->
+<!--        <item>فارسی بر</item>-->
+<!--        <item>شیار</item>-->
+<!--    </string-array>-->
 
 
     <string-array name="wood_type">

@@ -49,6 +49,7 @@
             android:screenOrientation="portrait" />
         <activity   android:name=".activity.ContainerActivity" android:screenOrientation="portrait" />
         <activity   android:name=".activity.SupplierActivity" android:screenOrientation="portrait" />
+        <activity   android:name=".activity.OrderHeaderActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

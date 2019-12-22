@@ -31,13 +31,15 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
 
     public static WoodModel woodModel;
     public static int  listRowIdx = -1;
+
     public static List<WoodModel> woodOrderModelList = new ArrayList<>();
     public static OrderListCreation orderListCreation;
-    public static List<CheckableObject> woodTypeList;
-    public static List<CheckableObject> pvcThicknessList;
+//    public static List<CheckableObject> woodTypeList;
+//    public static List<CheckableObject> pvcThicknessList;
+
     public static List<CheckableObject> pvcLengthNoList;
     public static List<CheckableObject> pvcWidthNoList;
-    public static List<CheckableObject> woodSheetList;
+//    public static List<CheckableObject> woodSheetList;
     public static List<CheckableObject> persianCutLengthNo;
     public static List<CheckableObject> persianCutWidthNo;
     public static List<CheckableObject> grooveLengthNo;
@@ -54,9 +56,6 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
         prepareToolbar();
@@ -65,22 +64,26 @@ public class OrderActivity extends AppCompatActivity implements StepperLayout.St
         // باندل یه کلاس از چوب دارد کهبه صورت سریالیزیشن پاس دادم
         Intent in = getIntent();
         bundle = in.getExtras();
-        if (bundle != null)
+        if (bundle != null) {
             woodModel = (WoodModel) bundle.getSerializable("woodModel");
+
+        }
         else
             woodModel = new WoodModel();
 
         orderListCreation = new OrderListCreation(this);
 
-        woodTypeList = orderListCreation.getWoodTypeList(woodModel.getWoodType());
-        pvcThicknessList = orderListCreation.getPvcThickness(woodModel.getPvcThickness());
+//        woodTypeList = orderListCreation.getWoodTypeList(woodModel.getWoodType());
+//        pvcThicknessList = orderListCreation.getPvcThickness(woodModel.getPvcThickness());
+
         pvcLengthNoList = orderListCreation.getPvcLengthNo(woodModel.getPvcLengthNo());
         pvcWidthNoList = orderListCreation.getPvcWidthNo(woodModel.getPvcWidthNo());
         persianCutLengthNo = orderListCreation.getPersianCutLenghtNo(woodModel.getPersianCutLenghtNo());
         persianCutWidthNo = orderListCreation.getPersianCutWidthNo(woodModel.getPersianCutWidthNo());
         grooveLengthNo = orderListCreation.getGrooveLengthNo(woodModel.getGrooveLenghtNo());
         grooveWidthNo = orderListCreation.getGrooveWidthNo(woodModel.getGrooveWidthNo());
-        woodSheetList = orderListCreation.getWoodSheetList(woodModel.getWoodSheetList());
+
+        //        woodSheetList = orderListCreation.getWoodSheetList(woodModel.getWoodSheetList());
 
         openOrderSteps();
 

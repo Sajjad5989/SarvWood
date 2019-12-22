@@ -125,14 +125,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openOrderList() {
-        openPreOrderListFragment();
+
+        startActivity(new Intent(MainActivity.this, OrderHeaderActivity.class));
+       // openPreOrderListFragment();
     }
 
 
     private void openPreOrderListFragment() {
+
         Intent intent = new Intent(MainActivity.this, ContainerActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("fragmentFlag", 5);
+//        bundle.putInt("fragmentFlag", 5);
+        bundle.putInt("fragmentFlag", 9);
         intent.putExtras(bundle);
         startActivity(intent);
     }

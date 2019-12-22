@@ -19,22 +19,22 @@ import ir.sarvwood.workshop.utils.APP;
 public class SendPreOrderDialog extends Dialog {
 
     private final DetailOrderListener detailOrderListener;
-    @BindView(R.id.tv_wood_type)
-    protected AppCompatTextView tvWoodType;
-    @BindView(R.id.tv_patterned)
-    protected AppCompatTextView tvPatterned;
-
-    @BindView(R.id.tv_wood_color)
-    protected AppCompatTextView tvWoodColor;
-
-    @BindView(R.id.tv_pvc_color)
-    protected AppCompatTextView tvPvcColor;
+//    @BindView(R.id.tv_wood_type)
+//    protected AppCompatTextView tvWoodType;
+//    @BindView(R.id.tv_patterned)
+//    protected AppCompatTextView tvPatterned;
+//
+//    @BindView(R.id.tv_wood_color)
+//    protected AppCompatTextView tvWoodColor;
+//
+//    @BindView(R.id.tv_pvc_color)
+//    protected AppCompatTextView tvPvcColor;
 
     @BindView(R.id.tv_pvc_direction)
     protected AppCompatTextView tvPvcDirection;
 
-    @BindView(R.id.tv_pvc_thickness)
-    protected AppCompatTextView tvPvcThickness;
+//    @BindView(R.id.tv_pvc_thickness)
+//    protected AppCompatTextView tvPvcThickness;
 
     @BindView(R.id.tv_paper_size)
     protected AppCompatTextView tvPaperSize;
@@ -87,14 +87,14 @@ public class SendPreOrderDialog extends Dialog {
     private void loadDetail() {
 
         if (woodModel != null) {
-            tvWoodType.setText( woodModel.getWoodType().getName());
-            tvPatterned.setText(woodModel.getPatterned() == 1 ? "راه دار می باشد" : "");
-            tvWoodColor.setText(woodModel.getColor());
-            tvPvcColor.setText(woodModel.getPvcColor());
+//            tvWoodType.setText( woodModel.getWoodType().getName());
+//            tvPatterned.setText(woodModel.getPatterned() == 1 ? "راه دار می باشد" : "");
+//            tvWoodColor.setText(woodModel.getColor());
+//            tvPvcColor.setText(woodModel.getPvcColor());
             tvPvcDirection.setText(getCorrectString(
                     String.format("%s,%s", getCorrectFormat(woodModel.getPvcLengthNo()), getCorrectFormat(woodModel.getPvcWidthNo()))
             ));
-            tvPvcThickness.setText( getCorrectFormat(woodModel.getPvcThickness()));
+//            tvPvcThickness.setText( getCorrectFormat(woodModel.getPvcThickness()));
             tvPaperSize.setText(String.format("%s * %s", woodModel.getWoodSheetLength(), woodModel.getWoodSheetWidth()));
             tvPaperCount.setText(String.valueOf(woodModel.getSheetCount()));
             tvPersianSheet.setText(

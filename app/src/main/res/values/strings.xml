@@ -31,8 +31,8 @@
     <string name="title_home">خانه</string>
 
 
-    <string name="type_one">MDF</string>
-    <string name="type_two">HighGlass</string>
+    <string name="type_one">ام دی اف</string>
+    <string name="type_two">نئوپان ملامینه</string>
 
 
     <string name="oneTtwoW">1طول، 2عرض</string>
@@ -129,5 +129,6 @@
     <string name="text_order_status">تعیین وضعیت سفارش</string>
     <string name="text_successful_activation">عملیات فعال سازی با موفقیت انجام شد</string>
     <string name="text_all_tap_back_button">لطفا برای خروج کلید بازگشت را مجددا فشار دهید.</string>
+    <string name="text_please_wait">لطفا منتظر بمانید</string>
 
 </resources>

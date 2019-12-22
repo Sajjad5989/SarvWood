@@ -177,6 +177,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
         }
     }
 
+    private int orderState = 0;
     private void getOrderDetail(int orderId) {
         GetOrderDetailsBody getOrderDetailsBody = GetOrderDetailsBody.builder().orderId(orderId).build();
         GetOrderDetailsController getOrderDetailsController = new GetOrderDetailsController();
@@ -186,6 +187,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
                     public void onSuccess(SarvApiResponse<GetOrderDetailsReturnValue<GetOrderDetailsItemReturnValue>> response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                             returnValueList = response.getData().get(0).getItems();
+                            orderState = response.getData().get(0).getState();
                             OrderActivity.woodOrderModelList = new ArrayList<>();
                             OrderActivity.woodOrderModelList = new ConvertToWoodModelList(returnValueList,getActivity()).getWoodOrderModelList();
                             openOrderItems();
@@ -208,6 +210,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
         Intent intent = new Intent(getActivity(), ContainerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("fragmentFlag", 6);
+        bundle.putInt("orderStatus", orderState);
         intent.putExtras(bundle);
         startActivity(intent);
 

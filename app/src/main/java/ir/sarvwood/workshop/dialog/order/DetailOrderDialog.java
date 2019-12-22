@@ -18,22 +18,22 @@ import ir.sarvwood.workshop.utils.APP;
 public class DetailOrderDialog extends Dialog {
 
     private final DetailOrderListener detailOrderListener;
-    @BindView(R.id.tv_wood_type)
-    protected AppCompatTextView tvWoodType;
-    @BindView(R.id.tv_patterned)
-    protected AppCompatTextView tvPatterned;
+//    @BindView(R.id.tv_wood_type)
+//    protected AppCompatTextView tvWoodType;
+//    @BindView(R.id.tv_patterned)
+//    protected AppCompatTextView tvPatterned;
 
-    @BindView(R.id.tv_wood_color)
-    protected AppCompatTextView tvWoodColor;
+//    @BindView(R.id.tv_wood_color)
+//    protected AppCompatTextView tvWoodColor;
 
-    @BindView(R.id.tv_pvc_color)
-    protected AppCompatTextView tvPvcColor;
+//    @BindView(R.id.tv_pvc_color)
+//    protected AppCompatTextView tvPvcColor;
 
     @BindView(R.id.tv_pvc_direction)
     protected AppCompatTextView tvPvcDirection;
 
-    @BindView(R.id.tv_pvc_thickness)
-    protected AppCompatTextView tvPvcThickness;
+//    @BindView(R.id.tv_pvc_thickness)
+//    protected AppCompatTextView tvPvcThickness;
 
     @BindView(R.id.tv_paper_size)
     protected AppCompatTextView tvPaperSize;
@@ -46,6 +46,8 @@ public class DetailOrderDialog extends Dialog {
 
     @BindView(R.id.tv_groove)
     protected AppCompatTextView tvGroove;
+    @BindView(R.id.tv_desc)
+    protected AppCompatTextView tvDesc;
     private WoodModel woodOrderModel;
 
     public DetailOrderDialog(@NonNull Context context, DetailOrderListener detailOrderListener, WoodModel woodOrderModel) {
@@ -84,19 +86,17 @@ public class DetailOrderDialog extends Dialog {
     private void loadDetail() {
 
         if (woodOrderModel != null) {
-            tvWoodType.setText(woodOrderModel.getWoodType().getName());
-            tvPatterned.setText(woodOrderModel.getPatterned() == 1 ? "راه دار می باشد" : "");
-            tvWoodColor.setText(woodOrderModel.getColor());
-            tvPvcColor.setText(woodOrderModel.getPvcColor());
+//            tvWoodType.setText(woodOrderModel.getWoodType().getName());
+//            tvPatterned.setText(woodOrderModel.getPatterned() == 1 ? "راه دار می باشد" : "");
+//            tvWoodColor.setText(woodOrderModel.getColor());
+//            tvPvcColor.setText(woodOrderModel.getPvcColor());
 
             tvPvcDirection.setText(getCorrectString(String.format("%s,%s",
                     getCorrectFormat(woodOrderModel.getPvcLengthNo()),
                     getCorrectFormat(woodOrderModel.getPvcWidthNo()))));
 
-            tvPvcThickness.setText(getCorrectFormat(woodOrderModel.getPvcThickness()));
-
             tvPaperSize.setText(String.format("%s * %s",
-                    String.valueOf(woodOrderModel.getWoodSheetLength()), String.valueOf(woodOrderModel.getWoodSheetWidth())));
+                    String.valueOf(woodOrderModel.getCutLength()), String.valueOf(woodOrderModel.getCutWidth())));
 
             tvPaperCount.setText(String.valueOf(woodOrderModel.getSheetCount()));
             tvPersianSheet.setText(getCorrectString(String.format("%s,%s",
@@ -105,6 +105,8 @@ public class DetailOrderDialog extends Dialog {
             tvGroove.setText(getCorrectString(String.format("%s,%s",
                     getCorrectFormat(woodOrderModel.getGrooveLenghtNo()),
                     getCorrectFormat(woodOrderModel.getGrooveWidthNo()))));
+
+            tvDesc.setText(woodOrderModel.getDesc());
         }
     }
 

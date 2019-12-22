@@ -1,6 +1,7 @@
 package ir.sarvwood.workshop.activity;
 
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -9,6 +10,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Display;
@@ -46,6 +49,8 @@ import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
 import ir.sarvwood.workshop.webservice.savedeviceinfo.SaveDeviceInfoBody;
 import ir.sarvwood.workshop.webservice.savedeviceinfo.SaveDeviceInfoController;
 import ir.solmazzm.lib.engine.util.DialogUtil;
+import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class LoginActivity extends AppCompatActivity implements IInternetController {
 
@@ -171,10 +176,30 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
         return getCustomerInfoBody;
     }
 
+
+    private ProgressDialog progress;
+    private void showProgress() {
+        progress = new ProgressDialog(LoginActivity.this);
+        String message = getString(R.string.text_please_wait);
+        SpannableString spannableString =  new SpannableString(message);
+
+        CalligraphyTypefaceSpan typefaceSpan = new CalligraphyTypefaceSpan(TypefaceUtils.load(LoginActivity.this.getAssets(),
+                "fonts/iran_sans.ttf"));
+        spannableString.setSpan(typefaceSpan, 0, message.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        progress.setMessage(spannableString);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.setCancelable(false);
+        progress.show();
+    }
+
     private void getCustomerInfo() {
         if (!isOnline()) {
             openInternetCheckingDialog();
         }
+
+        showProgress();
 
         GetCustomerInfoController getCustomerInfoController = new GetCustomerInfoController();
         getCustomerInfoController.start(getCustomerInfoBody(), new IResponseListener<SarvApiResponse<GetCustomerInfoReturnValue>>() {
@@ -193,7 +218,7 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
 
                 } else {
                     APP.customToast(response.getMessage(), LoginActivity.this);
-                    return;
+                    progress.hide();
                 }
 
             }
@@ -218,6 +243,7 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
                             String appVersion = String.valueOf(publicFunctions.getAppVersionCode(LoginActivity.this));
                             if (!appVersion.equals(baseInfoReturnValue.getAndroidGlobalAppVer())) {
                                 if (baseInfoReturnValue.getAndroidGlobalAppForceUpdate() == 1) {
+                                    progress.hide();
                                     updateWarning(baseInfoReturnValue.getAndroidAppDlLink(), baseInfoReturnValue.getAndroidGlobalAppForceUpdate());
                                 }
                             }
@@ -293,15 +319,18 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
                     @Override
                     public void onSuccess(SarvApiResponseNoList response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
+                            progress.hide();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             LoginActivity.this.finish();
                         } else {
+                            progress.hide();
                             APP.customToast(response.getMessage(), LoginActivity.this);
                         }
                     }
 
                     @Override
                     public void onFailure(String error) {
+                        progress.hide();
                         APP.customToast(error, LoginActivity.this);
                     }
                 });

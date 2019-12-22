@@ -1,8 +1,15 @@
 package ir.sarvwood.workshop.utils;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.text.SpannableString;
+import android.text.Spanned;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class PublicFunctions {
 
@@ -20,4 +27,5 @@ public class PublicFunctions {
         }
         return versionCode;
     }
+
 }

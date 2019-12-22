@@ -105,10 +105,14 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
                 toolbar.setTitle(R.string.text_contact_us);
                 openAboutContactUs(2);
                 break;
-                case 8:
+            case 8:
                 toolbar.setTitle(getString(R.string.text_change_pass));
-                    openChangePassword();
+                openChangePassword();
                 break;
+//            case 9:
+//                toolbar.setTitle("ثبت سفارش");
+//                openHeaderOrderList();
+//                break;
         }
     }
 
@@ -127,6 +131,7 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
                 .addToBackStack(null)
                 .commit();
     }
+
     private void openRegister() {
         RegisterFragment registerFragment = RegisterFragment.newInstance();
         getFragmentManager().beginTransaction()
@@ -146,15 +151,25 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
     private void openPreOrderList() {
 
         OrderActivity.woodOrderModelList = new ArrayList<>();
-        PreOrderFragment preOrderFragment = PreOrderFragment.newInstance( 2);
+        PreOrderFragment preOrderFragment = PreOrderFragment.newInstance(2, 0);
         getFragmentManager().beginTransaction()
                 .add(R.id.frag_container, preOrderFragment)
                 .addToBackStack(null)
                 .commit();
     }
 
-    private void openChangePassword()
-    {
+//
+//    private void openHeaderOrderList() {
+//
+//        OrderHeaderActivity.woodOrderModelListHeader = new ArrayList<>();
+//        OrderHeaderActivity orderHeaderActivity = OrderHeaderActivity.newInstance();
+//        getFragmentManager().beginTransaction()
+//                .add(R.id.frag_container, orderHeaderActivity)
+//                .addToBackStack(null)
+//                .commit();
+//    }
+
+    private void openChangePassword() {
         ChangePassFragment changePassFragment = ChangePassFragment.newInstance();
         getFragmentManager().beginTransaction()
                 .add(R.id.frag_container, changePassFragment)
@@ -162,11 +177,11 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
                 .commit();
     }
 
-    private void  openOrderItems() {
-//        GetOrderDetailsItemReturnValueList returnValueList;
-//        returnValueList = (GetOrderDetailsItemReturnValueList) bundle.getSerializable("GetOrderDetailsItemList");
-
-        PreOrderFragment preOrderFragment = PreOrderFragment.newInstance( 1);
+    private void openOrderItems() {
+        int statusOrder = 0;
+        if (bundle != null)
+            statusOrder = bundle.getInt("orderStatus");
+        PreOrderFragment preOrderFragment = PreOrderFragment.newInstance(1, statusOrder);
         getFragmentManager().beginTransaction()
                 .add(R.id.frag_container, preOrderFragment)
                 .addToBackStack(null)

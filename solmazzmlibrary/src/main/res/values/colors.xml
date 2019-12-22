@@ -5,7 +5,8 @@
     <color name="color_toast_solid_color">#d21d1d1d</color>
     <color name="color_red">#D81B2B</color>
     <color name="color_green">#00805b</color>
-    <color name="color_yellow">#b3b300</color>
+    <color name="color_yellow">#8B5007</color>
+    <color name="color_brown">#FF8B5007</color>
 
     <color name="colorGreenStep_1">#3F665A</color>
     <color name="colorGreenStep_2">#739900</color>

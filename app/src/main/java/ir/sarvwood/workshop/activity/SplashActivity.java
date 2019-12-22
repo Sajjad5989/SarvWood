@@ -224,6 +224,8 @@ public class SplashActivity extends AppCompatActivity implements IInternetContro
     }
 
     private void updateWarning(String updateLink, int updateIsForce) {
+        String message = getUpdateMessage(updateIsForce);
+
         UpdateDialog updateDialog = new UpdateDialog(this, done -> {
             if (done)
                 startDownload(updateLink);
@@ -235,9 +237,20 @@ public class SplashActivity extends AppCompatActivity implements IInternetContro
                     SplashActivity.this.finish();
                 }
             }
-        }, getUpdateMessage(updateIsForce));
+        }, message);
 
-        DialogUtil.showDialog(SplashActivity.this, updateDialog, false, true);
+       DialogUtil.showDialog(SplashActivity.this, updateDialog, false, true);
+
+//        Objects.requireNonNull(updateDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        updateDialog.getWindow().setBackgroundDrawable(this.getResources().getDrawable(R.drawable.dialog_bg));
+//        updateDialog.setCancelable(false);
+//        updateDialog.show();
+//        Display display = getWindowManager().getDefaultDisplay();
+//        Point size = new Point();
+//        display.getSize(size);
+//        int width = size.x;
+//        width = (int) ((width) * 0.9);
+//        updateDialog.getWindow().setLayout(width, ConstraintLayout.LayoutParams.WRAP_CONTENT);
 
     }
 

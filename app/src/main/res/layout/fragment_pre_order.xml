@@ -2,8 +2,206 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/size_4_dp">
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_4_dp"
+        android:background="@drawable/const_border_light"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_color_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_8_dp"
+            android:background="@color/color_green"
+            app:layout_constraintBottom_toTopOf="@id/linear_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linear_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_color_top">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_title_caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:fontFamily="@font/iran_sans_medium"
+                android:gravity="end"
+                android:text="مشخصات چوب"
+                android:textColor="@color/colorBlackStep_1"
+                android:textSize="@dimen/text_size_12_sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_4_dp"
+                android:layout_weight="5"
+                android:fontFamily="@font/iran_sans_medium"
+                android:text="نئوپان ملامینه، آبی ، agt"
+                android:textColor="@color/color_green"
+                android:textSize="@dimen/text_size_12_sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linear_brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_title">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:fontFamily="@font/iran_sans_medium"
+                android:gravity="end"
+
+                android:text="برند"
+                android:textColor="@color/colorBlackStep_1"
+                android:textSize="@dimen/text_size_12_sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_4_dp"
+                android:layout_weight="5"
+                android:fontFamily="@font/iran_sans_medium"
+                android:gravity="end"
+                android:text="agt"
+                android:textColor="@color/color_green"
+                android:textSize="@dimen/text_size_12_sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_brand">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:fontFamily="@font/iran_sans_medium"
+                android:gravity="end"
+
+                android:text="کــد"
+                android:textColor="@color/colorBlackStep_1"
+                android:textSize="@dimen/text_size_12_sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_4_dp"
+                android:layout_weight="5"
+                android:fontFamily="@font/iran_sans_medium"
+                android:gravity="start"
+                android:text="6458"
+                android:textColor="@color/color_green"
+                android:textSize="@dimen/text_size_12_sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linear_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_code">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_size_caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:fontFamily="@font/iran_sans_medium"
+                android:gravity="end"
+
+                android:text="سایز"
+                android:textColor="@color/colorBlackStep_1"
+                android:textSize="@dimen/text_size_12_sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_size"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_4_dp"
+                android:layout_weight="5"
+                android:fontFamily="@font/iran_sans_medium"
+                android:text="126 * 584"
+                android:textColor="@color/color_green"
+                android:textSize="@dimen/text_size_12_sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_thickness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_size">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:fontFamily="@font/iran_sans_medium"
+                android:gravity="end"
+                android:text="پی وی سی"
+                android:textColor="@color/colorBlackStep_1"
+                android:textSize="@dimen/text_size_12_sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_pvc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_4_dp"
+                android:layout_weight="5"
+                android:fontFamily="@font/iran_sans_medium"
+                android:text="1 میلیمتر"
+                android:textColor="@color/color_green"
+                android:textSize="@dimen/text_size_12_sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_thickness">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_edit_header"
+                android:layout_width="@dimen/size_20_dp"
+                android:layout_height="@dimen/size_20_dp"
+                android:src="@drawable/ic_edit_row" />
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <com.mlsdev.animatedrv.AnimatedRecyclerView
@@ -19,7 +217,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linear_bottoms"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/const_header" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_not_found"
@@ -32,31 +230,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_no_row"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/iran_sans_bold"
-        android:text="@string/text_no_item_add"
-        android:textColor="@color/color_red"
-        android:textSize="@dimen/text_size_12_sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_insert_row"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/iran_sans_bold"
-        android:text="@string/text_add_row_by_click"
-        android:textColor="@color/color_green"
-        android:textSize="@dimen/text_size_12_sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_no_row"/>
 
     <LinearLayout
         android:id="@+id/linear_bottoms"

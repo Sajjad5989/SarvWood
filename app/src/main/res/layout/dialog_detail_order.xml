@@ -12,11 +12,10 @@
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/const_wood"
+        app:layout_constraintBottom_toTopOf="@id/const_paper_count"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img_detail"
         android:layout_width="wrap_content"
@@ -26,7 +25,6 @@
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/const_wood"
+        android:id="@+id/const_paper_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_dp_tiny"
@@ -51,50 +49,36 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wood_type_cation"
+            android:id="@+id/tv_paper_count_cation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_dp_small"
             android:fontFamily="@font/iran_sans_medium"
-            android:text="نوع چوب"
+            android:text="تعداد برش"
             android:textColor="@color/colorBlackStep_4"
             android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toRightOf="@+id/tv_wood_type"
+            app:layout_constraintLeft_toRightOf="@+id/tv_paper_count"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wood_type"
+            android:id="@+id/tv_paper_count"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen_dp_tiny"
             android:fontFamily="@font/iran_sans_medium"
             android:gravity="end"
-            android:text="MDF"
+            android:text="1"
             android:textColor="@color/colorBlackStep_1"
             android:textSize="@dimen/dimen_sp_small"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_wood_type_cation"
+            app:layout_constraintRight_toLeftOf="@+id/tv_paper_count_cation"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_patterned"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_dp_small"
-            android:layout_marginTop="@dimen/dimen_sp_very_tiny"
-            android:fontFamily="@font/iran_sans_medium"
-            android:text="توضیحات: "
-            android:textSize="@dimen/dimen_sp_very_tiny"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_wood_type" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/const_wood_color"
+        android:id="@+id/const_paper_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_dp_tiny"
@@ -102,78 +86,40 @@
         android:padding="@dimen/dimen_dp_very_tiny"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/const_wood">
+        app:layout_constraintTop_toBottomOf="@id/const_paper_count">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wood_color_cation"
+            android:id="@+id/tv_paper_size_cation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_dp_small"
             android:fontFamily="@font/iran_sans_medium"
-            android:text="رنگ چوب"
+            android:text="ابعاد برش"
             android:textColor="@color/colorBlackStep_4"
             android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toRightOf="@+id/tv_wood_color"
+            app:layout_constraintLeft_toRightOf="@+id/tv_paper_size"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wood_color"
+            android:id="@+id/tv_paper_size"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen_dp_tiny"
             android:fontFamily="@font/iran_sans_medium"
             android:gravity="end"
-            android:text="آبــی"
+            android:text="125 * 136"
             android:textColor="@color/colorBlackStep_1"
             android:textSize="@dimen/dimen_sp_small"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_wood_color_cation"
+            app:layout_constraintRight_toLeftOf="@+id/tv_paper_size_cation"
             app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/const_pvc_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dimen_dp_tiny"
-        android:background="@drawable/const_border_line"
-        android:padding="@dimen/dimen_dp_very_tiny"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/const_wood_color">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_pvc_color_cation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_dp_small"
-            android:fontFamily="@font/iran_sans_medium"
-            android:text="رنـگ pvc"
-            android:textColor="@color/colorBlackStep_4"
-            android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toRightOf="@+id/tv_pvc_color"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_pvc_color"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen_dp_tiny"
-            android:fontFamily="@font/iran_sans_medium"
-            android:gravity="end"
-            android:text="قهوه ای"
-            android:textColor="@color/colorBlackStep_1"
-            android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_pvc_color_cation"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_pvc_direction"
@@ -184,7 +130,7 @@
         android:padding="@dimen/dimen_dp_very_tiny"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/const_pvc_color">
+        app:layout_constraintTop_toBottomOf="@id/const_paper_size">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_pvc_direction_cation"
@@ -215,130 +161,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/const_pvc_thickness"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dimen_dp_tiny"
-        android:background="@drawable/const_border_line"
-        android:padding="@dimen/dimen_dp_very_tiny"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/const_pvc_direction">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_pvc_thickness_cation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_dp_small"
-            android:fontFamily="@font/iran_sans_medium"
-            android:text="ضخامت pvc"
-            android:textColor="@color/colorBlackStep_4"
-            android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toRightOf="@+id/tv_pvc_thickness"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_pvc_thickness"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen_dp_tiny"
-            android:fontFamily="@font/iran_sans_medium"
-            android:gravity="end"
-            android:text="2 میلیمتر"
-            android:textColor="@color/colorBlackStep_1"
-            android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_pvc_thickness_cation"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/const_paper_size"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dimen_dp_tiny"
-        android:background="@drawable/const_border_line"
-        android:padding="@dimen/dimen_dp_very_tiny"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/const_pvc_thickness">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_paper_size_cation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_dp_small"
-            android:fontFamily="@font/iran_sans_medium"
-            android:text="ابعاد ورق"
-            android:textColor="@color/colorBlackStep_4"
-            android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toRightOf="@+id/tv_paper_size"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_paper_size"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen_dp_tiny"
-            android:fontFamily="@font/iran_sans_medium"
-            android:gravity="end"
-            android:text="125 * 136"
-            android:textColor="@color/colorBlackStep_1"
-            android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_paper_size_cation"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/const_paper_count"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dimen_dp_tiny"
-        android:background="@drawable/const_border_line"
-        android:padding="@dimen/dimen_dp_very_tiny"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/const_paper_size">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_paper_count_cation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_dp_small"
-            android:fontFamily="@font/iran_sans_medium"
-            android:text="تعداد ورق"
-            android:textColor="@color/colorBlackStep_4"
-            android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toRightOf="@+id/tv_paper_count"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_paper_count"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen_dp_tiny"
-            android:fontFamily="@font/iran_sans_medium"
-            android:gravity="end"
-            android:text="1"
-            android:textColor="@color/colorBlackStep_1"
-            android:textSize="@dimen/dimen_sp_small"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_paper_count_cation"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_persian_sheet"
         android:layout_width="match_parent"
@@ -348,7 +170,7 @@
         android:padding="@dimen/dimen_dp_very_tiny"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/const_paper_count">
+        app:layout_constraintTop_toBottomOf="@id/const_pvc_direction">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_persian_sheet_cation"
@@ -379,7 +201,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_groove"
         android:layout_width="match_parent"
@@ -422,6 +243,51 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_dp_tiny"
+        android:background="@drawable/const_border_line"
+        android:padding="@dimen/dimen_dp_very_tiny"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/const_groove">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_desc_cation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_dp_small"
+            android:fontFamily="@font/iran_sans_medium"
+            android:text="توضیحات"
+            android:textColor="@color/colorBlackStep_4"
+            android:textSize="@dimen/dimen_sp_small"
+            app:layout_constraintLeft_toRightOf="@+id/tv_desc"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_dp_tiny"
+            android:fontFamily="@font/iran_sans_medium"
+            android:gravity="start"
+            android:text="1 طول، 2 عرض"
+            android:textColor="@color/colorBlackStep_1"
+            android:textSize="@dimen/dimen_sp_small"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_desc_cation"
+            app:layout_constraintTop_toBottomOf="@id/tv_desc_cation" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -433,7 +299,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/const_groove">
+        app:layout_constraintTop_toBottomOf="@id/const_desc">
 
 
         <androidx.appcompat.widget.AppCompatTextView

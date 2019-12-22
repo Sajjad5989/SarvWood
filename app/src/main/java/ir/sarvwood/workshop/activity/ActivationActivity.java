@@ -66,7 +66,7 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
     }
 
 
-    private int seconds = 20;
+    private int seconds = 120;
     private boolean startRun = true;
 
 

@@ -1,11 +1,13 @@
 package ir.sarvwood.workshop.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.view.Display;
 import android.view.View;
 
@@ -35,17 +37,22 @@ import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
 import ir.sarvwood.workshop.webservice.setsupplier.SetSheetSupplierController;
 import ir.sarvwood.workshop.webservice.setsupplier.SheetSupplierBody;
 import ir.solmazzm.lib.engine.util.DialogUtil;
+import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class SupplierActivity extends AppCompatActivity implements IInternetController, IRtl, IDefault {
 
+    private static final int SET_SUPPLIER_WORKSHOP = 1;
+    private static final int SET_SUPPLIER_OWEN = 2;
+    private static final int SET_DISCARD = 3;
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
     private int orderId;
     private int userId;
     private String token;
+    private ProgressDialog progress;
+    private int discardId;
 
-     private static final int SET_SUPPLIER_WORKSHOP = 1;
-     private static final int SET_SUPPLIER_OWEN = 2;
     @OnClick(R.id.btn_workshop_sarv)
     void useWorkShopWood() {
 
@@ -72,8 +79,10 @@ public class SupplierActivity extends AppCompatActivity implements IInternetCont
                 Objects.requireNonNull(SupplierActivity.this), new RecyclerViewClickListenerDiscard() {
             @Override
             public void onItemClick(int id) {
-                if (id > 0)
-                    discardOrder(id);
+                if (id > 0) {
+                    discardId = id;
+                    discardOrder();
+                }
             }
         }
         );
@@ -95,7 +104,6 @@ public class SupplierActivity extends AppCompatActivity implements IInternetCont
         getIds();
         getOrderId();
     }
-
 
     private void prepareToolbar() {
         toolbar.setTitle(R.string.text_order_status);
@@ -119,7 +127,6 @@ public class SupplierActivity extends AppCompatActivity implements IInternetCont
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
     }
-
 
     @Override
     public void onResume() {
@@ -146,8 +153,9 @@ public class SupplierActivity extends AppCompatActivity implements IInternetCont
 
             @Override
             public void OnRetry() {
-                  setSupplier(methodCall);
-
+                if (methodCall == SET_SUPPLIER_OWEN || methodCall == SET_SUPPLIER_WORKSHOP)
+                    setSupplier(methodCall);
+                else discardOrder();
             }
         });
 
@@ -164,7 +172,7 @@ public class SupplierActivity extends AppCompatActivity implements IInternetCont
 
     private void setSupplier(int supplySheet) {
 
-
+        showProgress();
 
         SheetSupplierBody supplierBody = SheetSupplierBody.
                 builder()
@@ -179,15 +187,18 @@ public class SupplierActivity extends AppCompatActivity implements IInternetCont
                     @Override
                     public void onSuccess(SarvApiResponseNoList response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
+                            progress.hide();
                             APP.customToast(getString(R.string.text_successful), SupplierActivity.this);
                             SupplierActivity.this.finish();
                         } else {
+                            progress.hide();
                             APP.customToast(response.getMessage(), SupplierActivity.this);
                         }
                     }
 
                     @Override
                     public void onFailure(String error) {
+                        progress.hide();
                         APP.customToast(error, SupplierActivity.this);
                     }
                 });
@@ -208,11 +219,34 @@ public class SupplierActivity extends AppCompatActivity implements IInternetCont
         } else this.finish();
     }
 
-    private void discardOrder(int id) {
+    private void showProgress() {
+        progress = new ProgressDialog(SupplierActivity.this);
+        String message = getString(R.string.text_please_wait);
+        SpannableString spannableString = new SpannableString(message);
+
+        CalligraphyTypefaceSpan typefaceSpan = new CalligraphyTypefaceSpan(TypefaceUtils.load(SupplierActivity.this.getAssets(),
+                "fonts/iran_sans.ttf"));
+        spannableString.setSpan(typefaceSpan, 0, message.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        progress.setMessage(spannableString);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.setCancelable(false);
+        progress.show();
+    }
+
+    private void discardOrder() {
+
+        if (!isOnline()) {
+            openInternetCheckingDialog(SET_DISCARD);
+        }
+
+        showProgress();
+
         DiscardOrderBody discardOrderBody = DiscardOrderBody.builder()
                 .customerId(userId)
                 .orderId(orderId)//نتیفیکیشن این آی دی بهم میده
-                .discardOptionId(id)
+                .discardOptionId(discardId)
                 .build();
 
         DiscardOrderController discardOrderController = new DiscardOrderController();
@@ -221,14 +255,18 @@ public class SupplierActivity extends AppCompatActivity implements IInternetCont
             public void onSuccess(SarvApiResponseNoList response) {
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                     APP.customToast("سفارش شما لغو گردید", SupplierActivity.this);
+                    progress.hide();
                     startActivity(new Intent(SupplierActivity.this, MainActivity.class));
                 } else {
+                    progress.hide();
                     APP.customToast(response.getMessage(), SupplierActivity.this);
                 }
             }
 
             @Override
             public void onFailure(String error) {
+
+                progress.hide();
                 APP.customToast(error, SupplierActivity.this);
             }
         });

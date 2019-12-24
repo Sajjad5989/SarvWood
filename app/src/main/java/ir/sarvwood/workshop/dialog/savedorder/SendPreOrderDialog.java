@@ -95,8 +95,8 @@ public class SendPreOrderDialog extends Dialog {
                     String.format("%s,%s", getCorrectFormat(woodModel.getPvcLengthNo()), getCorrectFormat(woodModel.getPvcWidthNo()))
             ));
 //            tvPvcThickness.setText( getCorrectFormat(woodModel.getPvcThickness()));
-            tvPaperSize.setText(String.format("%s * %s", woodModel.getWoodSheetLength(), woodModel.getWoodSheetWidth()));
-            tvPaperCount.setText(String.valueOf(woodModel.getSheetCount()));
+//            tvPaperSize.setText(String.format("%s * %s", woodModel.getWoodSheetLength(), woodModel.getWoodSheetWidth()));
+//            tvPaperCount.setText(String.valueOf(woodModel.getSheetCount()));
             tvPersianSheet.setText(
                     getCorrectString(
                     String.format("%s,%s", getCorrectFormat(woodModel.getPersianCutLenghtNo()), getCorrectFormat(woodModel.getPersianCutWidthNo()))));

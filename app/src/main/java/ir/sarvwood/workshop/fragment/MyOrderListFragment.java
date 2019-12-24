@@ -27,11 +27,13 @@ import butterknife.ButterKnife;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.activity.ContainerActivity;
 import ir.sarvwood.workshop.activity.OrderActivity;
+import ir.sarvwood.workshop.activity.OrderHeaderActivity;
 import ir.sarvwood.workshop.adapter.MyOrderListAdapter;
 import ir.sarvwood.workshop.dialog.internet.ConnectionInternetDialog;
 import ir.sarvwood.workshop.dialog.internet.InternetConnectionListener;
 import ir.sarvwood.workshop.interfaces.IInternetController;
 import ir.sarvwood.workshop.interfaces.IResponseListener;
+import ir.sarvwood.workshop.model.order.ConvertToHeaderWoodModel;
 import ir.sarvwood.workshop.model.order.ConvertToWoodModelList;
 import ir.sarvwood.workshop.preferences.GeneralPreferences;
 import ir.sarvwood.workshop.utils.APP;
@@ -56,6 +58,8 @@ public class MyOrderListFragment extends Fragment implements IInternetController
     private int userId;
     private String token;
     private List<GetOrderDetailsItemReturnValue> returnValueList;
+    private int orderState = 0;
+    private GetOrderDetailsReturnValue<GetOrderDetailsItemReturnValue> myHeaderList;
 
     public static MyOrderListFragment newInstance() {
         return new MyOrderListFragment();
@@ -72,7 +76,6 @@ public class MyOrderListFragment extends Fragment implements IInternetController
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
-        //getMyOrders();
     }
 
     @Override
@@ -132,7 +135,6 @@ public class MyOrderListFragment extends Fragment implements IInternetController
         }
 
         GetMyOrderBody getMyOrderBody = getMyOrderBody();
-
         GetMyOrdersController getMyOrdersController = new GetMyOrdersController();
         getMyOrdersController.start(userId, token, getMyOrderBody, new IResponseListener<SarvApiResponse<MyOrderReturnValue>>() {
             @Override
@@ -141,7 +143,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
                     if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                         myOrderReturnValueList = response.getData();
                     } else {
-                        APP.customToast(response.getMessage(),getActivity());
+                        APP.customToast(response.getMessage(), getActivity());
                         myOrderReturnValueList = null;
                     }
                     showMyOrders();
@@ -153,7 +155,7 @@ public class MyOrderListFragment extends Fragment implements IInternetController
 
             @Override
             public void onFailure(String error) {
-                APP.customToast(error,getActivity());
+                APP.customToast(error, getActivity());
                 myOrderReturnValueList = null;
                 showMyOrders();
             }
@@ -177,7 +179,6 @@ public class MyOrderListFragment extends Fragment implements IInternetController
         }
     }
 
-    private int orderState = 0;
     private void getOrderDetail(int orderId) {
         GetOrderDetailsBody getOrderDetailsBody = GetOrderDetailsBody.builder().orderId(orderId).build();
         GetOrderDetailsController getOrderDetailsController = new GetOrderDetailsController();
@@ -186,21 +187,29 @@ public class MyOrderListFragment extends Fragment implements IInternetController
                     @Override
                     public void onSuccess(SarvApiResponse<GetOrderDetailsReturnValue<GetOrderDetailsItemReturnValue>> response) {
                         if (response.getCode() == 0 && "success".equals(response.getStatus())) {
+
+                            myHeaderList = response.getData().get(0);
+                            OrderHeaderActivity.headerWoodModel
+                                    = new ConvertToHeaderWoodModel(myHeaderList, getActivity()).
+                                    getWoodHeaderOrderModelList();
+
                             returnValueList = response.getData().get(0).getItems();
                             orderState = response.getData().get(0).getState();
                             OrderActivity.woodOrderModelList = new ArrayList<>();
-                            OrderActivity.woodOrderModelList = new ConvertToWoodModelList(returnValueList,getActivity()).getWoodOrderModelList();
+                            OrderActivity.woodOrderModelList =
+                                    new ConvertToWoodModelList(returnValueList, getActivity()).getWoodOrderModelList();
+
+
                             openOrderItems();
                         } else {
-                            APP.customToast(response.getMessage(),getActivity());
+                            APP.customToast(response.getMessage(), getActivity());
                             returnValueList = null;
                         }
                     }
 
                     @Override
                     public void onFailure(String error) {
-
-                        APP.customToast(error,getActivity());
+                        APP.customToast(error, getActivity());
                         returnValueList = null;
                     }
                 });
@@ -215,4 +224,17 @@ public class MyOrderListFragment extends Fragment implements IInternetController
         startActivity(intent);
 
     }
+
+
+//    private void ConvertToHeaderWoodModel()
+//    {
+//        OrderHeaderActivity.headerWoodModel.setBrand(myHeaderList.getWoodBrand());
+//        OrderHeaderActivity.headerWoodModel.setColor(myHeaderList.getWoodColor());
+//        OrderHeaderActivity.headerWoodModel.setCode(myHeaderList.getWoodCode());
+//        OrderHeaderActivity.headerWoodModel.setPvcColor(myHeaderList.getPvcColor());
+//        OrderHeaderActivity.headerWoodModel.setPatterned(myHeaderList.getPatterned());
+////        OrderHeaderActivity.headerWoodModel.set
+//
+//
+//    }
 }

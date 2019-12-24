@@ -50,7 +50,6 @@
                 android:layout_marginStart="@dimen/size_4_dp"
                 android:layout_weight="5"
                 android:fontFamily="@font/iran_sans_medium"
-                android:text="نئوپان ملامینه، آبی ، agt"
                 android:textColor="@color/color_green"
                 android:textSize="@dimen/text_size_12_sp" />
 
@@ -82,8 +81,7 @@
                 android:layout_marginStart="@dimen/size_4_dp"
                 android:layout_weight="5"
                 android:fontFamily="@font/iran_sans_medium"
-                android:gravity="end"
-                android:text="agt"
+                android:gravity="center"
                 android:textColor="@color/color_green"
                 android:textSize="@dimen/text_size_12_sp" />
 
@@ -115,7 +113,7 @@
                 android:layout_weight="5"
                 android:fontFamily="@font/iran_sans_medium"
                 android:gravity="start"
-                android:text="6458"
+
                 android:textColor="@color/color_green"
                 android:textSize="@dimen/text_size_12_sp" />
 
@@ -148,7 +146,6 @@
                 android:layout_marginStart="@dimen/size_4_dp"
                 android:layout_weight="5"
                 android:fontFamily="@font/iran_sans_medium"
-                android:text="126 * 584"
                 android:textColor="@color/color_green"
                 android:textSize="@dimen/text_size_12_sp" />
 
@@ -178,7 +175,6 @@
                 android:layout_marginStart="@dimen/size_4_dp"
                 android:layout_weight="5"
                 android:fontFamily="@font/iran_sans_medium"
-                android:text="1 میلیمتر"
                 android:textColor="@color/color_green"
                 android:textSize="@dimen/text_size_12_sp" />
 

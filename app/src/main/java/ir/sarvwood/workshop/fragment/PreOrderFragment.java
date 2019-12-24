@@ -27,9 +27,7 @@ import butterknife.OnClick;
 import ir.sarvwood.workshop.R;
 import ir.sarvwood.workshop.activity.OrderActivity;
 import ir.sarvwood.workshop.activity.OrderHeaderActivity;
-import ir.sarvwood.workshop.adapter.OrderItemsAdapter;
 import ir.sarvwood.workshop.adapter.PreOrderAdapter;
-import ir.sarvwood.workshop.dialog.savedorder.SendPreOrderDialog;
 import ir.sarvwood.workshop.interfaces.IListActionListener;
 import ir.sarvwood.workshop.interfaces.IResponseListener;
 import ir.sarvwood.workshop.model.WoodOrderModel;
@@ -43,14 +41,11 @@ import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponse;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
 import ir.sarvwood.workshop.webservice.updateorder.UpdateOrderBody;
 import ir.sarvwood.workshop.webservice.updateorder.UpdateOrderController;
-import ir.solmazzm.lib.engine.util.DialogUtil;
 import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class PreOrderFragment extends Fragment {
 
-
-    private static final int ORDER_ITEMS = 1;
     private static final int PRE_ORDER_ITEMS = 2;
 
     private static int currentType;
@@ -73,7 +68,6 @@ public class PreOrderFragment extends Fragment {
     @BindView(R.id.tv_pvc)
     protected AppCompatTextView tvPvc;
 
-
     @BindView(R.id.image_edit_header)
     protected AppCompatImageView imageEditHeader;
 
@@ -92,12 +86,11 @@ public class PreOrderFragment extends Fragment {
     void sendOrderToApi() {
 
         if (currentOrderStatus > 1) {
-            APP.customToast("تنها وضعیت ثبت شده قابل ویرایش می باشد", getActivity());
+            APP.customToast(getString(R.string.text_can_edit), getActivity());
             return;
         }
 
         if (OrderActivity.woodOrderModelList.size() != 0) {
-
             showProgress();
             userId = GeneralPreferences.getInstance(getActivity()).getCustomerId();
             token = GeneralPreferences.getInstance(getActivity()).getToken();
@@ -108,7 +101,8 @@ public class PreOrderFragment extends Fragment {
                 updateOrder(orderId);
             else
                 insertOrder();
-        }
+        } else
+            APP.customToast("اقلام برش ثبت نشده است", getActivity());
     }
 
     private void showProgress() {
@@ -130,9 +124,11 @@ public class PreOrderFragment extends Fragment {
     @OnClick(R.id.btn_new_order)
     void openOrderList() {
         if (currentOrderStatus > 1) {
-            APP.customToast("تنها وضعیت ثبت شده قابل ویرایش می باشد", getActivity());
+            APP.customToast(getString(R.string.text_can_edit), getActivity());
             return;
         }
+
+        OrderActivity.listRowIdx = -1;
         startActivity(new Intent(getActivity(), OrderActivity.class));
     }
 
@@ -153,48 +149,40 @@ public class PreOrderFragment extends Fragment {
     }
 
     private void openDetails() {
-        //    OrderActivity.listRowIdx = position;
+        if (currentOrderStatus > 1) {
+            APP.customToast(getString(R.string.text_can_edit), getActivity());
+            return;
+        }
+
         Intent intent = new Intent(getActivity(), OrderHeaderActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("headerWoodModel", OrderHeaderActivity.headerWoodModel);
         intent.putExtras(bundle);
         startActivity(intent);
 
-        //  startActivity(new Intent(getActivity(), OrderHeaderActivity.class));
     }
 
     private void callOrderOrPreOrder() {
-        if (currentType == ORDER_ITEMS)//لیست اقلام دریافتی سفارش از سایت که قبلا ذخیره شده است --
-        {
-            fillOrderList();
-        } else if (currentType == PRE_ORDER_ITEMS) {
-            fillPreOrderList();
-        }
 
+        fillPreOrderList();
     }
 
     private void fillPreOrderList() {
-
-        String headerOrder =
-                OrderHeaderActivity.headerWoodModel.getWoodType().getName() + "،"
-                        + (OrderHeaderActivity.headerWoodModel.getPatterned() == 1 ? " راه دار " + " ،" : "")
-                        + OrderHeaderActivity.headerWoodModel.getColor();
-
-        tvTitle.setText(Html.fromHtml(headerOrder));
-        tvBrand.setText(OrderHeaderActivity.headerWoodModel.getBrand());
-        tvSize.setText(String.format("%s * %s", OrderHeaderActivity.headerWoodModel.getWoodSheetLength(), OrderHeaderActivity.headerWoodModel.getWoodSheetWidth()));
-        tvCode.setText(OrderHeaderActivity.headerWoodModel.getCode());
-        tvPvc.setText(String.format("%s - %s", OrderHeaderActivity.headerWoodModel.getPvcThickness().getName(), OrderHeaderActivity.headerWoodModel.getPvcColor())
-        );
-
-//        PreOrderAdapter preOrderAdapter = new PreOrderAdapter(OrderActivity.woodOrderModelList, (v, position) ->
-//                itemClick(position));
-
+        if (currentType == PRE_ORDER_ITEMS) {
+            setOrderHeader();
+        }
 
         PreOrderAdapter preOrderAdapter = new PreOrderAdapter(OrderActivity.woodOrderModelList,
                 new IListActionListener() {
                     @Override
                     public void onDelete(int position) {
+
+
+                        if (currentOrderStatus > 1) {
+                            APP.customToast(getString(R.string.text_can_edit), getActivity());
+                            return;
+                        }
+
                         OrderActivity.woodOrderModelList.remove(position);
                         callOrderOrPreOrder();
                     }
@@ -211,42 +199,33 @@ public class PreOrderFragment extends Fragment {
         recyclerView.scheduleLayoutAnimation();
     }
 
-    private void fillOrderList() {
-        OrderItemsAdapter orderItemsAdapter = new OrderItemsAdapter(OrderActivity.woodOrderModelList, (v, position) ->
-                itemClick(position));
+    private void setOrderHeader() {
+        String headerOrder =
+                OrderHeaderActivity.headerWoodModel.getWoodType().getName() + "،"
+                        + (OrderHeaderActivity.headerWoodModel.getPatterned() == 1 ? " راه دار " + " ،" : "")
+                        + OrderHeaderActivity.headerWoodModel.getColor();
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setAdapter(orderItemsAdapter);
-        recyclerView.scheduleLayoutAnimation();
-    }
-
-    private void itemClick(int position) {
-
-        if (currentOrderStatus > 1) {
-            APP.customToast("تنها وضعیت ثبت شده قابل ویرایش می باشد", getActivity());
-            return;
-        }
-
-        SendPreOrderDialog sendPreOrderDialog = new SendPreOrderDialog(getActivity(), res -> {
-            if (res == 1)
-                editOrder(position);
-            else if (res == 0) {
-                OrderActivity.woodOrderModelList.remove(position);
-                callOrderOrPreOrder();
-            }
-        }, OrderActivity.woodOrderModelList.get(position));
-
-        DialogUtil.showDialog(getActivity(), sendPreOrderDialog, false, true);
+        tvTitle.setText(Html.fromHtml(headerOrder));
+        tvBrand.setText(OrderHeaderActivity.headerWoodModel.getBrand());
+        tvSize.setText(String.format("%s * %s", OrderHeaderActivity.headerWoodModel.getWoodSheetLength(), OrderHeaderActivity.headerWoodModel.getWoodSheetWidth()));
+        tvCode.setText(OrderHeaderActivity.headerWoodModel.getCode());
+        tvPvc.setText(String.format("%s - %s", OrderHeaderActivity.headerWoodModel.getPvcThickness().getName(), OrderHeaderActivity.headerWoodModel.getPvcColor())
+        );
     }
 
     @Override
     public void onResume() {
         super.onResume();
         callOrderOrPreOrder();
+        setOrderHeader();
     }
 
     private void editOrder(int position) {
+
+        if (currentOrderStatus > 1) {
+            APP.customToast(getString(R.string.text_can_edit), getActivity());
+            return;
+        }
         OrderActivity.listRowIdx = position;
         Intent intent = new Intent(getActivity(), OrderActivity.class);
         Bundle bundle = new Bundle();
@@ -260,32 +239,35 @@ public class PreOrderFragment extends Fragment {
         return InsertOrderBody
                 .builder()
                 .customerId(userId)
+                .woodType(OrderHeaderActivity.headerWoodModel.getWoodType().getIndex() + 1)
+                .woodColor(OrderHeaderActivity.headerWoodModel.getColor())
+                .woodCode(OrderHeaderActivity.headerWoodModel.getCode())
+                .woodBrand(OrderHeaderActivity.headerWoodModel.getBrand())
+                .pvcColor(OrderHeaderActivity.headerWoodModel.getPvcColor())
+                .pvcThickness(OrderHeaderActivity.headerWoodModel.getPvcThickness().getIndex())
+                .woodSheetLength(OrderHeaderActivity.headerWoodModel.getWoodSheetLength())
+                .woodSheetWidth(OrderHeaderActivity.headerWoodModel.getWoodSheetWidth())
+                .patterned(OrderHeaderActivity.headerWoodModel.getPatterned())
                 .desc("")
                 .items(convertToListOderModel())
                 .build();
     }
 
     private List<WoodOrderModel> convertToListOderModel() {
-        WoodModel wModel = new WoodModel();
+        WoodModel wModel;
         List<WoodOrderModel> myList = new ArrayList<>();
         WoodOrderModel woodOrderModel = new WoodOrderModel();
         for (int i = 0; i < OrderActivity.woodOrderModelList.size(); i++) {
 
             wModel = OrderActivity.woodOrderModelList.get(i);
-            woodOrderModel.setWoodType(wModel.getWoodType().getIndex() + 1);
 
-            woodOrderModel.setColor(wModel.getColor());
-            woodOrderModel.setPvcColor(wModel.getPvcColor());
 
-            woodOrderModel.setPvcThickness(wModel.getPvcThickness().getIndex());
+            woodOrderModel.setPieceLength(wModel.getPieceLength());
+            woodOrderModel.setPieceWidth(wModel.getPieceWidth());
+            woodOrderModel.setPieceCount(wModel.getPieceCount());
 
             woodOrderModel.setPvcLenghtNo(wModel.getPvcLengthNo().getIndex());
             woodOrderModel.setPvcWidthNo(wModel.getPvcWidthNo().getIndex());
-
-            woodOrderModel.setWoodSheetLength(wModel.getWoodSheetLength());
-            woodOrderModel.setWoodSheetWidth(wModel.getWoodSheetWidth());
-
-            woodOrderModel.setSheetCount(wModel.getSheetCount());
 
             woodOrderModel.setPersianCutLenghtNo(wModel.getPersianCutLenghtNo().getIndex());
             woodOrderModel.setPersianCutWidthNo(wModel.getPersianCutWidthNo().getIndex());
@@ -293,8 +275,9 @@ public class PreOrderFragment extends Fragment {
             woodOrderModel.setGrooveLenghtNo(wModel.getGrooveLenghtNo().getIndex());
             woodOrderModel.setGrooveWidthNo(wModel.getGrooveWidthNo().getIndex());
 
-            woodOrderModel.setPatterned(wModel.getPatterned());
             woodOrderModel.setDesc(wModel.getDesc());
+
+
             myList.add(woodOrderModel);
             woodOrderModel = new WoodOrderModel();
         }
@@ -329,6 +312,15 @@ public class PreOrderFragment extends Fragment {
         return UpdateOrderBody.builder()
                 .customerId(userId)
                 .orderId(orderId)
+                .woodType(OrderHeaderActivity.headerWoodModel.getWoodType().getIndex() + 1)
+                .woodColor(OrderHeaderActivity.headerWoodModel.getColor())
+                .woodCode(OrderHeaderActivity.headerWoodModel.getCode())
+                .woodBrand(OrderHeaderActivity.headerWoodModel.getBrand())
+                .pvcColor(OrderHeaderActivity.headerWoodModel.getPvcColor())
+                .pvcThickness(OrderHeaderActivity.headerWoodModel.getPvcThickness().getIndex())
+                .woodSheetLength(OrderHeaderActivity.headerWoodModel.getWoodSheetLength())
+                .woodSheetWidth(OrderHeaderActivity.headerWoodModel.getWoodSheetWidth())
+                .patterned(OrderHeaderActivity.headerWoodModel.getPatterned())
                 .desc("")
                 .items(convertToListOderModel())
                 .build();

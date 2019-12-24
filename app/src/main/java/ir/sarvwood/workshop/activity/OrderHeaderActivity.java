@@ -19,12 +19,9 @@ import java.util.Objects;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,7 +35,6 @@ import ir.sarvwood.workshop.interfaces.IRtl;
 import ir.sarvwood.workshop.model.order.CheckableObject;
 import ir.sarvwood.workshop.model.order.HeaderWoodModel;
 import ir.sarvwood.workshop.model.order.OrderListCreation;
-import ir.sarvwood.workshop.model.order.WoodModel;
 import ir.sarvwood.workshop.utils.APP;
 import ir.sarvwood.workshop.utils.OnlineCheck;
 
@@ -46,8 +42,8 @@ public class OrderHeaderActivity extends AppCompatActivity implements IInternetC
 
 
     public static HeaderWoodModel headerWoodModel;
-    public static int listRowIdx = -1;
-    public static List<WoodModel> woodOrderModelListHeader = new ArrayList<>();
+    // public static int listRowIdx = -1;
+    // public static List<WoodModel> woodOrderModelListHeader = new ArrayList<>();
     public static OrderListCreation orderListCreationHeader;
 
     public static List<CheckableObject> woodTypeList;
@@ -77,8 +73,11 @@ public class OrderHeaderActivity extends AppCompatActivity implements IInternetC
     protected AppCompatCheckBox chkWoodArrow;
 
 
-//    AppCompatCheckBox
-//    android:id="@+id/chk_wood_arrow"
+    @BindView(R.id.et_height)
+    protected AppCompatEditText etHeight;
+
+    @BindView(R.id.et_width)
+    protected AppCompatEditText etWidth;
 
 
     private RadioAdapter woodTypeAdapter;
@@ -88,22 +87,78 @@ public class OrderHeaderActivity extends AppCompatActivity implements IInternetC
     @OnClick(R.id.btn_ok_header_order)
     void okHeaderOrder() {
 
+        if (!checkValidity())
+            return;
+
         headerWoodModel.setColor(etWoodColor.getText().toString());
         headerWoodModel.setBrand(etWoodBrand.getText().toString());
         headerWoodModel.setCode(etWoodCode.getText().toString());
 
         headerWoodModel.setPvcColor(etPvcColor.getText().toString());
-        headerWoodModel.setPatterned(chkWoodArrow.isChecked()?1:0);
+        headerWoodModel.setPatterned(chkWoodArrow.isChecked() ? 1 : 0);
+
+        if (headerWoodModel.getWoodSheetList().getIndex() == 4) {
+            headerWoodModel.setWoodSheetLength(Integer.valueOf(etHeight.getText().toString()));
+            headerWoodModel.setWoodSheetWidth(Integer.valueOf(etWidth.getText().toString()));
+        }
 
         openPreOrderList();
+
     }
 
+    private boolean checkValidity() {
+        if ("".equals(etWoodColor.getText().toString())) {
+            APP.customToast("رنگ چوب وارد نشده است", OrderHeaderActivity.this);
+            return false;
+        }
+        if ("".equals(etWoodBrand.getText().toString())) {
+            APP.customToast("برند چوب وارد نشده است", OrderHeaderActivity.this);
+            return false;
+        }
+        if ("".equals(etWoodCode.getText().toString())) {
+            APP.customToast("کد چوب وارد نشده است", OrderHeaderActivity.this);
+            return false;
+        }
+
+        if (headerWoodModel.getWoodType() == null) {
+            APP.customToast("لطفا نوع چوب را انتخاب نمایید", OrderHeaderActivity.this);
+            return false;
+        }
+        if (headerWoodModel.getPvcThickness() == null) {
+            APP.customToast("لطفا ضخامت پی وی سی را انتخاب نمایید", OrderHeaderActivity.this);
+            return false;
+        }
+
+        if (headerWoodModel.getWoodSheetList() == null) {
+            APP.customToast("لطفا سایز ورق را انتخاب نمایید", OrderHeaderActivity.this);
+            return false;
+        }
+
+        if (headerWoodModel.getWoodSheetList().getIndex() == 4) {
+
+            if ("".equals(etHeight.getText().toString()) || "0".equals(etHeight.getText().toString())) {
+                APP.customToast("لطفا طول ورق را انتخاب نمایید", OrderHeaderActivity.this);
+                return false;
+            }
+
+            if ("".equals(etWidth.getText().toString()) || "0".equals(etWidth.getText().toString())) {
+                APP.customToast("لطفا عرض ورق را انتخاب نمایید", OrderHeaderActivity.this);
+                return false;
+            }
+
+        }
+
+
+        return true;
+
+    }
 
     private void openPreOrderList() {
         Intent intent = new Intent(OrderHeaderActivity.this, ContainerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("fragmentFlag", 5);
         intent.putExtras(bundle);
+        OrderHeaderActivity.this.finish();
         startActivity(intent);
     }
 
@@ -124,8 +179,14 @@ public class OrderHeaderActivity extends AppCompatActivity implements IInternetC
             etWoodBrand.setText(headerWoodModel.getBrand());
             etWoodCode.setText(headerWoodModel.getCode());
             etPvcColor.setText(headerWoodModel.getPvcColor());
-        }
-        else
+            chkWoodArrow.setChecked(headerWoodModel.getPatterned() == 1);
+
+            if (headerWoodModel.getWoodSheetList().getIndex() == 4 ) {
+                linearCustomDimension.setVisibility(View.VISIBLE);
+                etHeight.setText(String.valueOf(headerWoodModel.getWoodSheetLength()));
+                etWidth.setText(String.valueOf(headerWoodModel.getWoodSheetWidth()));
+            }
+        } else
             headerWoodModel = new HeaderWoodModel();
 
         orderListCreationHeader = new OrderListCreation(this);
@@ -205,7 +266,7 @@ public class OrderHeaderActivity extends AppCompatActivity implements IInternetC
             changeWoodTypeListValue(position);
         });
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false );
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerWood.setLayoutManager(layoutManager);
         recyclerWood.setAdapter(woodTypeAdapter);
         recyclerWood.scheduleLayoutAnimation();
@@ -222,7 +283,7 @@ public class OrderHeaderActivity extends AppCompatActivity implements IInternetC
             changePvcThicknessListValue(position);
         });
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false );
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerThickness.setLayoutManager(layoutManager);
         recyclerThickness.setAdapter(pvcThicknessAdapter);
         recyclerThickness.scheduleLayoutAnimation();
@@ -238,7 +299,7 @@ public class OrderHeaderActivity extends AppCompatActivity implements IInternetC
             changeWoodSheetListValue(position);
         });
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false );
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerSheetSize.setLayoutManager(layoutManager);
         recyclerSheetSize.setAdapter(woodSizeAdapter);
         recyclerSheetSize.scheduleLayoutAnimation();
@@ -310,6 +371,16 @@ public class OrderHeaderActivity extends AppCompatActivity implements IInternetC
                 break;
             default:
                 linearCustomDimension.setVisibility(View.VISIBLE);
+                if (headerWoodModel.getWoodSheetLength() > 0)
+                    etHeight.setText(String.valueOf(headerWoodModel.getWoodSheetLength()));
+                else
+                    etHeight.setText("");
+
+                if (headerWoodModel.getWoodSheetWidth() > 0)
+                    etWidth.setText(String.valueOf(headerWoodModel.getWoodSheetWidth()));
+                else
+                    etWidth.setText("");
+
                 break;
         }
 

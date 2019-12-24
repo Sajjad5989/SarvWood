@@ -96,9 +96,9 @@ public class DetailOrderDialog extends Dialog {
                     getCorrectFormat(woodOrderModel.getPvcWidthNo()))));
 
             tvPaperSize.setText(String.format("%s * %s",
-                    String.valueOf(woodOrderModel.getCutLength()), String.valueOf(woodOrderModel.getCutWidth())));
+                    String.valueOf(woodOrderModel.getPieceLength()), String.valueOf(woodOrderModel.getPieceWidth())));
 
-            tvPaperCount.setText(String.valueOf(woodOrderModel.getSheetCount()));
+            tvPaperCount.setText(String.valueOf(woodOrderModel.getPieceCount()));
             tvPersianSheet.setText(getCorrectString(String.format("%s,%s",
                     getCorrectFormat(woodOrderModel.getPersianCutLenghtNo()),
                     getCorrectFormat(woodOrderModel.getPersianCutWidthNo()))));

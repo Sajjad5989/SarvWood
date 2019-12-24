@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.ArrayList;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
@@ -109,10 +107,6 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
                 toolbar.setTitle(getString(R.string.text_change_pass));
                 openChangePassword();
                 break;
-//            case 9:
-//                toolbar.setTitle("ثبت سفارش");
-//                openHeaderOrderList();
-//                break;
         }
     }
 
@@ -150,24 +144,12 @@ public class ContainerActivity extends AppCompatActivity implements IRtl, IDefau
 
     private void openPreOrderList() {
 
-        OrderActivity.woodOrderModelList = new ArrayList<>();
         PreOrderFragment preOrderFragment = PreOrderFragment.newInstance(2, 0);
         getFragmentManager().beginTransaction()
                 .add(R.id.frag_container, preOrderFragment)
                 .addToBackStack(null)
                 .commit();
     }
-
-//
-//    private void openHeaderOrderList() {
-//
-//        OrderHeaderActivity.woodOrderModelListHeader = new ArrayList<>();
-//        OrderHeaderActivity orderHeaderActivity = OrderHeaderActivity.newInstance();
-//        getFragmentManager().beginTransaction()
-//                .add(R.id.frag_container, orderHeaderActivity)
-//                .addToBackStack(null)
-//                .commit();
-//    }
 
     private void openChangePassword() {
         ChangePassFragment changePassFragment = ChangePassFragment.newInstance();

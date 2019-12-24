@@ -34,6 +34,15 @@ public class GetOrderDetailsReturnValue<T> implements Serializable {
     private String updteTimeSimple;
     private String updteTimePersian;
     private String trackingCode;
+    private int woodType;
+    private String woodColor;
+    private String woodBrand;
+    private String woodCode;
+    private int woodSheetLength;
+    private int woodSheetWidth;
+    private String pvcColor;
+    private int pvcThickness;
+    private int patterned;
     private int state;
     private String stateTitle;
     private int sheetSupplier;

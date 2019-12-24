@@ -19,7 +19,15 @@ import lombok.Setter;
 public class InsertOrderBody {
 
     private int customerId;
+    private int woodType;
+    private String woodColor;
+    private String pvcColor;
+    private int pvcThickness;
+    private String woodBrand;
+    private String woodCode;
+    private int woodSheetLength;
+    private int woodSheetWidth;
     private String desc;
+    private int patterned;
     private List<WoodOrderModel> items;
-
 }

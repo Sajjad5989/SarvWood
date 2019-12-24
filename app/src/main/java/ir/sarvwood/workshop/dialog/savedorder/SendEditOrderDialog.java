@@ -82,21 +82,21 @@ public class SendEditOrderDialog extends Dialog {
 
         if (itemReturnValueList != null) {
 
-            tvWoodType.setText(itemReturnValueList.getWoodType().getName());
-            tvPatterned.setText(itemReturnValueList.getPatterned() == 1 ? "راه دار می باشد" : "");
-            tvWoodColor.setText(itemReturnValueList.getColor());
-            tvPvcColor.setText(itemReturnValueList.getPvcColor());
+//            tvWoodType.setText(itemReturnValueList.getWoodType().getName());
+//            tvPatterned.setText(itemReturnValueList.getPatterned() == 1 ? "راه دار می باشد" : "");
+//            tvWoodColor.setText(itemReturnValueList.getColor());
+//            tvPvcColor.setText(itemReturnValueList.getPvcColor());
 
             tvPvcDirection.setText(getCorrectString(String.format("%s,%s",
                     getCorrectFormat(itemReturnValueList.getPvcLengthNo()),
                     getCorrectFormat(itemReturnValueList.getPvcWidthNo()))));
 
 
-            tvPvcThickness.setText(itemReturnValueList.getPvcThickness().getName());
+//            tvPvcThickness.setText(itemReturnValueList.getPvcThickness().getName());
 
-            tvPaperSize.setText(String.format("%s * %s", (itemReturnValueList.getWoodSheetLength()),
-                    (itemReturnValueList.getWoodSheetWidth())));
-            tvPaperCount.setText(String.valueOf(itemReturnValueList.getSheetCount()));
+//            tvPaperSize.setText(String.format("%s * %s", (itemReturnValueList.getWoodSheetLength()),
+//                    (itemReturnValueList.getWoodSheetWidth())));
+//            tvPaperCount.setText(String.valueOf(itemReturnValueList.getSheetCount()));
 
             tvPersianSheet.setText(getCorrectString(String.format("%s,%s", getCorrectFormat(itemReturnValueList.getPersianCutLenghtNo()),
                     getCorrectFormat(itemReturnValueList.getPersianCutWidthNo()))));

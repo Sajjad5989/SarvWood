@@ -130,5 +130,6 @@
     <string name="text_successful_activation">عملیات فعال سازی با موفقیت انجام شد</string>
     <string name="text_all_tap_back_button">لطفا برای خروج کلید بازگشت را مجددا فشار دهید.</string>
     <string name="text_please_wait">لطفا منتظر بمانید</string>
+    <string name="text_can_edit">تنها وضعیت ثبت شده قابل ویرایش می باشد</string>
 
 </resources>

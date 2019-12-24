@@ -33,10 +33,20 @@ public class MyOrderReturnValue {
     private String updteTimeSimple;
     private String updteTimePersian;
     private String trackingCode;
+    private String woodType;
+    private String woodColor;
+    private String woodBrand;
+    private String woodCode;
+    private int woodSheetLength;
+    private int woodSheetWidth;
+    private String pvcColor;
+    private String pvcThickness;
+    private String patterned;
     private int state;
     private String stateTitle;
     private int sheetSupplier;
     private String sheetSupplierTitle;
     private int itemsCount;
     private String discardDesc;
+
 }

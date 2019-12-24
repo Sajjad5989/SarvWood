@@ -7,6 +7,8 @@ import android.text.Html;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openOrderList() {
 
+        OrderActivity.woodOrderModelList = new ArrayList<>();
         startActivity(new Intent(MainActivity.this, OrderHeaderActivity.class));
        // openPreOrderListFragment();
     }

@@ -18,27 +18,27 @@ public class WoodModel implements Serializable {
     private int id;
     private int orderId;
 
-    private CheckableObject woodType;
-    private String color;
-    private String brand;
-    private String code;
-    private String pvcColor;
-    private CheckableObject pvcThickness;
+//    private CheckableObject woodType;
+//    private String color;
+//    private String brand;
+//    private String code;
+//    private String pvcColor;
+//    private int woodSheetLength;
+//    private int woodSheetWidth;
+//    private CheckableObject woodSheetList;
+//    private CheckableObject pvcThickness;
+//    private int patterned;
+
     private CheckableObject pvcLengthNo;
     private CheckableObject pvcWidthNo;
-    private int woodSheetLength;
-    private int woodSheetWidth;
-    private CheckableObject woodSheetList;
     private CheckableObject persianCutLenghtNo;
     private CheckableObject persianCutWidthNo;
     private CheckableObject grooveLenghtNo;
     private CheckableObject grooveWidthNo;
-    private int sheetCount;
 
-    private float cutLength;
-    private float cutWidth;
-
-    private int patterned;
+    private float pieceLength;
+    private float pieceWidth;
+    private int pieceCount;
     private String desc;
 
 }

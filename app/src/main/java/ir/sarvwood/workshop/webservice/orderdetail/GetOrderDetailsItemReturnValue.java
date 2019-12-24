@@ -20,22 +20,16 @@ public class GetOrderDetailsItemReturnValue  implements Serializable  {
 
     private int id;
     private int orderId;
-    private int woodType;
-    private String woodTypeTitle;
-    private String color;
-    private String pvcColor;
-    private int pvcThickness;
-    private String pvcThicknessTitle;
     private int pvcLenghtNo;
     private int pvcWidthNo;
-    private int woodSheetLength;
-    private int woodSheetWidth;
-    private int sheetCount;
+    private float pieceLength;
+    private float pieceWidth;
+    private int pieceCount;
     private int persianCutLenghtNo;
     private int persianCutWidthNo;
     private int grooveLenghtNo;
     private int grooveWidthNo;
-    private int patterned;
     private String desc;
+
 
 }

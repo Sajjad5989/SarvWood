@@ -9,7 +9,8 @@ import ir.sarvwood.workshop.webservice.orderdetail.GetOrderDetailsItemReturnValu
 
 public class ConvertToWoodModelList {
 
-    private List<GetOrderDetailsItemReturnValue> valueList;
+    //    private HeaderWoodModel headerWoodModel= new HeaderWoodModel();
+    public static List<WoodModel> woodOrderModelList;// = new ArrayList<>();
     private static OrderListCreation orderListCreation;
     private static List<CheckableObject> woodTypeList;
     private static List<CheckableObject> pvcThicknessList;
@@ -20,24 +21,18 @@ public class ConvertToWoodModelList {
     private static List<CheckableObject> persianCutWidthNo;
     private static List<CheckableObject> grooveLengthNo;
     private static List<CheckableObject> grooveWidthNo;
-
+    private List<GetOrderDetailsItemReturnValue> valueList;
     private Context context;
-    private WoodModel woodModel= new WoodModel();
-    public static List<WoodModel> woodOrderModelList;// = new ArrayList<>();
+    private WoodModel woodModel = new WoodModel();
 
     public ConvertToWoodModelList(List<GetOrderDetailsItemReturnValue> valueList, Context context) {
         this.valueList = valueList;
         this.context = context;
         createObjects();
-
     }
-    private void createObjects()
-    {
+
+    private void createObjects() {
         orderListCreation = new OrderListCreation(context);
-
-        woodTypeList = orderListCreation.getWoodTypeList(woodModel.getWoodType());
-
-        pvcThicknessList = orderListCreation.getPvcThickness(woodModel.getPvcThickness());
 
         pvcLengthNoList = orderListCreation.getPvcLengthNo(woodModel.getPvcLengthNo());
         pvcWidthNoList = orderListCreation.getPvcWidthNo(woodModel.getPvcWidthNo());
@@ -48,94 +43,74 @@ public class ConvertToWoodModelList {
         grooveLengthNo = orderListCreation.getGrooveLengthNo(woodModel.getGrooveLenghtNo());
         grooveWidthNo = orderListCreation.getGrooveWidthNo(woodModel.getGrooveWidthNo());
 
-        woodSheetList = orderListCreation.getWoodSheetList(woodModel.getWoodSheetList());
+//        woodSheetList = orderListCreation.getWoodSheetList(headerWoodModel.getWoodSheetList());
+//        woodTypeList = orderListCreation.getWoodTypeList(headerWoodModel.getWoodType());
+//        pvcThicknessList = orderListCreation.getPvcThickness(headerWoodModel.getPvcThickness());
 
     }
 
-    public List<WoodModel> getWoodOrderModelList()
-    {
+    public List<WoodModel> getWoodOrderModelList() {
         woodOrderModelList = new ArrayList<>();
         convert();
         return woodOrderModelList;
     }
 
-    private void convert()
-    {
+    private void convert() {
         GetOrderDetailsItemReturnValue value;
         List<GetOrderDetailsItemReturnValue> list = valueList;
 
-        for (int i=0;i<list.size();i++)
-        {
-            value =  list.get(i);
+        for (int i = 0; i < list.size(); i++) {
+            value = list.get(i);
             setObject(value);
         }
     }
 
-    private void setObject(GetOrderDetailsItemReturnValue value)
-    {
+    private void setObject(GetOrderDetailsItemReturnValue value) {
         woodModel.setId(value.getId());
         woodModel.setOrderId(value.getOrderId());
 
-        woodTypeList.get(value.getWoodType()-1).setChecked(true);
-        woodModel.setWoodType(woodTypeList.get(value.getWoodType()-1));
+        int pvcLen = value.getPvcLenghtNo();
+        pvcLengthNoList.get(pvcLen).setChecked(true);
+        pvcLengthNoList.get(pvcLen).setIndex(value.getPvcLenghtNo());
+        woodModel.setPvcLengthNo(pvcLengthNoList.get(pvcLen));
 
-        pvcThicknessList.get(value.getPvcThickness()).setChecked(true);
-        woodModel.setPvcThickness(pvcThicknessList.get(value.getPvcThickness()));
+        int pvcWid = value.getPvcWidthNo();
+        pvcWidthNoList.get(pvcWid).setChecked(true);
+        pvcWidthNoList.get(pvcWid).setIndex(pvcWid);
+        woodModel.setPvcWidthNo(pvcWidthNoList.get(pvcWid));
 
-        pvcLengthNoList.get(value.getPvcLenghtNo()).setChecked(true);
-        woodModel.setPvcLengthNo(pvcLengthNoList.get(value.getPvcLenghtNo()));
+        int cutLen = value.getPersianCutLenghtNo();
+        persianCutLengthNo.get(cutLen).setChecked(true);
+        persianCutLengthNo.get(cutLen).setIndex(cutLen);
+        woodModel.setPersianCutLenghtNo(persianCutLengthNo.get(cutLen));
 
-        pvcWidthNoList.get(value.getPvcWidthNo()).setChecked(true);
-        woodModel.setPvcWidthNo(pvcWidthNoList.get(value.getPvcWidthNo()));
+        int cutWid = value.getPersianCutWidthNo();
+        persianCutWidthNo.get(cutWid).setChecked(true);
+        persianCutWidthNo.get(cutWid).setIndex(cutWid);
+        woodModel.setPersianCutWidthNo(persianCutWidthNo.get(cutWid));
 
-        persianCutLengthNo.get(value.getPersianCutLenghtNo()).setChecked(true);
-        woodModel.setPersianCutLenghtNo(persianCutLengthNo.get(value.getPersianCutLenghtNo()));
+        int grooveLen = value.getGrooveLenghtNo();
+        grooveLengthNo.get(grooveLen).setChecked(true);
+        grooveLengthNo.get(grooveLen).setIndex(grooveLen);
+        woodModel.setGrooveLenghtNo(grooveLengthNo.get(grooveLen));
 
-        persianCutWidthNo.get(value.getPersianCutWidthNo()).setChecked(true);
-        woodModel.setPersianCutWidthNo(persianCutWidthNo.get(value.getPersianCutWidthNo()));
+        int grooveWid = value.getGrooveWidthNo();
+        grooveWidthNo.get(grooveWid).setChecked(true);
+        grooveWidthNo.get(grooveWid).setIndex(grooveWid);
+        woodModel.setGrooveWidthNo(grooveWidthNo.get(grooveWid));
 
-        grooveLengthNo.get(value.getGrooveLenghtNo()).setChecked(true);
-        woodModel.setGrooveLenghtNo(grooveLengthNo.get(value.getGrooveLenghtNo()));
+        woodModel.setPieceLength(value.getPieceLength());
+        woodModel.setPieceWidth(value.getPieceWidth());
+        woodModel.setPieceCount(value.getPieceCount());
 
-        grooveWidthNo.get(value.getGrooveWidthNo()).setChecked(true);
-        woodModel.setGrooveWidthNo(grooveWidthNo.get(value.getGrooveWidthNo()));
-
-        int len = value.getWoodSheetLength();
-        int wid = value.getWoodSheetWidth();
-        /*
-        <item>366 * 183 </item>
-        <item>280 * 122</item>
-        <item>240 * 122</item>
-        <item>210 * 183</item>
-        */
-        int pos = 4;
-        if ((String.valueOf(len)+" * "+String.valueOf(wid)).equals("366 * 183"))
-            pos = 0;
-        else if ((String.valueOf(len)+" * "+String.valueOf(wid)).equals("280 * 122"))
-            pos = 1;
-        else if ((String.valueOf(len)+" * "+String.valueOf(wid)).equals("240 * 122"))
-            pos = 2;
-        else if ((String.valueOf(len)+" * "+String.valueOf(wid)).equals("210 * 183"))
-            pos = 3;
-        woodSheetList.get(pos).setChecked(true);
-        woodSheetList.get(pos).setIndex(pos);
-        woodModel.setWoodSheetList(woodSheetList.get(pos));
-
-
-
-        woodModel.setWoodSheetLength(value.getWoodSheetLength());
-        woodModel.setWoodSheetWidth(value.getWoodSheetWidth());
+        woodModel.setDesc(value.getDesc());
 
         woodModel.setId(value.getId());
         woodModel.setOrderId(value.getOrderId());
-        woodModel.setColor(value.getColor());
-        woodModel.setPvcColor(value.getPvcColor());
-        woodModel.setSheetCount(value.getSheetCount());
-        woodModel.setPatterned(value.getPatterned());
 
         woodOrderModelList.add(woodModel);
 
-        woodModel= new WoodModel();
+        woodModel = new WoodModel();
 
     }
 

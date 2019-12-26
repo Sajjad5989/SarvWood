@@ -109,7 +109,7 @@
     <string name="text_phone">تلفن</string>
     <string name="text_log_in_again">لطفا مجددا وارد برنامه شوید</string>
 
-    <string name="text_new_version_title">ورژن جدید</string>
+    <string name="text_new_version_title">نسخه جدید</string>
     <string name="text_download_new_version">دریافت نسخه ی جدید</string>
     <string name="text_obligation_update">لطفا، نسخه ی برنامه ی خود را ارتقا دهید.</string>
     <string name="text_optional_update">نسخه ی جدیدی وجود دارد، آیا مایل به بروزرسانی هستید؟</string>

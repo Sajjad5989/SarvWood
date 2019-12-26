@@ -97,6 +97,7 @@ public class EditProfileFragment extends Fragment implements IInternetController
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
+        etFullName.requestFocus();
         loadInfo();
 
     }

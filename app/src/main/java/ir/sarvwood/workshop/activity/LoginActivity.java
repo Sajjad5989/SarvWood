@@ -173,6 +173,7 @@ public class LoginActivity extends AppCompatActivity implements IInternetControl
                 .deviceName(Build.MANUFACTURER)
                 .sdkVersion(String.valueOf(Build.VERSION.SDK_INT))
                 .build();
+
         return getCustomerInfoBody;
     }
 

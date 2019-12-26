@@ -1,9 +1,12 @@
 package ir.sarvwood.workshop.fragment;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +39,8 @@ import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
 import ir.sarvwood.workshop.webservice.sendsmsofcnfrmcode.SendSmsOfCnfrmCodeBody;
 import ir.sarvwood.workshop.webservice.sendsmsofcnfrmcode.SendSmsOfCnfrmCodeController;
 import ir.solmazzm.lib.engine.util.DialogUtil;
+import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class RegisterFragment extends Fragment implements IInternetController {
 
@@ -53,10 +58,27 @@ public class RegisterFragment extends Fragment implements IInternetController {
     @BindView(R.id.et_mobile)
     AppCompatEditText etMobile;
     private InsrtCustomerSimpleRerunValue insrtCustomerSimpleRerunValue;
+    private ProgressDialog progress;
 
     public static RegisterFragment newInstance() {
 
         return new RegisterFragment();
+    }
+
+    private void showProgress() {
+        progress = new ProgressDialog(getActivity());
+        String message = getString(R.string.text_please_wait);
+        SpannableString spannableString = new SpannableString(message);
+
+        CalligraphyTypefaceSpan typefaceSpan = new CalligraphyTypefaceSpan(TypefaceUtils.load(getActivity().getAssets(),
+                "fonts/iran_sans.ttf"));
+        spannableString.setSpan(typefaceSpan, 0, message.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        progress.setMessage(spannableString);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.setCancelable(false);
+        progress.show();
     }
 
     @OnClick(R.id.btn_register)
@@ -81,7 +103,6 @@ public class RegisterFragment extends Fragment implements IInternetController {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -89,6 +110,8 @@ public class RegisterFragment extends Fragment implements IInternetController {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
+
+        etFullName.requestFocus();
 
         insrtCustomerSimpleRerunValue = InsrtCustomerSimpleRerunValue.builder().build();
     }
@@ -155,6 +178,8 @@ public class RegisterFragment extends Fragment implements IInternetController {
             openInternetCheckingDialog(INSERT_CUSTOMER);
         }
 
+        showProgress();
+
         InsrtCustomerSimpleBody insrtCustomerSimpleBody = InsrtCustomerSimpleBody.builder()
                 .fullName(Objects.requireNonNull(etFullName.getText()).toString())
                 .companyName(Objects.requireNonNull(etCompany.getText()).toString())
@@ -172,11 +197,15 @@ public class RegisterFragment extends Fragment implements IInternetController {
                     GeneralPreferences.getInstance(getActivity()).putInsrtCustomerSimpleRerunValueResponse(insrtCustomerSimpleRerunValue);
                     sendSmsOfCnfrmCode();
                 }
+                else {
+                    progress.hide();
+                    APP.customToast(response.getMessage(),getActivity());}
             }
 
             @Override
             public void onFailure(String error) {
                 insrtCustomerSimpleRerunValue = null;
+                progress.hide();
                 APP.customToast(error,getActivity());
             }
         });
@@ -197,7 +226,13 @@ public class RegisterFragment extends Fragment implements IInternetController {
             public void onSuccess(SarvApiResponseNoList response) {
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
                     GeneralPreferences.getInstance(getActivity()).putString("mobile", etMobile.getText().toString());
+                    progress.hide();
                     startActivity(new Intent(getActivity(), ActivationActivity.class));
+                }
+                else
+                {
+                    progress.hide();
+                    APP.customToast(response.getMessage(),getActivity());
                 }
             }
 

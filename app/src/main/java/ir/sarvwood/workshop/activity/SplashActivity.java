@@ -64,7 +64,7 @@ public class SplashActivity extends AppCompatActivity implements IInternetContro
         setContentView(R.layout.activity_splash);
 
         AppCompatTextView tvVersion = findViewById(R.id.tv_version);
-        tvVersion.setText(String.valueOf(new PublicFunctions().getAppVersionCode(SplashActivity.this)));
+        tvVersion.setText(String.format(" نسخه : %s", new PublicFunctions().getAppVersionCode(SplashActivity.this)));
         doActionAfterSplash();
     }
 

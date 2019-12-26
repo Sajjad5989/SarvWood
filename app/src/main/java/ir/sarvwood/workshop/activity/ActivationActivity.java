@@ -1,5 +1,6 @@
 package ir.sarvwood.workshop.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -7,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.view.Display;
 import android.view.View;
 
@@ -34,7 +37,10 @@ import ir.sarvwood.workshop.utils.PublicFunctions;
 import ir.sarvwood.workshop.webservice.authenticationofcnfrmcode.AuthenticationOfCnfrmCodeBody;
 import ir.sarvwood.workshop.webservice.authenticationofcnfrmcode.AuthenticationOfCnfrmCodeController;
 import ir.sarvwood.workshop.webservice.sarvwoodapi.SarvApiResponseNoList;
+import ir.sarvwood.workshop.webservice.sendsmsofcnfrmcode.SendSmsOfCnfrmCodeBody;
 import ir.sarvwood.workshop.webservice.sendsmsofcnfrmcode.SendSmsOfCnfrmCodeController;
+import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class ActivationActivity extends AppCompatActivity implements IRtl, IDefault, IInternetController {
 
@@ -43,32 +49,44 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
 
     @BindView(R.id.tv_seconds)
     protected AppCompatTextView tvSecond;
+    @BindView(R.id.tv_sms_again)
+    protected AppCompatTextView tvSmsAgain;
     @BindView(R.id.et_activation_code)
     protected AppCompatEditText etActivationCode;
-
-    @OnClick(R.id.btn_enter)
-    void checkActivationCode()
-    {
-        if ("".equals(Objects.requireNonNull(etActivationCode.getText()).toString()))
-        {
-            APP.customToast("کد وارد نشده است",ActivationActivity.this);
-            return;
-        }
-        if (etActivationCode.getText().length()<6)
-        {
-            APP.customToast("کد وارد نشده صحیح نمی باشد",ActivationActivity.this);
-            return;
-        }
-
-
-        authenticateConfirmSms();
-
-    }
-
-
-    private int seconds = 120;
+    private ProgressDialog progress;
+    private int seconds = 20;
     private boolean startRun = true;
 
+    @OnClick(R.id.btn_enter)
+    void checkActivationCode() {
+        if ("".equals(Objects.requireNonNull(etActivationCode.getText()).toString())) {
+            APP.customToast("کد وارد نشده است", ActivationActivity.this);
+            return;
+        }
+        if (etActivationCode.getText().length() < 6) {
+            APP.customToast("کد وارد نشده صحیح نمی باشد", ActivationActivity.this);
+            return;
+        }
+
+        showProgress();
+        authenticateConfirmSms();
+    }
+
+    private void showProgress() {
+        progress = new ProgressDialog(ActivationActivity.this);
+        String message = getString(R.string.text_please_wait);
+        SpannableString spannableString = new SpannableString(message);
+
+        CalligraphyTypefaceSpan typefaceSpan = new CalligraphyTypefaceSpan(TypefaceUtils.load(ActivationActivity.this.getAssets(),
+                "fonts/iran_sans.ttf"));
+        spannableString.setSpan(typefaceSpan, 0, message.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        progress.setMessage(spannableString);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.setCancelable(false);
+        progress.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +98,47 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
         OnActivityDefaultSetting();
         prepareToolbar();
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        tvSmsAgain.setOnClickListener(view -> sendSmsOfCnfrmCode());
         CountDownTimer();
     }
+
+
+    private void sendSmsOfCnfrmCode() {
+        if (!isOnline()) {
+            openInternetCheckingDialog();
+        }
+
+        String mobile = GeneralPreferences.getInstance(ActivationActivity.this).getString("mobile");
+        if ("".equals(mobile)) {
+            APP.customToast("شماره موبایل یافت نشد", ActivationActivity.this);
+            return;
+        }
+
+        CountDownTimer();
+        startRun = true;
+
+        tvSmsAgain.setVisibility(View.GONE);
+
+        SendSmsOfCnfrmCodeBody sendSmsOfCnfrmCodeBody = SendSmsOfCnfrmCodeBody.builder()
+                .mobileNo(mobile)
+                .build();
+
+        SendSmsOfCnfrmCodeController sendSmsOfCnfrmCodeController = new SendSmsOfCnfrmCodeController();
+        sendSmsOfCnfrmCodeController.start(sendSmsOfCnfrmCodeBody, new IResponseListener<SarvApiResponseNoList>() {
+            @Override
+            public void onSuccess(SarvApiResponseNoList response) {
+                if (response.getCode() != 0 || !"success".equals(response.getStatus())) {
+                    APP.customToast(response.getMessage(), ActivationActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+                APP.customToast(error, ActivationActivity.this);
+            }
+        });
+    }
+
 
     private void prepareToolbar() {
         toolbar.setTitle(R.string.text_activation_code);
@@ -159,21 +216,28 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
                 if (startRun) {
                     seconds--;
                     if (seconds <= 0) {
-                          finish();
+                        tvSmsAgain.setVisibility(View.VISIBLE);
+                        startRun = false;
+                        this.onFinish();
                     }
                 }
                 handler.postDelayed(this, 1000);
             }
+
+            public void onFinish() {
+                seconds = 120;
+                tvSecond.setText("120");
+
+            }
         });
     }
 
-    private void authenticateConfirmSms()
-    {
+    private void authenticateConfirmSms() {
         if (!isOnline()) {
             openInternetCheckingDialog();
         }
 
-        String mobileNo =  GeneralPreferences.getInstance(ActivationActivity.this).getString("mobile");
+        String mobileNo = GeneralPreferences.getInstance(ActivationActivity.this).getString("mobile");
         AuthenticationOfCnfrmCodeBody authenticationOfCnfrmCodeBody = AuthenticationOfCnfrmCodeBody.builder()
                 .cofirmationCode(etActivationCode.getText().toString())
                 .mobileNo(mobileNo)
@@ -189,16 +253,18 @@ public class ActivationActivity extends AppCompatActivity implements IRtl, IDefa
             public void onSuccess(SarvApiResponseNoList response) {
 
                 if (response.getCode() == 0 && "success".equals(response.getStatus())) {
-                    APP.customToast(getString(R.string.text_successful_activation),ActivationActivity.this);
+                    APP.customToast(getString(R.string.text_successful_activation), ActivationActivity.this);
+
                     startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
+                    progress.hide();
                     ActivationActivity.this.finish();
                 }
-                APP.customToast(response.getMessage(),ActivationActivity.this);
+                APP.customToast(response.getMessage(), ActivationActivity.this);
             }
 
             @Override
             public void onFailure(String error) {
-                APP.customToast(error,ActivationActivity.this);
+                APP.customToast(error, ActivationActivity.this);
             }
         });
     }

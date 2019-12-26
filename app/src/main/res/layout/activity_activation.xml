@@ -105,15 +105,16 @@
         app:layout_constraintTop_toBottomOf="@+id/const_seconds">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sms_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/iran_sans_light"
             android:padding="@dimen/dimen_dp_tiny"
             android:text="دریافت مجدد کد فعال سازی"
             android:textSize="@dimen/dimen_sp_small"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-
             app:layout_constraintTop_toTopOf="parent" />
 
 
